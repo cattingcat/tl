@@ -1,0 +1,23 @@
+:host {
+    height: 100%;
+    display: block;
+    overflow: auto;
+    max-height: 200px;
+
+    .viewport-wrapper {
+        position: relative;
+
+    }
+
+    // lets supporting browser know that some property is going to be
+    // change dynamically so it can optimize the change rendering
+    // currently it moves the element on a separate composite layer
+    // (it's a standardized alternative to 3d transform)
+    .viewport {
+        will-change: transform;
+    }
+
+    .item {
+        height: 35px;
+    }
+}
