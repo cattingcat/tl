@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:untitled1/src/task_list/core/model_data_source.dart';
-import 'package:untitled1/src/task_list/core/task_list_model.dart';
-import 'package:untitled1/src/task_list/task_card/task_card_component.dart';
+import 'package:list/src/task_list/core/model_data_source.dart';
+import 'package:list/src/task_list/core/task_list_model.dart';
+import 'package:list/src/task_list/task_card/task_card_component.dart';
 
 @Component(
     selector: 'task-list',
-    styleUrls: const ['task_list_component.scss.css'],
+    styleUrls: const <String>['task_list_component.scss.css'],
     templateUrl: 'task_list_component.html',
-    directives: const [
+    directives: const <Object>[
       CORE_DIRECTIVES,
       TaskCardComponent
     ],
