@@ -1,47 +1,48 @@
 import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
+import 'package:list/src/task_list/core/card_type.dart';
 import 'package:list/src/task_list/core/model_data_source.dart';
 import 'package:list/src/task_list/core/task_list_model.dart';
 import 'package:list/src/task_list/task_card/task_card_component.dart';
 
 @Component(
-    selector: 'task-list',
-    styleUrls: const <String>['task_list_component.scss.css'],
-    templateUrl: 'task_list_component.html',
-    directives: const <Object>[
-      CORE_DIRECTIVES,
-      TaskCardComponent
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'task-list',
+  styleUrls: const <String>['task_list_component.scss.css'],
+  templateUrl: 'task_list_component.html',
+  directives: const <Object>[
+    CORE_DIRECTIVES,
+    TaskCardComponent
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListComponent implements AfterViewInit, OnChanges {
   static const int _taskBatchSize = 40;
   static const int _cardSize = 35;
-  static const int _viewportHeight = _taskBatchSize * _cardSize;
   static const int _taskRequestCount = 5;
 
-  final ElementRef _elementRef;
-  final ChangeDetectorRef _cd;
+  final ElementRef _hostElementRef;
+  final ChangeDetectorRef _cdr;
 
   Debouncer _scrollDebouncer;
-  int scrollWrapperHeight;
+  _ViewportElement _viewportElement;
+  _ScrollWrapperElement _scrollWrapper;
+  _Viewport _viewportModels;
 
   @Input() ModelDataSource dataSource;
+  @Input() CardType cardType;
 
-  @ViewChild('viewport') ElementRef viewport;
+  @ViewChild('viewport') ElementRef viewportElRef;
   @ViewChild('wrapper') ElementRef wrapper;
 
-  Iterable<TaskListModel> models;
-
-  TaskListComponent(this._elementRef, this._cd) {
+  TaskListComponent(this._hostElementRef, this._cdr) {
     _scrollDebouncer = new Debouncer(_handleScroll);
   }
 
 
-  Element get hostElement => _elementRef.nativeElement as Element;
-  Element get scrollWrapperElement => wrapper.nativeElement as Element;
-  Element get viewportElement => viewport.nativeElement as Element;
+  Element get host => _hostElementRef.nativeElement as Element;
+
+  Iterable<TaskListModel> get models => _viewportModels.models;
 
   int trackFunction(int index, TaskListModel model) {
     return model.text.hashCode;
@@ -50,29 +51,38 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   @override
   void ngOnChanges(Map<String, SimpleChange> changes) {
-    _setViewportModels(0);
-    _setViewportOffset(0);
+    if(changes.containsKey('dataSource')) {
+      _init();
+      final ds = changes['dataSource'].currentValue as ModelDataSource;
+      final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
-    // update scroll-wrapper size
-    scrollWrapperHeight = dataSource.length * _cardSize;
-    scrollWrapperElement.style.height = '${scrollWrapperHeight}px';
+      _viewportModels.setup(ds);
+      _viewportElement.setup(cardType, _taskBatchSize);
+      _scrollWrapper.setup(ds, card);
 
-    // update scroll position
-    _scrollTop = _prevScroll = hostElement.scrollTop = 0;
+
+      // update scroll position
+      _scrollTop = _prevScroll = host.scrollTop = 0;
+    }
+
+    if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
+      final cardType = changes['cardType'].currentValue as CardType;
+      _scrollWrapper.setup(dataSource, cardType);
+    }
   }
 
   @override
   void ngAfterViewInit() {
-    hostElement.addEventListener('scroll', _handleScrollEvent);
+    host.addEventListener('scroll', _handleScrollEvent);
   }
 
 
   int _scrollTop = 0;
   int _prevScroll = 0;
   void _handleScrollEvent(Event e) {
-    _scrollTop = hostElement.scrollTop;
+    _scrollTop = host.scrollTop;
 
-    if((_scrollTop - _prevScroll).abs() > _viewportHeight) {
+    if((_scrollTop - _prevScroll).abs() > _viewportElement.height) {
       _scrollDebouncer.execImmediately();
     } else {
       _scrollDebouncer.exec();
@@ -82,57 +92,64 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   }
 
   void _handleScroll() {
-    final clientHeight = hostElement.clientHeight;
+    final clientHeight = host.clientHeight;
+    final max = _scrollWrapper.height - clientHeight;
+    final scrollTop = host.scrollTop;
+    if(scrollTop == 0) {
+      _viewportElement.offset = 0;
+      _viewportModels.setViewportStart(0);
+    }
 
-    final clientCenter = _scrollTop + clientHeight / 2;
-    final viewportCenter = _viewportOffset + _viewportHeight / 2;
+    print('$scrollTop of $max; $clientHeight');
+
+
+
+
+    final clientCenter = _scrollTop + clientHeight / 2; // Offset from wrapper start to center
+
+    final viewportCenter = _viewportElement.offset + _viewportElement.height / 2;
 
     final diff = clientCenter - viewportCenter;
     final cardDiff = diff / _cardSize;
 
-    final newOffset = _viewportOffset + diff;
-    final newModelIndex = _viewportModelStart + cardDiff.floor();
+    final currentModelsIndex = _viewportModels.start;
+    final newOffset = _viewportElement.offset + diff;
+    final newModelIndex = currentModelsIndex + cardDiff.floor();
 
     bool detectChanges = false;
     if(cardDiff > _taskRequestCount) {
       final index = newModelIndex + _taskBatchSize > dataSource.length ? dataSource.length - _taskBatchSize : newModelIndex;
-      if(index != _viewportModelStart) {
-        _setViewportModels(index);
+      if(index != currentModelsIndex) {
+        _viewportModels.setViewportStart(index);
         detectChanges = true;
 
-        final offset = newOffset > scrollWrapperHeight ? scrollWrapperHeight - _viewportHeight : newOffset;
-        _setViewportOffset(offset.toInt());
+        final offset = newOffset > _scrollWrapper.height ? _scrollWrapper.height - _viewportElement.height : newOffset;
+        _viewportElement.offset = offset.toInt();
       }
 
     } else if(cardDiff < -_taskRequestCount) {
       final index = newModelIndex > 0 ? newModelIndex : 0;
-      if(index != _viewportModelStart) {
-        _setViewportModels(index);
+      if(index != currentModelsIndex) {
+        _viewportModels.setViewportStart(index);
         detectChanges = true;
 
 
         final offset = newOffset > 0 ? newOffset : 0;
-        _setViewportOffset(offset.toInt());
+        _viewportElement.offset = offset.toInt();
       }
     }
 
     if(detectChanges) {
-      _cd.markForCheck();
-      _cd.detectChanges();
+      _cdr.markForCheck();
+      _cdr.detectChanges();
     }
   }
 
 
-  int _viewportModelStart = 0;
-  void _setViewportModels(int startIndex) {
-    _viewportModelStart = startIndex;
-    models = dataSource.getInterval(_viewportModelStart, _taskBatchSize).toList();
-  }
-
-  int _viewportOffset = 0;
-  void _setViewportOffset(int offset) {
-    _viewportOffset = offset;
-    viewportElement.style.transform = 'translate(0px, ${offset}px)';
+  void _init() {
+    _viewportElement = new _ViewportElement(viewportElRef.nativeElement as Element);
+    _scrollWrapper = new _ScrollWrapperElement(wrapper.nativeElement as Element);
+    _viewportModels = new _Viewport(_taskBatchSize);
   }
 }
 
@@ -154,4 +171,67 @@ class Debouncer {
     if(timer != null) timer.cancel();
     foo();
   }
+}
+
+class _ViewportElement {
+  final Element _viewportElement;
+  int _offset = 0;
+  int _h = 0;
+
+  _ViewportElement(this._viewportElement);
+
+
+  void setup(CardType cardType, int tasksInVp) {
+    _h = cardType.height * tasksInVp;
+    offset = 0;
+  }
+
+  int get height => _h;
+
+  int get offset => _offset;
+
+  set offset(int value) {
+    _offset = value;
+    _viewportElement.style.transform = 'translate(0px, ${value}px)';
+  }
+}
+
+class _ScrollWrapperElement {
+  final Element _scrollWrapper;
+  int _h = 0;
+
+  _ScrollWrapperElement(this._scrollWrapper);
+
+
+  int get height => _h;
+
+  void setup(ModelDataSource dataSource, CardType cardType) {
+    _h = dataSource.length * cardType.height;
+    _scrollWrapper.style.height = '${_h}px';
+  }
+}
+
+class _Viewport {
+  final int _size;
+  ModelDataSource _dataSource;
+  Iterable<TaskListModel> _models;
+  int _start = 0;
+
+  _Viewport(this._size);
+
+
+  void setup(ModelDataSource dataSource) {
+    _dataSource = dataSource;
+    setViewportStart(0);
+  }
+
+  int get start => _start;
+
+  Iterable<TaskListModel> get models => _models;
+
+  Iterable<TaskListModel> setViewportStart(int startIndex) {
+    _start = startIndex;
+    return _models = _dataSource.getInterval(startIndex, _size).toList();
+  }
+
 }

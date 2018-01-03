@@ -1,4 +1,5 @@
 import 'package:angular/angular.dart';
+import 'package:list/src/task_list/core/card_type.dart';
 import 'package:list/src/task_list/core/model_data_source.dart';
 import 'package:list/src/task_list/core/task_list_model.dart';
 import 'package:list/src/task_list/task_card/task_card_component.dart';
@@ -16,6 +17,7 @@ import 'package:list/src/task_list/task_list_component.dart';
 )
 class TaskListDemo {
   ModelDataSource dataSource;
+  CardType cardType;
 
   TaskListDemo() {
     final list = new List<TaskListModel>();
@@ -24,14 +26,23 @@ class TaskListDemo {
     }
 
     dataSource = new ModelDataSource(list);
+    cardType = CardType.Default;
   }
 
-  void onClick() {
+  void changeDataSource() {
     final list = new List<TaskListModel>();
     for(var i = 0; i < 100; ++i) {
       list.add(new TaskListModel('!!!: $i'));
     }
 
     dataSource = new ModelDataSource(list);
+  }
+
+  void changeCardType() {
+    if(cardType == CardType.Default) {
+      cardType = CardType.Narrow;
+    } else {
+      cardType = CardType.Default;
+    }
   }
 }

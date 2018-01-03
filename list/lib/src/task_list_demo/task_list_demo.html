@@ -1,10 +1,16 @@
 
 <div>
     <task-list
-        [dataSource]="dataSource"></task-list>
+        [dataSource]="dataSource"
+        [cardType]="cardType"></task-list>
 
     <button
-        (click)="onClick()">
-        Click me
+        (click)="changeDataSource()">
+        Change data source
+    </button>
+
+    <button
+        (click)="changeCardType()">
+        Change card type
     </button>
 </div>
