@@ -9,8 +9,8 @@ environment:
 
 dependencies:
   angular: 5.0.0-alpha+2
-  angular_components: 0.9.0-alpha+2
-  angular_forms: 1.0.1-alpha+2
+#  angular_components: 0.9.0-alpha+2
+#  angular_forms: 1.0.1-alpha+2
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.1
   sass_builder: ^1.1.0
@@ -39,6 +39,6 @@ transformers:
 
 # Uncomment the following in sdk 1.24+ to make pub serve
 # use dartdevc (webdev.dartlang.org/tools/dartdevc).
-#web:
-#  compiler:
-#    debug: dartdevc
+web:
+  compiler:
+    debug: dartdevc

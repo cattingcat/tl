@@ -93,20 +93,10 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   void _handleScroll() {
     final clientHeight = host.clientHeight;
-    final max = _scrollWrapper.height - clientHeight;
+    final maxScroll = _scrollWrapper.height - clientHeight;
     final scrollTop = host.scrollTop;
-    if(scrollTop == 0) {
-      _viewportElement.offset = 0;
-      _viewportModels.setViewportStart(0);
-    }
 
-    print('$scrollTop of $max; $clientHeight');
-
-
-
-
-    final clientCenter = _scrollTop + clientHeight / 2; // Offset from wrapper start to center
-
+    final clientCenter = scrollTop + clientHeight / 2; // Offset from wrapper start to center
     final viewportCenter = _viewportElement.offset + _viewportElement.height / 2;
 
     final diff = clientCenter - viewportCenter;
@@ -114,28 +104,34 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     final currentModelsIndex = _viewportModels.start;
     final newOffset = _viewportElement.offset + diff;
-    final newModelIndex = currentModelsIndex + cardDiff.floor();
+
 
     bool detectChanges = false;
-    if(cardDiff > _taskRequestCount) {
-      final index = newModelIndex + _taskBatchSize > dataSource.length ? dataSource.length - _taskBatchSize : newModelIndex;
-      if(index != currentModelsIndex) {
-        _viewportModels.setViewportStart(index);
-        detectChanges = true;
+    if(cardDiff.abs() > _taskRequestCount) {
+      final newModelIndex = currentModelsIndex + cardDiff.floor();
 
-        final offset = newOffset > _scrollWrapper.height ? _scrollWrapper.height - _viewportElement.height : newOffset;
-        _viewportElement.offset = offset.toInt();
-      }
+      if (cardDiff > _taskRequestCount) {
+        final index = newModelIndex + _taskBatchSize > dataSource.length
+            ? dataSource.length - _taskBatchSize
+            : newModelIndex;
+        if (index != currentModelsIndex) {
+          _viewportModels.setViewportStart(index);
+          detectChanges = true;
 
-    } else if(cardDiff < -_taskRequestCount) {
-      final index = newModelIndex > 0 ? newModelIndex : 0;
-      if(index != currentModelsIndex) {
-        _viewportModels.setViewportStart(index);
-        detectChanges = true;
+          final offset = newOffset > _scrollWrapper.height ? _scrollWrapper
+              .height - _viewportElement.height : newOffset;
+          _viewportElement.offset = offset.toInt();
+        }
+      } else if (cardDiff < -_taskRequestCount) {
+        final index = newModelIndex > 0 ? newModelIndex : 0;
+        if (index != currentModelsIndex) {
+          _viewportModels.setViewportStart(index);
+          detectChanges = true;
 
 
-        final offset = newOffset > 0 ? newOffset : 0;
-        _viewportElement.offset = offset.toInt();
+          final offset = newOffset > 0 ? newOffset : 0;
+          _viewportElement.offset = offset.toInt();
+        }
       }
     }
 
