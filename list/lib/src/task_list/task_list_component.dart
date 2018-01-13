@@ -77,19 +77,43 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   }
 
 
+  _ScrollInfo _getIndexByScroll(int scrollPx) {
+    final index = (scrollPx / cardType.height).floor();
+    final rest = scrollPx % cardType.height;
+
+    return new _ScrollInfo(index, rest);
+  }
+
+
+  void _handleScrollEvent(Event e) {
+    final scrollTop = host.scrollTop;
+
+    final scrollInfo = _getIndexByScroll(scrollTop);
+
+    final vpAnchor = scrollTop - scrollInfo.rest;
+    final vpModelIndex = scrollInfo.index;
+    print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
+
+    _viewportElement.offset = vpAnchor;
+    _viewportModels.setViewportStart(vpModelIndex);
+
+    _cdr.markForCheck();
+    _cdr.detectChanges();
+  }
+
   int _scrollTop = 0;
   int _prevScroll = 0;
-  void _handleScrollEvent(Event e) {
-    _scrollTop = host.scrollTop;
-
-    if((_scrollTop - _prevScroll).abs() > _viewportElement.height) {
-      _scrollDebouncer.execImmediately();
-    } else {
-      _scrollDebouncer.exec();
-    }
-
-    _prevScroll = _scrollTop;
-  }
+//  void _handleScrollEvent(Event e) {
+//    _scrollTop = host.scrollTop;
+//
+//    if((_scrollTop - _prevScroll).abs() > _viewportElement.height) {
+//      _scrollDebouncer.execImmediately();
+//    } else {
+//      _scrollDebouncer.exec();
+//    }
+//
+//    _prevScroll = _scrollTop;
+//  }
 
   void _handleScroll() {
     final clientHeight = host.clientHeight;
@@ -229,5 +253,17 @@ class _Viewport {
     _start = startIndex;
     return _models = _dataSource.getInterval(startIndex, _size).toList();
   }
+
+}
+
+class _ScrollInfo {
+  final int index;
+  final int rest;
+
+  _ScrollInfo(this.index, this.rest);
+
+  @override
+  String toString() => '$index + $rest px';
+
 
 }
