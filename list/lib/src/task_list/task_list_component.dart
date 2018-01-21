@@ -18,13 +18,10 @@ import 'package:list/src/task_list/task_card/task_card_component.dart';
 )
 class TaskListComponent implements AfterViewInit, OnChanges {
   static const int _taskBatchSize = 40;
-  static const int _cardSize = 35;
-  static const int _taskRequestCount = 5;
 
   final ElementRef _hostElementRef;
   final ChangeDetectorRef _cdr;
 
-  Debouncer _scrollDebouncer;
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
   _Viewport _viewportModels;
@@ -35,9 +32,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   @ViewChild('viewport') ElementRef viewportElRef;
   @ViewChild('wrapper') ElementRef wrapper;
 
-  TaskListComponent(this._hostElementRef, this._cdr) {
-    _scrollDebouncer = new Debouncer(_handleScroll);
-  }
+  TaskListComponent(this._hostElementRef, this._cdr);
 
 
   Element get host => _hostElementRef.nativeElement as Element;
@@ -62,7 +57,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
       // update scroll position
-      _scrollTop = _prevScroll = host.scrollTop = 0;
+      host.scrollTop = 0;
     }
 
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
@@ -100,71 +95,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     _cdr.markForCheck();
     _cdr.detectChanges();
   }
-
-  int _scrollTop = 0;
-  int _prevScroll = 0;
-//  void _handleScrollEvent(Event e) {
-//    _scrollTop = host.scrollTop;
-//
-//    if((_scrollTop - _prevScroll).abs() > _viewportElement.height) {
-//      _scrollDebouncer.execImmediately();
-//    } else {
-//      _scrollDebouncer.exec();
-//    }
-//
-//    _prevScroll = _scrollTop;
-//  }
-
-  void _handleScroll() {
-    final clientHeight = host.clientHeight;
-    final maxScroll = _scrollWrapper.height - clientHeight;
-    final scrollTop = host.scrollTop;
-
-    final clientCenter = scrollTop + clientHeight / 2; // Offset from wrapper start to center
-    final viewportCenter = _viewportElement.offset + _viewportElement.height / 2;
-
-    final diff = clientCenter - viewportCenter;
-    final cardDiff = diff / _cardSize;
-
-    final currentModelsIndex = _viewportModels.start;
-    final newOffset = _viewportElement.offset + diff;
-
-
-    bool detectChanges = false;
-    if(cardDiff.abs() > _taskRequestCount) {
-      final newModelIndex = currentModelsIndex + cardDiff.floor();
-
-      if (cardDiff > _taskRequestCount) {
-        final index = newModelIndex + _taskBatchSize > dataSource.length
-            ? dataSource.length - _taskBatchSize
-            : newModelIndex;
-        if (index != currentModelsIndex) {
-          _viewportModels.setViewportStart(index);
-          detectChanges = true;
-
-          final offset = newOffset > _scrollWrapper.height ? _scrollWrapper
-              .height - _viewportElement.height : newOffset;
-          _viewportElement.offset = offset.toInt();
-        }
-      } else if (cardDiff < -_taskRequestCount) {
-        final index = newModelIndex > 0 ? newModelIndex : 0;
-        if (index != currentModelsIndex) {
-          _viewportModels.setViewportStart(index);
-          detectChanges = true;
-
-
-          final offset = newOffset > 0 ? newOffset : 0;
-          _viewportElement.offset = offset.toInt();
-        }
-      }
-    }
-
-    if(detectChanges) {
-      _cdr.markForCheck();
-      _cdr.detectChanges();
-    }
-  }
-
 
   void _init() {
     _viewportElement = new _ViewportElement(viewportElRef.nativeElement as Element);

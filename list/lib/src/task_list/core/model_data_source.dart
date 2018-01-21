@@ -8,6 +8,7 @@ class ModelDataSource {
   int get length => _data.length;
 
   Iterable<TaskListModel> getInterval(int index, int count) {
-    return _data.sublist(index, index + count);
+    final end = index + count;
+    return _data.sublist(index, end > _data.length - 1 ? _data.length - 1 : end);
   }
 }

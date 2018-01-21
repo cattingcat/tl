@@ -1,6 +1,10 @@
+
+/// Describes type of task-card
 class CardType {
-  static const Default = const CardType._(35);
-  static const Narrow = const CardType._(20);
+  /// Default task card preset
+  static const CardType Default = const CardType._(35);
+  /// Task card with minimal height
+  static const CardType Narrow = const CardType._(20);
 
   final int height;
 
