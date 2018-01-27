@@ -3,10 +3,9 @@ import 'dart:html' as html;
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/common/subscriptions.dart';
 
-@Directive(selector: '[micro-interaction-hooks]')
-class MicroInteractionHooks implements OnDestroy {
+@Directive(selector: '[hover-hooks]')
+class HoverHooks implements OnDestroy {
   /// Constants describes different element states
-  static const String Hover = 'hover';
   static const String Meta = 'meta';
   static const String Alt = 'alt';
 
@@ -20,7 +19,7 @@ class MicroInteractionHooks implements OnDestroy {
   String _metaClazz;
 
 
-  MicroInteractionHooks(this._zone, ElementRef elRef):
+  HoverHooks(this._zone, ElementRef elRef):
         _el = elRef.nativeElement {
 
     _zone.runOutsideAngular(() {
@@ -38,7 +37,7 @@ class MicroInteractionHooks implements OnDestroy {
   }
 
 
-  @Input('micro-interaction-hooks') set clazz(String value) {
+  @Input('hover-hooks') set clazz(String value) {
     _clazz = value;
     _altClazz = '$value-$Alt';
     _metaClazz = '$value-$Meta';
