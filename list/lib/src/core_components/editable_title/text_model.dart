@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class TitleModel {
-  final String title;
+  final String text;
 
-  TitleModel(this.title);
+  TitleModel(this.text);
 }

@@ -1,0 +1,20 @@
+:host {
+
+  .text-input {
+    border: none;
+    border-bottom: darkgray 1px solid;
+    outline: none;
+  }
+
+  .text-input[readonly] {
+    user-select: none;
+    border-bottom: transparent 1px solid;
+  }
+
+  .icon-button {
+    svg {
+      vertical-align: bottom;
+    }
+  }
+
+}

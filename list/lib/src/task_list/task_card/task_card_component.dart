@@ -1,7 +1,7 @@
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/directives/hover_hooks.dart';
-import 'package:list/src/core_components/editable_title/editable_title.dart';
-import 'package:list/src/core_components/editable_title/title_model.dart';
+import 'package:list/src/core_components/editable_title/editable_text.dart';
+import 'package:list/src/core_components/editable_title/text_model.dart';
 import 'package:list/src/task_list/core/task_list_model.dart';
 
 @Component(
@@ -11,7 +11,7 @@ import 'package:list/src/task_list/core/task_list_model.dart';
   directives: const <Object>[
     CORE_DIRECTIVES,
     HoverHooks,
-    EditableTitle
+    EditableText
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
