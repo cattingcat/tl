@@ -11,17 +11,15 @@ class HoverHooks implements OnDestroy {
 
   final Subscriptions _subs = new Subscriptions();
   final Subscriptions _tmpSubs = new Subscriptions();
-  final NgZone _zone;
   final html.Element _el;
+  final NgZone _zone;
 
   String _clazz;
   String _altClazz;
   String _metaClazz;
 
 
-  HoverHooks(this._zone, ElementRef elRef):
-        _el = elRef.nativeElement {
-
+  HoverHooks(this._el, this._zone) {
     _zone.runOutsideAngular(() {
       _subs
         ..listen(_el.onMouseEnter, _mouseEnter)

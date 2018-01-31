@@ -1,3 +1,8 @@
 :host {
 
+  .title-input[readonly] {
+    user-select: none;
+    border: none;
+  }
+
 }
