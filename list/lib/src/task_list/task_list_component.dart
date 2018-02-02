@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:list/src/task_list/core/card_type.dart';
@@ -19,7 +18,7 @@ import 'package:list/src/task_list/task_card/task_card_component.dart';
 class TaskListComponent implements AfterViewInit, OnChanges {
   static const int _taskBatchSize = 40;
 
-  final ElementRef _hostElementRef;
+  final Element _hostElement;
   final ChangeDetectorRef _cdr;
 
   _ViewportElement _viewportElement;
@@ -32,10 +31,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   @ViewChild('viewport') ElementRef viewportElRef;
   @ViewChild('wrapper') ElementRef wrapper;
 
-  TaskListComponent(this._hostElementRef, this._cdr);
+  TaskListComponent(this._hostElement, this._cdr);
 
-
-  Element get host => _hostElementRef.nativeElement as Element;
 
   Iterable<TaskListModel> get models => _viewportModels.models;
 
@@ -57,7 +54,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
       // update scroll position
-      host.scrollTop = 0;
+      _hostElement.scrollTop = 0;
     }
 
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
@@ -68,7 +65,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   @override
   void ngAfterViewInit() {
-    host.addEventListener('scroll', _handleScrollEvent);
+    _hostElement.addEventListener('scroll', _handleScrollEvent);
   }
 
 
@@ -81,7 +78,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
   void _handleScrollEvent(Event e) {
-    final scrollTop = host.scrollTop;
+    final scrollTop = _hostElement.scrollTop;
 
     final scrollInfo = _getIndexByScroll(scrollTop);
 
@@ -100,26 +97,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     _viewportElement = new _ViewportElement(viewportElRef.nativeElement as Element);
     _scrollWrapper = new _ScrollWrapperElement(wrapper.nativeElement as Element);
     _viewportModels = new _Viewport(_taskBatchSize);
-  }
-}
-
-typedef void Action();
-
-class Debouncer {
-  static const Duration _timeout = const Duration(milliseconds: 10);
-  final Action foo;
-  Timer timer;
-
-  Debouncer(this.foo);
-
-  void exec() {
-    if(timer != null) timer.cancel();
-    timer = new Timer(_timeout, foo);
-  }
-
-  void execImmediately() {
-    if(timer != null) timer.cancel();
-    foo();
   }
 }
 
@@ -194,6 +171,4 @@ class _ScrollInfo {
 
   @override
   String toString() => '$index + $rest px';
-
-
 }

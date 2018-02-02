@@ -38,6 +38,9 @@ class EditableText {
 
   void submitClick(html.MouseEvent event) => _submit();
 
+  void formSubmit(html.Event event) {
+    event.preventDefault();
+  }
 
   void _submit() {
     _isEditable = false;

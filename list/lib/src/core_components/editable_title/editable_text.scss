@@ -12,6 +12,11 @@
   }
 
   .icon-button {
+    border: none;
+    background: none;
+    padding: 0;
+    vertical-align: bottom;
+
     svg {
       vertical-align: bottom;
     }

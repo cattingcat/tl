@@ -1,7 +1,7 @@
 # list
 
 # how to run:
-#  pub upgrade --no-precompile --packages-dir
+#  pub upgrade --no-precompile
 #  pub serve web
 
 # example here: https://github.com/dart-lang/angular_components_example
