@@ -66,6 +66,10 @@ class LinkedTreeEntry<E extends LinkedTreeEntry<E>> extends LinkedListEntry<E> {
 
   Iterable<E> get children => _children;
 
+  bool get isEmpty => _children.isEmpty;
+
+  bool get isNotEmpty => _children.isNotEmpty;
+
   void addChild(E entry) {
     _children.add(entry);
   }

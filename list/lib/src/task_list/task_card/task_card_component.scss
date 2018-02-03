@@ -1,3 +1,10 @@
 :host {
-  height: 35px;
+  .card {
+    height: 35px;
+    transition: background-color 300ms;
+  }
+
+  .hover {
+    background-color: aliceblue;
+  }
 }

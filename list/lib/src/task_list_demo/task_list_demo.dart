@@ -1,9 +1,9 @@
 import 'package:angular/angular.dart';
-import 'package:list/src/task_list/core/card_type.dart';
-import 'package:list/src/task_list/core/model_data_source.dart';
-import 'package:list/src/task_list/core/task_list_model.dart';
 import 'package:list/src/task_list/task_card/task_card_component.dart';
 import 'package:list/src/task_list/task_list_component.dart';
+import 'package:list/src/task_list/view_models/card_type.dart';
+import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
+import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
     selector: 'task-list-demo',
@@ -16,26 +16,26 @@ import 'package:list/src/task_list/task_list_component.dart';
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListDemo {
-  ModelDataSource dataSource;
+  ViewModelDataSource dataSource;
   CardType cardType;
 
   TaskListDemo() {
-    final list = new List<TaskListModel>();
+    final list = new List<TaskListViewModel>();
     for(var i = 0; i < 10000; ++i) {
-      list.add(new TaskListModel('iten no: $i'));
+      list.add(new TaskListViewModel('iten no: $i'));
     }
 
-    dataSource = new ModelDataSource(list);
+    dataSource = new ViewModelDataSource(list);
     cardType = CardType.Default;
   }
 
   void changeDataSource() {
-    final list = new List<TaskListModel>();
+    final list = new List<TaskListViewModel>();
     for(var i = 0; i < 100; ++i) {
-      list.add(new TaskListModel('!!!: $i'));
+      list.add(new TaskListViewModel('!!!: $i'));
     }
 
-    dataSource = new ModelDataSource(list);
+    dataSource = new ViewModelDataSource(list);
   }
 
   void changeCardType() {

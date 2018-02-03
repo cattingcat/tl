@@ -2,7 +2,7 @@ import 'package:angular/angular.dart';
 import 'package:list/src/core_components/directives/hover_hooks.dart';
 import 'package:list/src/core_components/editable_title/editable_text.dart';
 import 'package:list/src/core_components/editable_title/text_model.dart';
-import 'package:list/src/task_list/core/task_list_model.dart';
+import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
   selector: 'task-card',
@@ -16,7 +16,7 @@ import 'package:list/src/task_list/core/task_list_model.dart';
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskCardComponent implements AfterViewInit, OnChanges {
-  @Input() TaskListModel model;
+  @Input() TaskListViewModel model;
 
 
   TitleModel titleModel;

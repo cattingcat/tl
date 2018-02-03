@@ -1,9 +1,9 @@
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:list/src/task_list/core/card_type.dart';
-import 'package:list/src/task_list/core/model_data_source.dart';
-import 'package:list/src/task_list/core/task_list_model.dart';
 import 'package:list/src/task_list/task_card/task_card_component.dart';
+import 'package:list/src/task_list/view_models/card_type.dart';
+import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
+import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
   selector: 'task-list',
@@ -25,7 +25,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   _ScrollWrapperElement _scrollWrapper;
   _Viewport _viewportModels;
 
-  @Input() ModelDataSource dataSource;
+  @Input() ViewModelDataSource dataSource;
   @Input() CardType cardType;
 
   @ViewChild('viewport') ElementRef viewportElRef;
@@ -34,9 +34,9 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   TaskListComponent(this._hostElement, this._cdr);
 
 
-  Iterable<TaskListModel> get models => _viewportModels.models;
+  Iterable<TaskListViewModel> get models => _viewportModels.models;
 
-  int trackFunction(int index, TaskListModel model) {
+  int trackFunction(int index, TaskListViewModel model) {
     return model.text.hashCode;
   }
 
@@ -45,7 +45,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   void ngOnChanges(Map<String, SimpleChange> changes) {
     if(changes.containsKey('dataSource')) {
       _init();
-      final ds = changes['dataSource'].currentValue as ModelDataSource;
+      final ds = changes['dataSource'].currentValue as ViewModelDataSource;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
       _viewportModels.setup(ds);
@@ -132,7 +132,7 @@ class _ScrollWrapperElement {
 
   int get height => _h;
 
-  void setup(ModelDataSource dataSource, CardType cardType) {
+  void setup(ViewModelDataSource dataSource, CardType cardType) {
     _h = dataSource.length * cardType.height;
     _scrollWrapper.style.height = '${_h}px';
   }
@@ -140,23 +140,23 @@ class _ScrollWrapperElement {
 
 class _Viewport {
   final int _size;
-  ModelDataSource _dataSource;
-  Iterable<TaskListModel> _models;
+  ViewModelDataSource _dataSource;
+  Iterable<TaskListViewModel> _models;
   int _start = 0;
 
   _Viewport(this._size);
 
 
-  void setup(ModelDataSource dataSource) {
+  void setup(ViewModelDataSource dataSource) {
     _dataSource = dataSource;
     setViewportStart(0);
   }
 
   int get start => _start;
 
-  Iterable<TaskListModel> get models => _models;
+  Iterable<TaskListViewModel> get models => _models;
 
-  Iterable<TaskListModel> setViewportStart(int startIndex) {
+  Iterable<TaskListViewModel> setViewportStart(int startIndex) {
     _start = startIndex;
     return _models = _dataSource.getInterval(startIndex, _size).toList();
   }

@@ -4,10 +4,17 @@
     <div ref-viewport
          class="viewport">
 
-        <div class="item"
-             *ngFor="let model of models; trackBy: trackFunction">
+        <!-- ng-container prevents wrapping -->
+        <ng-container *ngFor="let model of models; trackBy: trackFunction">
 
             <task-card [model]="model"></task-card>
-        </div>
+
+        </ng-container>
+
+
+        <!--<div class="item"-->
+             <!--*ngFor="let model of models; trackBy: trackFunction">-->
+            <!--<task-card [model]="model"></task-card>-->
+        <!--</div>-->
     </div>
 </div>

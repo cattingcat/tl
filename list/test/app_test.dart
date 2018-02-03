@@ -36,3 +36,5 @@
 //
 //  Future<String> get title => _title.visibleText;
 //}
+
+void main() { }
