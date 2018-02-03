@@ -1,10 +1,11 @@
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
+import 'package:list/src/task_list/models/model_tree_manager/list_view_impl.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 class ModelTreeManager {
   final LinkedTree<TaskListModelBase> _tree;
-  ListView _listView;
+  ListViewImpl _listView;
 
   ModelTreeManager(this._tree);
 
@@ -12,9 +13,11 @@ class ModelTreeManager {
   LinkedTree<TaskListModelBase> get tree => _tree;
 
   ListView getListView() {
+    if(_listView != null) return _listView;
+
     final listView = _getListViewFor(_tree.children);
 
-    return _listView = new ListView(listView);
+    return _listView = new ListViewImpl(listView);
   }
 
 

@@ -3,6 +3,10 @@ import 'dart:html' as html;
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/common/subscriptions.dart';
 
+
+/// Provides ability to add CSS classes on
+///  element, when it hovered
+///  with key pressed
 @Directive(selector: '[hover-hooks]')
 class HoverHooks implements OnDestroy {
   /// Constants describes different element states
@@ -35,13 +39,13 @@ class HoverHooks implements OnDestroy {
   }
 
 
-  @Input('hover-hooks') set clazz(String value) {
+  @Input('hover-hooks') set cssClass(String value) {
     _clazz = value;
     _altClazz = '$value-$Alt';
     _metaClazz = '$value-$Meta';
   }
 
-  String get clazz => _clazz;
+  String get cssClass => _clazz;
 
 
   @override

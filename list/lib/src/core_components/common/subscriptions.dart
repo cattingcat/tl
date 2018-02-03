@@ -1,5 +1,7 @@
 import 'dart:async';
 
+/// Stores [StreamSubscription]s
+///  and allows mass-unsubscribe
 class Subscriptions extends Iterable<StreamSubscription<Object>> {
   final List<StreamSubscription<Object>> _list = new List<StreamSubscription<Object>>();
 

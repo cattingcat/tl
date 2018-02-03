@@ -1,8 +1,8 @@
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:list/src/task_list/task_card/task_card_component.dart';
-import 'package:list/src/task_list/view_models/card_type.dart';
-import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
+import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
@@ -25,7 +25,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   _ScrollWrapperElement _scrollWrapper;
   _Viewport _viewportModels;
 
-  @Input() ViewModelDataSource dataSource;
+  @Input() InMemoryViewModelDataSource dataSource;
   @Input() CardType cardType;
 
   @ViewChild('viewport') ElementRef viewportElRef;
@@ -45,7 +45,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   void ngOnChanges(Map<String, SimpleChange> changes) {
     if(changes.containsKey('dataSource')) {
       _init();
-      final ds = changes['dataSource'].currentValue as ViewModelDataSource;
+      final ds = changes['dataSource'].currentValue as InMemoryViewModelDataSource;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
       _viewportModels.setup(ds);
@@ -70,8 +70,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
   _ScrollInfo _getIndexByScroll(int scrollPx) {
-    final index = (scrollPx / cardType.height).floor();
-    final rest = scrollPx % cardType.height;
+    final index = (scrollPx / cardType.taskCardHeight).floor();
+    final rest = scrollPx % cardType.taskCardHeight;
 
     return new _ScrollInfo(index, rest);
   }
@@ -109,7 +109,7 @@ class _ViewportElement {
 
 
   void setup(CardType cardType, int tasksInVp) {
-    _h = cardType.height * tasksInVp;
+    _h = cardType.taskCardHeight * tasksInVp;
     offset = 0;
   }
 
@@ -132,22 +132,22 @@ class _ScrollWrapperElement {
 
   int get height => _h;
 
-  void setup(ViewModelDataSource dataSource, CardType cardType) {
-    _h = dataSource.length * cardType.height;
+  void setup(InMemoryViewModelDataSource dataSource, CardType cardType) {
+    _h = dataSource.length * cardType.taskCardHeight;
     _scrollWrapper.style.height = '${_h}px';
   }
 }
 
 class _Viewport {
   final int _size;
-  ViewModelDataSource _dataSource;
+  InMemoryViewModelDataSource _dataSource;
   Iterable<TaskListViewModel> _models;
   int _start = 0;
 
   _Viewport(this._size);
 
 
-  void setup(ViewModelDataSource dataSource) {
+  void setup(InMemoryViewModelDataSource dataSource) {
     _dataSource = dataSource;
     setViewportStart(0);
   }
