@@ -12,6 +12,7 @@ import 'package:list/src/task_list/card_type.dart';
 @Component(
     selector: 'task-list-demo',
     templateUrl: 'task_list_demo.html',
+    styleUrls: const <String>['task_list_demo.scss.css'],
     directives: const <Object>[
       CORE_DIRECTIVES,
       TaskCardComponent,
