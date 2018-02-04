@@ -12,11 +12,8 @@ class TreeViewModelDataSource implements ViewModelDataSource {
   int get length => _view.length;
 
   @override
-  Iterable<TaskListViewModel> getInterval(int index, int count) {
-    final end = index + count;
-    final endIndex = end > _view.length - 1 ? _view.length - 1 : end;
-
-    final models = _view.sublist(index, endIndex);
+  Iterable<TaskListViewModel> getRange(int start, int end) {
+    final models = _view.getRange(start, end);
 
     return models.map((i) => new TaskListViewModel(i, i.toString()));
   }

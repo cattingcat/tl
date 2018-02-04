@@ -12,6 +12,6 @@ abstract class ListView {
   /// Current models
   Iterable<TaskListModelBase> get models;
 
-  /// Get sublist of models
-  Iterable<TaskListModelBase> sublist(int start, int end);
+  /// Get iterable regions of whole models list
+  Iterable<TaskListModelBase> getRange(int start, int end);
 }

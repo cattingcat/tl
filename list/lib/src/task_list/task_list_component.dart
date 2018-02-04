@@ -6,6 +6,7 @@ import 'package:list/src/task_list/task_card/default/task_card_component.dart';
 import 'package:list/src/task_list/card_type.dart';
 import 'package:list/src/task_list/task_card/title_change_card_event.dart';
 import 'package:list/src/task_list/task_card/toggle_card_event.dart';
+import 'package:list/src/task_list/utils/viewport_models.dart';
 import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
@@ -30,7 +31,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
-  _Viewport _viewportModels;
+  ViewportModels _viewportModels;
   ViewModelDataSource _dataSource;
 
   @Input() ListView dataSource;
@@ -73,7 +74,10 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
       _dataSource = new TreeViewModelDataSource(ds);
 
-      _viewportModels.setup(_dataSource);
+      _viewportModels = new ViewportModels(_taskBatchSize, _dataSource);
+      _viewportModels.setViewportStart(0);
+
+      //_viewportModels.setup(_dataSource);
       _viewportElement.setup(cardType, _taskBatchSize);
       _scrollWrapper.setup(_dataSource, card);
 
@@ -120,7 +124,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   void _init() {
     _viewportElement = new _ViewportElement(viewportElRef.nativeElement as Element);
     _scrollWrapper = new _ScrollWrapperElement(wrapper.nativeElement as Element);
-    _viewportModels = new _Viewport(_taskBatchSize);
+    //_viewportModels = new ViewportModels(_taskBatchSize);
   }
 }
 
@@ -159,34 +163,6 @@ class _ScrollWrapperElement {
   void setup(ViewModelDataSource dataSource, CardType cardType) {
     _h = dataSource.length * cardType.taskCardHeight;
     _scrollWrapper.style.height = '${_h}px';
-  }
-}
-
-class _Viewport {
-  final int _size;
-  ViewModelDataSource _dataSource;
-  Iterable<TaskListViewModel> _models;
-  int _start = 0;
-
-  _Viewport(this._size);
-
-
-  void setup(ViewModelDataSource dataSource) {
-    _dataSource = dataSource;
-    setViewportStart(0);
-  }
-
-  int get start => _start;
-
-  Iterable<TaskListViewModel> get models => _models;
-
-  Iterable<TaskListViewModel> setViewportStart(int startIndex) {
-    _start = startIndex;
-    return _models = _dataSource.getInterval(startIndex, _size).toList();
-  }
-
-  Iterable<TaskListViewModel> refresh() {
-    return _models = _dataSource.getInterval(_start, _size).toList();
   }
 }
 
