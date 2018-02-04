@@ -6,7 +6,5 @@ class FolderModel extends TaskListModelBase {
 
 
   @override
-  String toString() {
-    return '$type: ';
-  }
+  String toString() => '$type: ';
 }

@@ -8,7 +8,5 @@ class TaskModel extends TaskListModelBase {
 
 
   @override
-  String toString() {
-    return '$type: $task';
-  }
+  String toString() => '$type: $task';
 }
