@@ -24,5 +24,13 @@ class ListViewImpl implements ListView {
 
 
   @override
+  int get length => _models.length;
+
+  @override
   Iterable<TaskListModelBase> get models => _models;
+
+  @override
+  Iterable<TaskListModelBase> sublist(int start, int end) {
+    return _models.getRange(start, end);
+  }
 }

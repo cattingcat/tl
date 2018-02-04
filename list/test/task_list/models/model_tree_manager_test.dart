@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 void main() {
 
   TaskListModelBase task({bool expand: false}) {
-    final model = new TaskModel()
+    final model = new TaskModel(null)
       ..isExpanded = expand;
 
     return model;

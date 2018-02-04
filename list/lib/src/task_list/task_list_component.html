@@ -7,7 +7,10 @@
         <!-- ng-container prevents wrapping -->
         <ng-container *ngFor="let model of models; trackBy: trackFunction">
 
-            <task-card [model]="model"></task-card>
+            <task-card
+                [model]="model"
+                (toggle)="onToggle($event)"
+                (titleChange)="onTitleChange($event)"></task-card>
 
         </ng-container>
 

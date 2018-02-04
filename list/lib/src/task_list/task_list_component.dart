@@ -1,8 +1,13 @@
+import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:list/src/task_list/task_card/task_card_component.dart';
+import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
+import 'package:list/src/task_list/task_card/default/task_card_component.dart';
 import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
+import 'package:list/src/task_list/task_card/title_change_card_event.dart';
+import 'package:list/src/task_list/task_card/toggle_card_event.dart';
+import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
+import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
@@ -18,15 +23,20 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 class TaskListComponent implements AfterViewInit, OnChanges {
   static const int _taskBatchSize = 40;
 
+  final _toggleCtrl = new StreamController<ToggleCardEvent>(sync: true);
+
   final Element _hostElement;
   final ChangeDetectorRef _cdr;
 
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
   _Viewport _viewportModels;
+  ViewModelDataSource _dataSource;
 
-  @Input() InMemoryViewModelDataSource dataSource;
+  @Input() ListView dataSource;
   @Input() CardType cardType;
+
+  @Output() Stream<ToggleCardEvent> get cardToggle => _toggleCtrl.stream;
 
   @ViewChild('viewport') ElementRef viewportElRef;
   @ViewChild('wrapper') ElementRef wrapper;
@@ -35,6 +45,19 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
   Iterable<TaskListViewModel> get models => _viewportModels.models;
+
+
+  void onToggle(ToggleCardEvent event) {
+    _toggleCtrl.add(event);
+    _viewportModels.refresh();
+    _cdr.markForCheck();
+    _cdr.detectChanges();
+  }
+
+  void onTitleChange(TitleChangeCardEvent event) {
+    print('title changed: ${event.model}');
+  }
+
 
   int trackFunction(int index, TaskListViewModel model) {
     return model.text.hashCode;
@@ -45,12 +68,14 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   void ngOnChanges(Map<String, SimpleChange> changes) {
     if(changes.containsKey('dataSource')) {
       _init();
-      final ds = changes['dataSource'].currentValue as InMemoryViewModelDataSource;
+      final ds = changes['dataSource'].currentValue as ListView;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
-      _viewportModels.setup(ds);
+      _dataSource = new TreeViewModelDataSource(ds);
+
+      _viewportModels.setup(_dataSource);
       _viewportElement.setup(cardType, _taskBatchSize);
-      _scrollWrapper.setup(ds, card);
+      _scrollWrapper.setup(_dataSource, card);
 
 
       // update scroll position
@@ -59,7 +84,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
       final cardType = changes['cardType'].currentValue as CardType;
-      _scrollWrapper.setup(dataSource, cardType);
+      _scrollWrapper.setup(_dataSource, cardType);
     }
   }
 
@@ -75,7 +100,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     return new _ScrollInfo(index, rest);
   }
-
 
   void _handleScrollEvent(Event e) {
     final scrollTop = _hostElement.scrollTop;
@@ -132,7 +156,7 @@ class _ScrollWrapperElement {
 
   int get height => _h;
 
-  void setup(InMemoryViewModelDataSource dataSource, CardType cardType) {
+  void setup(ViewModelDataSource dataSource, CardType cardType) {
     _h = dataSource.length * cardType.taskCardHeight;
     _scrollWrapper.style.height = '${_h}px';
   }
@@ -140,14 +164,14 @@ class _ScrollWrapperElement {
 
 class _Viewport {
   final int _size;
-  InMemoryViewModelDataSource _dataSource;
+  ViewModelDataSource _dataSource;
   Iterable<TaskListViewModel> _models;
   int _start = 0;
 
   _Viewport(this._size);
 
 
-  void setup(InMemoryViewModelDataSource dataSource) {
+  void setup(ViewModelDataSource dataSource) {
     _dataSource = dataSource;
     setViewportStart(0);
   }
@@ -161,6 +185,9 @@ class _Viewport {
     return _models = _dataSource.getInterval(startIndex, _size).toList();
   }
 
+  Iterable<TaskListViewModel> refresh() {
+    return _models = _dataSource.getInterval(_start, _size).toList();
+  }
 }
 
 class _ScrollInfo {

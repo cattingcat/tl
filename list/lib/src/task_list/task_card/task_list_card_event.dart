@@ -1,8 +1,8 @@
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
-class TaskListViewModel {
+/// Base class for all task card events
+class TaskCardEvent {
   final TaskListModelBase model;
-  final String text;
 
-  TaskListViewModel(this.model, this.text);
+  TaskCardEvent(this.model);
 }

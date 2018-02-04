@@ -2,7 +2,13 @@ import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 class TaskModel extends TaskListModelBase {
-  Object task;
+  final Object task;
 
-  TaskModel(): super(ModelType.Task);
+  TaskModel(this.task): super(ModelType.Task);
+
+
+  @override
+  String toString() {
+    return '$type: $task';
+  }
 }

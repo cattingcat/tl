@@ -1,0 +1,10 @@
+<div
+    hover-hooks="hover"
+    class="card">
+
+    <span (click)="onExpanderClick()">+</span>
+
+    <editable-text
+        [model]="titleModel"
+        (change)="onTitleChange($event)"></editable-text>
+</div>

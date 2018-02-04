@@ -1,9 +1,13 @@
 import 'package:angular/angular.dart';
-import 'package:list/src/task_list/task_card/task_card_component.dart';
+import 'package:list/src/core/linked_tree/linked_tree.dart';
+import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
+import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
+import 'package:list/src/task_list/models/task_list_model_base.dart';
+import 'package:list/src/task_list/models/task_model.dart';
+import 'package:list/src/task_list/task_card/default/task_card_component.dart';
+import 'package:list/src/task_list/task_card/toggle_card_event.dart';
 import 'package:list/src/task_list/task_list_component.dart';
 import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
     selector: 'task-list-demo',
@@ -16,26 +20,40 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListDemo {
-  InMemoryViewModelDataSource dataSource;
+  ModelTreeManager _treeManager;
+
+  ListView listView;
   CardType cardType;
 
   TaskListDemo() {
-    final list = new List<TaskListViewModel>();
-    for(var i = 0; i < 10000; ++i) {
-      list.add(new TaskListViewModel('iten no: $i'));
-    }
+    final tree = new LinkedTree<TaskListModelBase>();
+    for(int i = 0; i < 100; ++i) {
+      final task = new TaskModel('$i');
 
-    dataSource = new InMemoryViewModelDataSource(list);
+      for(int j = 0; j < i; ++j) {
+        final subTask = new TaskModel('$i ; $j');
+        task.addChild(subTask);
+      }
+
+      tree.addFirst(task);
+    }
+    _treeManager = new ModelTreeManager(tree);
+
+    listView = _treeManager.getListView();
     cardType = CardType.Default;
   }
 
-  void changeDataSource() {
-    final list = new List<TaskListViewModel>();
-    for(var i = 0; i < 100; ++i) {
-      list.add(new TaskListViewModel('!!!: $i'));
-    }
+  void onCardToggle(ToggleCardEvent event) {
+    _treeManager.toggle(event.model);
+  }
 
-    dataSource = new InMemoryViewModelDataSource(list);
+  void changeDataSource() {
+//    final list = new List<TaskListViewModel>();
+//    for(var i = 0; i < 100; ++i) {
+//      list.add(new TaskListViewModel('!!!: $i'));
+//    }
+//
+//    dataSource = new InMemoryViewModelDataSource(list);
   }
 
   void changeCardType() {

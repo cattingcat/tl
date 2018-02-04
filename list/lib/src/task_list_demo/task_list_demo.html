@@ -1,8 +1,9 @@
 
 <div>
     <task-list
-        [dataSource]="dataSource"
-        [cardType]="cardType"></task-list>
+        [dataSource]="listView"
+        [cardType]="cardType"
+        (cardToggle)="onCardToggle($event)"></task-list>
 
     <button
         (click)="changeDataSource()">
