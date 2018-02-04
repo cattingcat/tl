@@ -15,14 +15,16 @@
     .viewport {
         will-change: transform;
     }
-
-
 }
 
 :host::-webkit-scrollbar {
     width: 6px;
-    background-color: #d7d7d7;
+    background-color: #f6f6f6;
 }
+:host:hover::-webkit-scrollbar {
+    background-color: #eaeaea;
+}
+
 :host::-webkit-scrollbar-thumb {
     background-color: #1d1d1d;
 }

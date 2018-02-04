@@ -6,6 +6,8 @@ class InMemoryViewModelDataSource implements ViewModelDataSource {
 
   InMemoryViewModelDataSource(this._data);
 
+
+  @override
   int get length => _data.length;
 
   @override

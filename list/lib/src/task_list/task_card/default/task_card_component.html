@@ -2,7 +2,9 @@
     hover-hooks="hover"
     class="card">
 
-    <span (click)="onExpanderClick()">+</span>
+    <button
+        (click)="onExpanderClick()"
+        class="expander">+</button>
 
     <editable-text
         [model]="titleModel"

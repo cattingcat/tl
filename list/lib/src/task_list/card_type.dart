@@ -2,7 +2,7 @@
 /// Describes size map for cards
 class CardType {
   /// Default task card preset
-  static const CardType Default = const CardType._(35);
+  static const CardType Default = const CardType._(40);
   /// Task card with minimal height
   static const CardType Narrow = const CardType._(20);
 
