@@ -1,0 +1,24 @@
+:host {
+  .card {
+    /// Should be synced with [CardType.Narrow]
+    height: 20px;
+    transition: background-color 300ms;
+
+    border-bottom: #E2E2E2 1px solid;
+    box-sizing: border-box;
+  }
+
+  .hover {
+    background-color: aliceblue;
+  }
+
+  // TODO: same logic in editable title
+  .expander {
+    border: none;
+    outline: none;
+    background: none;
+    display: inline-block;
+    height: 100%;
+    padding-right: 5px;
+  }
+}

@@ -5,13 +5,28 @@
          class="viewport">
 
         <!-- ng-container prevents wrapping -->
-        <ng-container *ngFor="let model of models; trackBy: trackFunction">
+        <ng-container *ngIf="isDefaultCard">
+            <ng-container
+                    *ngFor="let model of models; trackBy: trackFunction">
 
-            <task-card
-                [model]="model"
-                (toggle)="onToggle($event)"
-                (titleChange)="onTitleChange($event)"></task-card>
+                <default-task-card
+                    [model]="model"
+                    (toggle)="onToggle($event)"
+                    (titleChange)="onTitleChange($event)"></default-task-card>
 
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="isNarrowCard">
+            <ng-container
+                    *ngFor="let model of models; trackBy: trackFunction">
+
+                <narrow-task-card
+                        [model]="model"
+                        (toggle)="onToggle($event)"
+                        (titleChange)="onTitleChange($event)"></narrow-task-card>
+
+            </ng-container>
         </ng-container>
 
 

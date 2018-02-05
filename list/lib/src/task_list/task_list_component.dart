@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
+import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
+import 'package:list/src/task_list/card_components/narrow/task/narrow_task_card.dart';
+import 'package:list/src/task_list/card_components/title_change_card_event.dart';
+import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
-import 'package:list/src/task_list/task_card/default/task_card_component.dart';
 import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/task_card/title_change_card_event.dart';
-import 'package:list/src/task_list/task_card/toggle_card_event.dart';
 import 'package:list/src/task_list/utils/viewport_models.dart';
 import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
@@ -17,7 +18,9 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   templateUrl: 'task_list_component.html',
   directives: const <Object>[
     CORE_DIRECTIVES,
-    TaskCardComponent
+    DefaultTaskCard,
+    NarrowTaskCard,
+    NgTemplateOutlet
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -35,7 +38,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   ViewModelDataSource _dataSource;
 
   @Input() ListView dataSource;
-  @Input() CardType cardType;
+  @Input() CardType cardType = CardType.Default;
 
   @Output() Stream<ToggleCardEvent> get cardToggle => _toggleCtrl.stream;
 
@@ -46,6 +49,10 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
   Iterable<TaskListViewModel> get models => _viewportModels.models;
+
+  bool get isDefaultCard => cardType == CardType.Default;
+
+  bool get isNarrowCard => cardType == CardType.Narrow;
 
 
   void onToggle(ToggleCardEvent event) {

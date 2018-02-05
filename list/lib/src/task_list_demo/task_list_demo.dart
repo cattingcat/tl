@@ -1,11 +1,11 @@
 import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
+import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
+import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
 import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/task_card/default/task_card_component.dart';
-import 'package:list/src/task_list/task_card/toggle_card_event.dart';
 import 'package:list/src/task_list/task_list_component.dart';
 import 'package:list/src/task_list/card_type.dart';
 
@@ -15,7 +15,7 @@ import 'package:list/src/task_list/card_type.dart';
     styleUrls: const <String>['task_list_demo.scss.css'],
     directives: const <Object>[
       CORE_DIRECTIVES,
-      TaskCardComponent,
+      DefaultTaskCard,
       TaskListComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -28,7 +28,7 @@ class TaskListDemo {
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModelBase>();
-    for(int i = 0; i < 100; ++i) {
+    for(int i = 0; i < 500; ++i) {
       final task = new TaskModel('$i');
 
       for(int j = 0; j < i; ++j) {
