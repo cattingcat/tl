@@ -1,11 +1,13 @@
 :host {
   display: inline-block;
+  width: 300px;
 
   .text-input {
     border: none;
     border-bottom: darkgray 1px solid;
     outline: none;
     background-color: transparent;
+    width: calc(100% - 25px);
   }
 
   .text-input[readonly] {

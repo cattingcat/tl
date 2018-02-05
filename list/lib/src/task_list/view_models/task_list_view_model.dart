@@ -1,8 +1,13 @@
+import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
-class TaskListViewModel {
-  final TaskListModelBase model;
-  final String text;
+abstract class TaskListViewModel {
+  TaskListModelBase get model;
 
-  TaskListViewModel(this.model, this.text);
+
+  bool get isTask => model.type == ModelType.Task;
+
+  bool get isGroup => model.type == ModelType.Group;
+
+  bool get isFolder => model.type == ModelType.Folder;
 }

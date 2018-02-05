@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:html' as html;
 import 'package:angular/angular.dart';
-import 'package:list/src/core_components/editable_title/text_model.dart';
+import 'package:list/src/core_components/editable_text/text_model.dart';
 
 @Component(
     selector: 'editable-text',

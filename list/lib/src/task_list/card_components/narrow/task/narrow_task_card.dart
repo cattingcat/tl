@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/directives/hover_hooks.dart';
-import 'package:list/src/core_components/editable_title/editable_text.dart';
-import 'package:list/src/core_components/editable_title/text_model.dart';
+import 'package:list/src/core_components/editable_text/editable_text.dart';
+import 'package:list/src/core_components/editable_text/text_model.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
@@ -48,6 +48,6 @@ class NarrowTaskCard implements AfterViewInit, OnChanges {
 
   @override
   void ngOnChanges(Map<String, SimpleChange> changes) {
-    titleModel = new TitleModel(model.text);
+    titleModel = new TitleModel(model.toString());
   }
 }

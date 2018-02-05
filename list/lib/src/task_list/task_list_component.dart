@@ -19,8 +19,7 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   directives: const <Object>[
     CORE_DIRECTIVES,
     DefaultTaskCard,
-    NarrowTaskCard,
-    NgTemplateOutlet
+    NarrowTaskCard
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -68,7 +67,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
   int trackFunction(int index, TaskListViewModel model) {
-    return model.text.hashCode;
+    return model.hashCode;
   }
 
 
