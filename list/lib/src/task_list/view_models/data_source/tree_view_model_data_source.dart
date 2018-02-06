@@ -1,4 +1,4 @@
-import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
+import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/folder_card_model.dart';

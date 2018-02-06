@@ -18,4 +18,7 @@ class SublistStats {
 
   /// Count on folder-models in [list]
   int get folderCount => _data[ModelType.Folder];
+
+
+  @override String toString() => 'T: $taskCount; G: $groupCount; F: $folderCount';
 }

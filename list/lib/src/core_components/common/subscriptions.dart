@@ -9,7 +9,14 @@ class Subscriptions extends Iterable<StreamSubscription<Object>> {
     _list.forEach((i) => i.cancel());
   }
 
-  void clear() {
+  Iterable<StreamSubscription<Object>> clear() {
+    final subscriptions = _list.toList(growable: false);
+    _list.clear();
+    return subscriptions;
+  }
+
+  void cancelClear() {
+    cancel();
     _list.clear();
   }
 

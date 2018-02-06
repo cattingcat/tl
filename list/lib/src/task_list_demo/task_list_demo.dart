@@ -1,7 +1,7 @@
 import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
-import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
+import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';

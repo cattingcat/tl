@@ -49,7 +49,7 @@ void main() {
 
       vpModels.setViewportStart(0);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['0', '1', '2', '3', '4']));
     });
 
@@ -59,7 +59,7 @@ void main() {
 
       vpModels.setViewportStart(20);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['20', '21', '22', '23', '24']));
     });
 
@@ -70,7 +70,7 @@ void main() {
 
       vpModels.setViewportStart(45);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['45', '46', '47', '48', '49']));
     });
 
@@ -80,7 +80,7 @@ void main() {
 
       vpModels.setViewportStart(47);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['47', '48', '49']));
     });
 
@@ -91,14 +91,14 @@ void main() {
 
       vpModels.setViewportStart(5);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['5', '6', '7', '8', '9']));
 
       models.insert(6, vm('555'));
 
       vpModels.refresh();
 
-      final namesAfter = vpModels.models.map((i) => i.toString()).toList();
+      final namesAfter = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(namesAfter, orderedEquals(<String>['5', '555', '6', '7', '8']));
     });
 
@@ -113,7 +113,7 @@ void main() {
       vpModels.setViewportStart(0);
       vpModels.setViewportStart(2);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['2', '3', '4', '5', '6']));
     });
 
@@ -124,7 +124,7 @@ void main() {
       vpModels.setViewportStart(20);
       vpModels.setViewportStart(17);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['17', '18', '19', '20', '21']));
     });
 
@@ -135,7 +135,7 @@ void main() {
       vpModels.setViewportStart(20);
       vpModels.setViewportStart(10);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['10', '11', '12', '13', '14']));
     });
 
@@ -146,7 +146,7 @@ void main() {
       vpModels.setViewportStart(20);
       vpModels.setViewportStart(16);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['16', '17', '18', '19', '20']));
     });
 
@@ -156,17 +156,17 @@ void main() {
 
       vpModels.setViewportStart(45);
 
-      final names = vpModels.models.map((i) => i.toString()).toList();
+      final names = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names, orderedEquals(<String>['45', '46', '47', '48', '49']));
 
       vpModels.setViewportStart(43);
 
-      final names2 = vpModels.models.map((i) => i.toString()).toList();
+      final names2 = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names2, orderedEquals(<String>['43', '44', '45', '46', '47', '48', '49']));
 
       vpModels.setViewportStart(15);
 
-      final names3 = vpModels.models.map((i) => i.toString()).toList();
+      final names3 = vpModels.viewModels.map((i) => i.toString()).toList();
       expect(names3, orderedEquals(<String>['15', '16', '17', '18', '19', '20', '21', '22', '23', '24']));
     });
   });

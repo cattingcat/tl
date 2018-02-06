@@ -15,7 +15,7 @@ class ViewportModels {
 
   int get start => _start;
 
-  Iterable<TaskListViewModel> get models => _models;
+  Iterable<TaskListViewModel> get viewModels => _models;
 
   Iterable<TaskListViewModel> setViewportStart(int startIndex) {
     final end = startIndex + _size;

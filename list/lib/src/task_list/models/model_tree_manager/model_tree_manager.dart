@@ -1,6 +1,6 @@
 import 'package:list/src/core/linked_tree/linked_tree.dart';
-import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
-import 'package:list/src/task_list/models/model_tree_manager/list_view_impl.dart';
+import 'package:list/src/task_list/models/list_view/list_view.dart';
+import 'package:list/src/task_list/models/list_view/list_view_impl.dart';
 import 'package:list/src/task_list/models/model_tree_manager/sublist_stats.dart';
 import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';

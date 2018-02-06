@@ -1,10 +1,17 @@
+import 'dart:async';
+import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 /// Flat representation of Model-tree
 abstract class ListView {
+  /// Triggered when models range was added into list
+  Stream<ListViewAddRemoveEvent> get onAdd;
 
-  // TODO: Streams about changes
+  /// Triggered when models range was removed
+  Stream<ListViewAddRemoveEvent> get onRemove;
 
+  /// Triggered when model updated
+  Stream<ListViewEvent> get onUpdate;
 
   /// Count of all models
   int get length;
