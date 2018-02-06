@@ -1,6 +1,8 @@
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view_impl.dart';
+import 'package:list/src/task_list/models/model_tree_manager/sublist_stats.dart';
+import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 class ModelTreeManager {
@@ -15,9 +17,9 @@ class ModelTreeManager {
   ListView getListView() {
     if(_listView != null) return _listView;
 
-    final listView = _getListViewFor(_tree.children);
+    final stats = _getListViewFor(_tree.children);
 
-    return _listView = new ListViewImpl(listView);
+    return _listView = new ListViewImpl(stats.list);
   }
 
 
@@ -26,11 +28,11 @@ class ModelTreeManager {
     if(model.isExpanded || _listView == null || model.children.isEmpty) return;
 
     model.isExpanded = true;
-    final list = _getListViewFor(model.children);
+    final stats = _getListViewFor(model.children);
 
     // TODO: update event on expanded task
 
-    _listView.addModelsAfter(model, list);
+    _listView.addModelsAfter(model, stats);
   }
 
   void collapse(TaskListModelBase model) {
@@ -38,9 +40,9 @@ class ModelTreeManager {
     if(!model.isExpanded || _listView == null || model.children.isEmpty) return;
 
     model.isExpanded = false;
-    final list = _getListViewFor(model.children);
+    final stats = _getListViewFor(model.children);
 
-    _listView.removeModelsAfter(model, list.length);
+    _listView.removeModelsAfter(model, stats);
   }
 
   void toggle(TaskListModelBase model) {
@@ -54,8 +56,13 @@ class ModelTreeManager {
   }
 
 
-  List<TaskListModelBase> _getListViewFor(Iterable<TaskListModelBase> children) {
+  SublistStats _getListViewFor(Iterable<TaskListModelBase> children) {
     final listView = new List<TaskListModelBase>();
+    final Map<ModelType, int> stats = {
+      ModelType.Task: 0,
+      ModelType.Group: 0,
+      ModelType.Folder: 0
+    };
 
     final stack = new List<Iterator<TaskListModelBase>>();
     var iterator = children.iterator;
@@ -64,7 +71,9 @@ class ModelTreeManager {
     while(stack.isNotEmpty) {
       while(iterator.moveNext()) {
         final model = iterator.current;
+
         listView.add(model);
+        ++stats[model.type];
 
         if(model.isExpanded) {
           iterator = model.children.iterator;
@@ -79,6 +88,6 @@ class ModelTreeManager {
       }
     }
 
-    return listView;
+    return new SublistStats(listView, stats);
   }
 }
