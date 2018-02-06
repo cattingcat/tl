@@ -1,3 +1,4 @@
+import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
@@ -60,5 +61,11 @@ class ViewportModels {
     final endIndex = end > len ? len : end;
 
     return _models = _dataSource.getRange(_start, endIndex).toList();
+  }
+
+  int getIndexOfModel(TaskListModelBase model) {
+    final viewportIndex = _models.takeWhile((vm) => vm.model != model).length;
+
+    return _start + viewportIndex;
   }
 }

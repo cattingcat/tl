@@ -7,7 +7,8 @@ import 'package:list/src/task_list/card_components/title_change_card_event.dart'
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
 import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/utils/viewport_models.dart';
+import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
@@ -26,7 +27,7 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 class TaskListComponent implements AfterViewInit, OnChanges {
   static const int _taskBatchSize = 40;
 
-  final _toggleCtrl = new StreamController<ToggleCardEvent>(sync: true);
+  final _toggleCtrl = new StreamController<ToggleTaskListCardEvent>(sync: true);
 
   final Element _hostElement;
   final ChangeDetectorRef _cdr;
@@ -39,7 +40,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   @Input() ListView dataSource;
   @Input() CardType cardType = CardType.Default;
 
-  @Output() Stream<ToggleCardEvent> get cardToggle => _toggleCtrl.stream;
+  @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _toggleCtrl.stream;
 
   @ViewChild('viewport') ElementRef viewportElRef;
   @ViewChild('wrapper') ElementRef wrapper;
@@ -55,7 +56,11 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
 
   void onToggle(ToggleCardEvent event) {
-    _toggleCtrl.add(event);
+    final model = event.model;
+    final cardIndex = _viewportModels.getIndexOfModel(model);
+    final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
+
+    _toggleCtrl.add(listEvent);
     _viewportModels.refresh();
     _cdr.markForCheck();
     _cdr.detectChanges();

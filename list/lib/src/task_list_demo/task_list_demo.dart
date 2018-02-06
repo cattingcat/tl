@@ -1,12 +1,12 @@
 import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
-import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/model_tree_manager/list_view.dart';
 import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/task_list_component.dart';
+import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
+import 'package:list/src/task_list/task_list_component/task_list_component.dart';
 import 'package:list/src/task_list/card_type.dart';
 
 @Component(
@@ -28,7 +28,7 @@ class TaskListDemo {
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModelBase>();
-    for(int i = 0; i < 500; ++i) {
+    for(int i = 0; i < 200; ++i) {
       final task = new TaskModel('$i');
 
       for(int j = 0; j < i; ++j) {
@@ -44,8 +44,8 @@ class TaskListDemo {
     cardType = CardType.Default;
   }
 
-  void onCardToggle(ToggleCardEvent event) {
-    _treeManager.toggle(event.model);
+  void onCardToggle(ToggleTaskListCardEvent event) {
+    _treeManager.toggle(event.model, index: event.index);
   }
 
   void changeDataSource() {

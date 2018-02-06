@@ -23,7 +23,7 @@ class ModelTreeManager {
   }
 
 
-  void expand(TaskListModelBase model) {
+  void expand(TaskListModelBase model, {int index = -1}) {
     assert(model != null, 'Model shouldnt be null');
     if(model.isExpanded || _listView == null || model.children.isEmpty) return;
 
@@ -31,27 +31,28 @@ class ModelTreeManager {
     final stats = _getListViewFor(model.children);
 
     // TODO: update event on expanded task
-
-    _listView.addModelsAfter(model, stats);
+    final i = index != -1 ? index : _listView.indexOf(model);
+    _listView.addModelsAfter(i, stats);
   }
 
-  void collapse(TaskListModelBase model) {
+  void collapse(TaskListModelBase model, {int index = -1}) {
     assert(model != null, 'Model shouldnt be null');
     if(!model.isExpanded || _listView == null || model.children.isEmpty) return;
 
     model.isExpanded = false;
     final stats = _getListViewFor(model.children);
 
-    _listView.removeModelsAfter(model, stats);
+    final i = index != -1 ? index : _listView.indexOf(model);
+    _listView.removeModelsAfter(i, stats);
   }
 
-  void toggle(TaskListModelBase model) {
+  void toggle(TaskListModelBase model, {int index = -1}) {
     assert(model != null, 'Model shouldnt be null');
 
     if(model.isExpanded) {
-      collapse(model);
+      collapse(model, index: index);
     } else {
-      expand(model);
+      expand(model, index: index);
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:list/src/task_list/models/task_list_model_base.dart';
-import 'package:list/src/task_list/utils/viewport_models.dart';
+import 'package:list/src/task_list/models/task_model.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:list/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
@@ -7,10 +8,10 @@ import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
 class ViewModelStub implements TaskListViewModel {
-  @override final TaskListModelBase model = null;
+  @override final TaskListModelBase model;
   final String text;
 
-  ViewModelStub(this.text);
+  ViewModelStub(this.text, {this.model = null});
 
   @override bool get isFolder => false;
   @override bool get isGroup => false;
@@ -149,6 +150,44 @@ void main() {
       expect(names, orderedEquals(<String>['16', '17', '18', '19', '20']));
     });
 
+    test('Get models from end with overflow', () {
+      final ds = createDs(50);
+      final vpModels = new ViewportModels(10, ds);
+
+      vpModels.setViewportStart(45);
+
+      final names = vpModels.models.map((i) => i.toString()).toList();
+      expect(names, orderedEquals(<String>['45', '46', '47', '48', '49']));
+
+      vpModels.setViewportStart(43);
+
+      final names2 = vpModels.models.map((i) => i.toString()).toList();
+      expect(names2, orderedEquals(<String>['43', '44', '45', '46', '47', '48', '49']));
+
+      vpModels.setViewportStart(15);
+
+      final names3 = vpModels.models.map((i) => i.toString()).toList();
+      expect(names3, orderedEquals(<String>['15', '16', '17', '18', '19', '20', '21', '22', '23', '24']));
+    });
+  });
+
+  group('ViewportModels tests with index of mode ', () {
+    test('', () {
+      final taskModel = new TaskModel(null);
+      final viewModel = new ViewModelStub('test', model: taskModel);
+
+      final viewModels = createVmList(50).toList();
+      viewModels.insert(25, viewModel);
+
+      final ds = new FromListViewModelDataSource(viewModels);
+      final vpModels = new ViewportModels(23, ds);
+
+      vpModels.setViewportStart(23);
+
+      final index = vpModels.getIndexOfModel(taskModel);
+
+      expect(index, equals(25));
+    });
   });
 
 }
