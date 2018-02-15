@@ -1,71 +1,41 @@
+import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
-import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
-/// Provides methods to work with [ViewModelDataSource]
-///  optimal
 class ViewportModels {
-  final ViewModelDataSource _dataSource;
-  final int _size;
-  List<TaskListViewModel> _models;
+  final ListView _listView;
+  List<TaskListModelBase> _models;
   int _start = 0;
+  int _end = 0;
 
-  ViewportModels(this._size, this._dataSource);
+  ViewportModels(this._listView);
 
 
-  int get start => _start;
+  Iterable<TaskListModelBase> get models => _models;
 
-  Iterable<TaskListViewModel> get viewModels => _models;
-
-  Iterable<TaskListViewModel> setViewportStart(int startIndex) {
-    final end = startIndex + _size;
-    final len = _dataSource.length;
-    final endIndex = end > len ? len : end;
-
-    final oldStartIndex = _start;
-
-    _start = startIndex;
-
-    if(_models == null) {
-      return _models = _dataSource.getRange(startIndex, endIndex).toList();
-    }
-
-    final oldEndIndex = oldStartIndex + _models.length;
-
-    if(startIndex > oldEndIndex || endIndex < oldStartIndex || _models.length < _size) {
-      return _models = _dataSource.getRange(startIndex, endIndex).toList();
-    }
-
-    if(startIndex > oldStartIndex) {
-      final diff = startIndex - oldStartIndex;
-      _models.removeRange(0, diff);
-      final models = _dataSource.getRange(oldEndIndex, endIndex);
-      _models.addAll(models);
-      return _models;
-    }
-
-    if(startIndex < oldStartIndex) {
-      final diff = oldStartIndex - startIndex;
-      _models.removeRange(_models.length - diff, _models.length);
-      final models = _dataSource.getRange(startIndex, oldStartIndex);
-      _models.insertAll(0, models);
-      return _models;
-    }
-
-    return _models = _dataSource.getRange(startIndex, endIndex).toList();
+  void setViewport(int start, int end) {
+    _start = start;
+    _end = end;
+    _models = _listView.getRange(start, end).toList();
   }
 
-  Iterable<TaskListViewModel> refresh() {
-    final end = _start + _size;
-    final len = _dataSource.length;
-    final endIndex = end > len ? len : end;
-
-    return _models = _dataSource.getRange(_start, endIndex).toList();
+  void takeFrontWhile(bool test(TaskListModelBase model)) {
+    final range = _listView.takeWhileFrom(_end, Direction.Forward, test);
+    final oldLen = _models.length;
+    _models.addAll(range);
+    _end += (_models.length - oldLen);
   }
 
-  int getIndexOfModel(TaskListModelBase model) {
-    final viewportIndex = _models.takeWhile((vm) => vm.model != model).length;
+  void takeBackWhile(bool test(TaskListModelBase model)) {
+    final range = _listView.takeWhileFrom(_start - 1, Direction.Backward, test).toList();
+    _models.insertAll(0, range.reversed);
+    _start -= range.length;
+  }
 
-    return _start + viewportIndex;
+  void removeFrontWhile(bool test(TaskListModelBase model)) {
+
+  }
+
+  void removeBackWhile(bool test(TaskListModelBase model)) {
+
   }
 }

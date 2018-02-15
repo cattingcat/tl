@@ -56,4 +56,31 @@ class ListViewImpl implements ListView {
     return _models.indexOf(model);
   }
 
+  @override
+  Iterable<TaskListModelBase> takeWhileFrom(int index, Direction direction, bool test(TaskListModelBase model)) sync* {
+    if(direction == Direction.Forward) {
+      for(int i = index; i < _models.length; ++i) {
+        final model = _models[i];
+        if(test(model)) {
+          yield model;
+        } else {
+          break;
+        }
+      }
+
+    } else if(direction == Direction.Backward) {
+      for(int i = index; i > 0; --i) {
+        final model = _models[i];
+        if(test(model)) {
+          yield model;
+        } else {
+          break;
+        }
+      }
+
+    } else {
+      assert(false, 'Incorrect direction');
+      yield* const Iterable<TaskListModelBase>.empty();
+    }
+  }
 }

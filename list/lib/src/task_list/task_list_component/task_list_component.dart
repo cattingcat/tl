@@ -10,7 +10,7 @@ import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/card_type.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_view_models.dart';
 import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
@@ -27,8 +27,6 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListComponent implements AfterViewInit, OnChanges {
-  static const int _taskBatchSize = 40;
-
   final _subscr = new Subscriptions();
   final _toggleCtrl = new StreamController<ToggleTaskListCardEvent>(sync: true);
 
@@ -38,7 +36,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
-  ViewportModels _viewportModels;
+  ViewportViewModels _viewportViewModels;
   ViewModelDataSource _dataSource;
 
   @Input() ListView dataSource;
@@ -52,7 +50,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   TaskListComponent(this._ngZone, this._hostElement, this._cdr);
 
 
-  Iterable<TaskListViewModel> get models => _viewportModels.viewModels;
+  Iterable<TaskListViewModel> get models => _viewportViewModels.viewModels;
 
   bool get isDefaultCard => cardType == CardType.Default;
 
@@ -61,7 +59,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   void onToggle(ToggleCardEvent event) {
     final model = event.model;
-    final cardIndex = _viewportModels.getIndexOfModel(model);
+    final cardIndex = _viewportViewModels.getIndexOfModel(model);
     final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
 
     _toggleCtrl.add(listEvent);
@@ -94,10 +92,13 @@ class TaskListComponent implements AfterViewInit, OnChanges {
           ..listen(ds.onUpdate, _onUpdate);
       });
 
-      _viewportModels = new ViewportModels(_taskBatchSize, _dataSource);
-      _viewportModels.setViewportStart(0);
+      // TODO: make viewport models provider
+      //final viewportModels = new ViewportModels(ds);
 
-      _viewportElement.setup(cardType, _taskBatchSize);
+      _viewportViewModels = new ViewportViewModels(40, _dataSource);
+      _viewportViewModels.setViewportStart(0);
+
+      _viewportElement.setup(cardType, 40);
       _scrollWrapper.setup(_dataSource, card);
 
 
@@ -137,7 +138,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
 
     _viewportElement.offset = vpAnchor;
-    _viewportModels.setViewportStart(vpModelIndex);
+    _viewportViewModels.setViewportStart(vpModelIndex);
 
     _cdr.markForCheck();
     _cdr.detectChanges();
@@ -159,7 +160,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     // TODO: actualize scroll
 
-    _viewportModels.refresh();
+    _viewportViewModels.refresh();
     _cdr.markForCheck();
     _cdr.detectChanges();
 
@@ -176,7 +177,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     // TODO: actualize scroll
 
-    _viewportModels.refresh();
+    _viewportViewModels.refresh();
     _cdr.markForCheck();
     _cdr.detectChanges();
 

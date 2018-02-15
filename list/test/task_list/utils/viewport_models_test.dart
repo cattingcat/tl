@@ -1,6 +1,6 @@
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_view_models.dart';
 import 'package:list/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
@@ -45,7 +45,7 @@ void main() {
   group('ViewportModels core tests', () {
     test('Get models from very beggining', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(0);
 
@@ -55,7 +55,7 @@ void main() {
 
     test('Get models from middle', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(20);
 
@@ -66,7 +66,7 @@ void main() {
 
     test('Get models from end', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(45);
 
@@ -76,7 +76,7 @@ void main() {
 
     test('Get models from end with overflow', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(47);
 
@@ -87,7 +87,7 @@ void main() {
     test('#refresh() should reload all view-models', () {
       final models = createVmList(15);
       final ds = new FromListViewModelDataSource(models);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(5);
 
@@ -108,7 +108,7 @@ void main() {
   group('ViewportModels tests with cache', () {
     test('Get models from very beggining', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(0);
       vpModels.setViewportStart(2);
@@ -119,7 +119,7 @@ void main() {
 
     test('Get models from middle', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(20);
       vpModels.setViewportStart(17);
@@ -130,7 +130,7 @@ void main() {
 
     test('Get models from middle with big difference', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(20);
       vpModels.setViewportStart(10);
@@ -141,7 +141,7 @@ void main() {
 
     test('Get models from middle with big difference', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(5, ds);
+      final vpModels = new ViewportViewModels(5, ds);
 
       vpModels.setViewportStart(20);
       vpModels.setViewportStart(16);
@@ -152,7 +152,7 @@ void main() {
 
     test('Get models from end with overflow', () {
       final ds = createDs(50);
-      final vpModels = new ViewportModels(10, ds);
+      final vpModels = new ViewportViewModels(10, ds);
 
       vpModels.setViewportStart(45);
 
@@ -180,7 +180,7 @@ void main() {
       viewModels.insert(25, viewModel);
 
       final ds = new FromListViewModelDataSource(viewModels);
-      final vpModels = new ViewportModels(23, ds);
+      final vpModels = new ViewportViewModels(23, ds);
 
       vpModels.setViewportStart(23);
 
