@@ -32,10 +32,30 @@ class ViewportModels {
   }
 
   void removeFrontWhile(bool test(TaskListModelBase model)) {
-
+    for(int i = _models.length - 1; i > 0; --i) {
+      final model = _models[i];
+      if(test(model)) {
+        _models.removeLast();
+        --_end;
+      } else {
+        break;
+      }
+    }
   }
 
   void removeBackWhile(bool test(TaskListModelBase model)) {
+    int removeCount = 0;
+    for(int i = 0; i < _models.length; ++i) {
+      final model = _models[i];
+      if(test(model)) {
+        ++_start;
+        ++removeCount;
+      } else {
+        break;
+      }
+    }
+
+    _models.removeRange(0, removeCount);
 
   }
 }
