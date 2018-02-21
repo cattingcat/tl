@@ -11,7 +11,7 @@ class ViewModelStub implements TaskListViewModel {
   @override final TaskListModelBase model;
   final String text;
 
-  ViewModelStub(this.text, {this.model = null});
+  ViewModelStub(this.text, {this.model});
 
   @override bool get isFolder => false;
   @override bool get isGroup => false;

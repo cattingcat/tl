@@ -1,5 +1,6 @@
 import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/models/model_type.dart';
+import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/folder_card_model.dart';
 import 'package:list/src/task_list/view_models/group_card_model.dart';
@@ -19,6 +20,11 @@ class TreeViewModelDataSource implements ViewModelDataSource {
   Iterable<TaskListViewModel> getRange(int start, int end) {
     final models = _view.getRange(start, end);
 
+    return map(models).toList();
+  }
+
+  @override
+  Iterable<TaskListViewModel> map(Iterable<TaskListModelBase> models) {
     return models.map((i) {
       switch(i.type) {
         case ModelType.Task:
@@ -35,4 +41,5 @@ class TreeViewModelDataSource implements ViewModelDataSource {
       }
     });
   }
+
 }

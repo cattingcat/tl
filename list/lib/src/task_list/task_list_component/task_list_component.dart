@@ -42,7 +42,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   ViewportViewModels _viewportViewModels;
   ViewModelDataSource _dataSource;
 
-  int _spaceSize = 200; // Space before/after viewport
+  final int _spaceSize = 200; // Space before/after viewport
   ViewportModels _viewportModels;
 
   @Input() ListView dataSource;
@@ -56,7 +56,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   TaskListComponent(this._ngZone, this._hostElement, this._cdr);
 
 
-  Iterable<TaskListViewModel> get models => _viewportViewModels.viewModels;
+  //Iterable<TaskListViewModel> get models => _viewportViewModels.viewModels;
+  Iterable<TaskListViewModel> models;
 
   bool get isDefaultCard => cardType == CardType.Default;
 
@@ -130,16 +131,20 @@ class TaskListComponent implements AfterViewInit, OnChanges {
       return height > 0;
     });
 
-    print(_viewportModels.models);
+    final viewModels = _dataSource.map(_viewportModels.models);
+    models = viewModels;
+
+    _cdr.markForCheck();
+    _cdr.detectChanges();
   }
 
 
-  _ScrollInfo _getIndexByScroll(int scrollPx) {
-    final index = (scrollPx / cardType.taskCardHeight).floor();
-    final rest = scrollPx % cardType.taskCardHeight;
-
-    return new _ScrollInfo(index, rest);
-  }
+//  _ScrollInfo _getIndexByScroll(int scrollPx) {
+//    final index = (scrollPx / cardType.taskCardHeight).floor();
+//    final rest = scrollPx % cardType.taskCardHeight;
+//
+//    return new _ScrollInfo(index, rest);
+//  }
 
   int _viewportStart = 0;
   void _handleScrollEvent(Event e) {
@@ -151,20 +156,78 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
 
 
-    if(diffAbs > _spaceSize) {
+    if(scrollDiff > _spaceSize * 2
+        || scrollDiff < -_spaceSize
+        || scrollTop == 0
+        || scrollTop == _scrollWrapper.height - _hostElement.clientHeight) {
+
       print(diffAbs);
-      _viewportStart = scrollTop;
+
+
 
       if(scrollDiff > 0) {
-//        _viewportModels.takeFrontWhile(accumulateWhile);
-//        accumulator = 0;
-//        _viewportModels.removeBackWhile(accumulateWhile);
-//        _viewportStart += accumulator;
+        // need additional space before/after viewport
+        final spaceToFill = diffAbs - _spaceSize;
+
+        int takeAcc = 0;
+        _viewportModels.takeFrontWhile((model) {
+          if(takeAcc < spaceToFill) {
+            takeAcc += _getModelHeight(model);
+            return true;
+          }
+
+          return false;
+        });
+
+
+        int removeAcc = 0;
+        _viewportModels.removeBackWhile((model) {
+          if(removeAcc < spaceToFill) {
+            removeAcc += _getModelHeight(model);
+            return true;
+          }
+
+          return false;
+        });
+
+        _viewportStart += removeAcc;
+
 
       } else {
+        // need additional space before/after viewport
+        final spaceToFill = diffAbs - _spaceSize;
 
+        int takeAcc = 0;
+        _viewportModels.takeBackWhile((model) {
+          if(takeAcc < spaceToFill) {
+            takeAcc += _getModelHeight(model);
+            return true;
+          }
+
+          return false;
+        });
+
+
+        int removeAcc = 0;
+        _viewportModels.removeFrontWhile((model) {
+          if(removeAcc < spaceToFill) {
+            removeAcc += _getModelHeight(model);
+            return true;
+          }
+
+          return false;
+        });
+
+        _viewportStart -= takeAcc;
       }
 
+      _viewportElement.offset = _viewportStart;
+
+      final viewModels = _dataSource.map(_viewportModels.models);
+      models = viewModels;
+
+      _cdr.markForCheck();
+      _cdr.detectChanges();
     }
 
 
@@ -200,17 +263,17 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 //    }
 
 
-    final scrollInfo = _getIndexByScroll(scrollTop);
-
-    final vpAnchor = scrollTop - scrollInfo.rest;
-    final vpModelIndex = scrollInfo.index;
-    //print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
-
-    _viewportElement.offset = vpAnchor;
-    _viewportViewModels.setViewportStart(vpModelIndex);
-
-    _cdr.markForCheck();
-    _cdr.detectChanges();
+//    final scrollInfo = _getIndexByScroll(scrollTop);
+//
+//    final vpAnchor = scrollTop - scrollInfo.rest;
+//    final vpModelIndex = scrollInfo.index;
+//    //print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
+//
+//    _viewportElement.offset = vpAnchor;
+//    _viewportViewModels.setViewportStart(vpModelIndex);
+//
+//    _cdr.markForCheck();
+//    _cdr.detectChanges();
   }
 
   void _init() {

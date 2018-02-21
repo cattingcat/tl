@@ -25,7 +25,7 @@ abstract class ListView {
   /// Returns index of model
   int indexOf(TaskListModelBase model);
 
-  /// Take list items from some [index] until [f] returns true
+  /// Take list items from some [index] until [test] returns true
   Iterable<TaskListModelBase> takeWhileFrom(int index, Direction direction, bool test(TaskListModelBase model));
 }
 
