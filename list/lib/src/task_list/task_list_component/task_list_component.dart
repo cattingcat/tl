@@ -9,7 +9,10 @@ import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/models/model_type.dart';
+import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:list/src/task_list/task_list_component/utils/viewport_view_models.dart';
 import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
 import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
@@ -17,7 +20,7 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
   selector: 'task-list',
-  styleUrls: const <String>['task_list_component.scss.css'],
+  styleUrls: const <String>['task_list_component.css'],
   templateUrl: 'task_list_component.html',
   directives: const <Object>[
     CORE_DIRECTIVES,
@@ -38,6 +41,9 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   _ScrollWrapperElement _scrollWrapper;
   ViewportViewModels _viewportViewModels;
   ViewModelDataSource _dataSource;
+
+  int _spaceSize = 200; // Space before/after viewport
+  ViewportModels _viewportModels;
 
   @Input() ListView dataSource;
   @Input() CardType cardType = CardType.Default;
@@ -92,8 +98,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
           ..listen(ds.onUpdate, _onUpdate);
       });
 
-      // TODO: make viewport models provider
-      //final viewportModels = new ViewportModels(ds);
+      _viewportModels = new ViewportModels(ds);
 
       _viewportViewModels = new ViewportViewModels(40, _dataSource);
       _viewportViewModels.setViewportStart(0);
@@ -116,6 +121,16 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   void ngAfterViewInit() {
     // It is out of NgZone, see assert in callback
     _hostElement.addEventListener('scroll', _handleScrollEvent);
+
+    print('host h: ${_hostElement.clientHeight}');
+
+    int height = _hostElement.clientHeight + _spaceSize * 2;
+    _viewportModels.takeFrontWhile((model) {
+      height -= _getModelHeight(model);
+      return height > 0;
+    });
+
+    print(_viewportModels.models);
   }
 
 
@@ -126,16 +141,70 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     return new _ScrollInfo(index, rest);
   }
 
+  int _viewportStart = 0;
   void _handleScrollEvent(Event e) {
     NgZone.assertNotInAngularZone();
 
     final scrollTop = _hostElement.scrollTop;
 
+    final scrollDiff = scrollTop - _viewportStart;
+    final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
+
+
+    if(diffAbs > _spaceSize) {
+      print(diffAbs);
+      _viewportStart = scrollTop;
+
+      if(scrollDiff > 0) {
+//        _viewportModels.takeFrontWhile(accumulateWhile);
+//        accumulator = 0;
+//        _viewportModels.removeBackWhile(accumulateWhile);
+//        _viewportStart += accumulator;
+
+      } else {
+
+      }
+
+    }
+
+
+
+//    if((diffAbs - _spaceSize).abs() > 2 * _spaceSize ) {
+//
+//      int accumulator = 0;
+//      bool accumulateWhile(TaskListModelBase model) {
+//        if(accumulator < diffAbs - _spaceSize) {
+//          accumulator += _getModelHeight(model);
+//          return true;
+//        }
+//
+//        return false;
+//      }
+//
+//      // scroll from top to bottom
+//      if(checkpointDiff > 0) {
+//        _viewportModels.takeFrontWhile(accumulateWhile);
+//        accumulator = 0;
+//        _viewportModels.removeBackWhile(accumulateWhile);
+//        _viewportStart += accumulator;
+//
+//      } else {
+//        _viewportModels.takeBackWhile(accumulateWhile);
+//        _viewportStart -= accumulator;
+//        accumulator = 0;
+//        _viewportModels.removeFrontWhile(accumulateWhile);
+//      }
+//
+//      print('Scroll: new viewport start: $_viewportStart');
+//      print(_viewportModels.models.join('\n'));
+//    }
+
+
     final scrollInfo = _getIndexByScroll(scrollTop);
 
     final vpAnchor = scrollTop - scrollInfo.rest;
     final vpModelIndex = scrollInfo.index;
-    print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
+    //print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
 
     _viewportElement.offset = vpAnchor;
     _viewportViewModels.setViewportStart(vpModelIndex);
@@ -188,6 +257,15 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     NgZone.assertNotInAngularZone();
 
     print(event);
+  }
+
+  int _getModelHeight(TaskListModelBase model) {
+    switch(model.type) {
+      case ModelType.Task: return cardType.taskCardHeight;
+      case ModelType.Folder: return cardType.folderCardHeight;
+      case ModelType.Group: return cardType.groupCardHeight;
+      default: return null;
+    }
   }
 }
 

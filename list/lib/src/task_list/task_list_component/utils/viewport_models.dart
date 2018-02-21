@@ -3,7 +3,7 @@ import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 class ViewportModels {
   final ListView _listView;
-  List<TaskListModelBase> _models;
+  List<TaskListModelBase> _models = new List<TaskListModelBase>();
   int _start = 0;
   int _end = 0;
 

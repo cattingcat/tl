@@ -1,45 +1,23 @@
 name: list
-description: A web app that uses AngularDart Components
+description: List
 version: 0.0.1
-#homepage: https://www.example.com
-#author: mark.martynov@team.wrike.com <email@example.com>
 
 environment:
-  sdk: '>=2.0.0-dev.20.0 <2.0.0'
+  sdk: '>=2.0.0-dev.28.0 <2.0.0'
 
 dependencies:
-  angular: 5.0.0-alpha+4
-#  angular_components: 0.9.0-alpha+2
-#  angular_forms: 1.0.1-alpha+2
+  angular: 5.0.0-alpha+5
   browser: ^0.10.0
   dart_to_js_script_rewriter: ^1.0.1
-  sass_builder: ^1.1.0
-dependency_overrides:
-  # Necessary with angular: 5.0.0-alpha+1 dependency.
-  analyzer: ^0.31.0-alpha.1
-
+  sass_builder: ^1.1.2
 
 dev_dependencies:
   #angular_test: ^1.0.0
   test: ^0.12.0
   mockito: ^3.0.0-alpha
+  build_runner: ^0.7.10
+  build_web_compilers: ^0.3.0
 
-
-transformers:
-- sass_builder:
-    outputExtension: .scss.css
-- angular:
-    entry_points: web/main.dart
-#      - test/**_test.dart
-#- test/pub_serve:
-#    $include: test/**_test.dart
-- $dart2js:
-    commandLineOptions: [--trust-type-annotations, --trust-primitives, --show-package-warnings, --dump-info]
-- dart_to_js_script_rewriter
-
-
-# Uncomment the following in sdk 1.24+ to make pub serve
-# use dartdevc (webdev.dartlang.org/tools/dartdevc).
-web:
-  compiler:
-    debug: dartdevc
+dependency_overrides:
+  # Necessary with angular: 5.0.0-alpha+ dependency.
+  analyzer: ^0.31.0-alpha.1

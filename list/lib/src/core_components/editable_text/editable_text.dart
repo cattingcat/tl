@@ -5,7 +5,7 @@ import 'package:list/src/core_components/editable_text/text_model.dart';
 
 @Component(
     selector: 'editable-text',
-    styleUrls: const <String>['editable_text.scss.css'],
+    styleUrls: const <String>['editable_text.css'],
     templateUrl: 'editable_text.html',
     directives: CORE_DIRECTIVES,
     changeDetection: ChangeDetectionStrategy.OnPush

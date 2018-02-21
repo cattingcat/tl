@@ -9,7 +9,7 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
   selector: 'narrow-task-card',
-  styleUrls: const <String>['narrow_task_card.scss.css'],
+  styleUrls: const <String>['narrow_task_card.css'],
   templateUrl: 'narrow_task_card.html',
   directives: const <Object>[
     CORE_DIRECTIVES,
