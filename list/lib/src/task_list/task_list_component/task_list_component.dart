@@ -152,65 +152,70 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     final scrollTop = _hostElement.scrollTop;
 
-    final scrollDiff = scrollTop - _viewportStart;
+    final targetViewportH = _hostElement.clientHeight + 2 * _spaceSize;
+    final targetViewportStart = (scrollTop - _spaceSize).clamp(0, _scrollWrapper.height);
+    final targetWiewportEnd = targetViewportStart + targetViewportH;
+
+    final scrollDiff = targetViewportStart - _viewportStart;
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
 
 
-    if(scrollDiff > _spaceSize * 2
-        || scrollDiff < -_spaceSize
+    if(diffAbs.abs() >= _spaceSize
         || scrollTop == 0
         || scrollTop == _scrollWrapper.height - _hostElement.clientHeight) {
 
-      print(diffAbs);
-
-
+      print('Need re-render with diff: $scrollDiff');
 
       if(scrollDiff > 0) {
-        // need additional space before/after viewport
-        final spaceToFill = diffAbs - _spaceSize;
 
         int takeAcc = 0;
         _viewportModels.takeFrontWhile((model) {
-          if(takeAcc < spaceToFill) {
-            takeAcc += _getModelHeight(model);
+          final modelH = _getModelHeight(model);
+          if(takeAcc < diffAbs) {
+            takeAcc += modelH;
             return true;
           }
 
           return false;
         });
 
+        final currentViewportH = _viewportModels.models.map(_getModelHeight).reduce((a, b) => a + b);
 
-        int removeAcc = 0;
-        _viewportModels.removeBackWhile((model) {
-          if(removeAcc < spaceToFill) {
-            removeAcc += _getModelHeight(model);
-            return true;
-          }
+        if(currentViewportH > targetViewportH) {
+          int toRemove = currentViewportH - targetViewportH;
+          int actualRemoved = 0;
+          _viewportModels.removeBackWhile((model) {
+            final modelH = _getModelHeight(model);
+            if(toRemove > 0) {
+              toRemove -= modelH;
+              actualRemoved += modelH;
+              return true;
+            }
 
-          return false;
-        });
+            return false;
+          });
 
-        _viewportStart += removeAcc;
+          _viewportStart += actualRemoved;
 
+        } else {
+          print('!!!!!!1111 arr, add back when scroll to bottom');
+        }
 
       } else {
-        // need additional space before/after viewport
-        final spaceToFill = diffAbs - _spaceSize;
-
         int takeAcc = 0;
         _viewportModels.takeBackWhile((model) {
-          if(takeAcc < spaceToFill) {
-            takeAcc += _getModelHeight(model);
+          final modelH = _getModelHeight(model);
+          if(takeAcc < diffAbs) {
+            takeAcc += modelH;
             return true;
           }
 
           return false;
         });
-
 
         int removeAcc = 0;
         _viewportModels.removeFrontWhile((model) {
-          if(removeAcc < spaceToFill) {
+          if(removeAcc < diffAbs) {
             removeAcc += _getModelHeight(model);
             return true;
           }

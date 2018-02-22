@@ -69,7 +69,7 @@ class ListViewImpl implements ListView {
       }
 
     } else if(direction == Direction.Backward) {
-      for(int i = index; i > 0; --i) {
+      for(int i = index; i >= 0; --i) {
         final model = _models[i];
         if(test(model)) {
           yield model;

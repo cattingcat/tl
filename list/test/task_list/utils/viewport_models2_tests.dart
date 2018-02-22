@@ -156,6 +156,27 @@ void main() {
       expect(strings, orderedEquals(const ['1', '2', '3', '4', '5']));
     });
 
+    test('#takeFrontWhile() from initial state take until start', () {
+      final models = createModels(50);
+      final listView = new ListViewImpl(models);
+      final viewport = new ViewportModels(listView);
+
+      int count = 6;
+      viewport.takeFrontWhile((i) => count-- > 0);
+
+      count = 3;
+      viewport.removeBackWhile((i) => count-- > 0);
+
+      count = 2;
+      viewport.takeBackWhile((i) => count-- > 0);
+
+      count = 2;
+      viewport.takeBackWhile((i) => count-- > 0);
+
+      final strings = viewport.models.map((i) => (i as TaskModel).task as String).toList();
+      expect(strings, orderedEquals(const ['0', '1', '2', '3', '4', '5']));
+    });
+
   });
 
 }
