@@ -50,8 +50,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _toggleCtrl.stream;
 
-  @ViewChild('viewport') ElementRef viewportElRef;
-  @ViewChild('wrapper') ElementRef wrapper;
+  @ViewChild('viewport') Element viewportEl;
+  @ViewChild('wrapper') Element wrapperEl;
 
   TaskListComponent(this._ngZone, this._hostElement, this._cdr);
 
@@ -154,7 +154,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     final targetViewportH = _hostElement.clientHeight + 2 * _spaceSize;
     final targetViewportStart = (scrollTop - _spaceSize).clamp(0, _scrollWrapper.height);
-    final targetWiewportEnd = targetViewportStart + targetViewportH;
+    //final targetWiewportEnd = targetViewportStart + targetViewportH;
 
     final scrollDiff = targetViewportStart - _viewportStart;
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
@@ -282,8 +282,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   }
 
   void _init() {
-    _viewportElement = new _ViewportElement(viewportElRef.nativeElement as Element);
-    _scrollWrapper = new _ScrollWrapperElement(wrapper.nativeElement as Element);
+    _viewportElement = new _ViewportElement(viewportEl);
+    _scrollWrapper = new _ScrollWrapperElement(wrapperEl);
   }
 
 
