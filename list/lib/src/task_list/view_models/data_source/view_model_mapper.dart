@@ -7,23 +7,8 @@ import 'package:list/src/task_list/view_models/group_card_model.dart';
 import 'package:list/src/task_list/view_models/task_card_model.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
-class TreeViewModelDataSource implements ViewModelDataSource {
-  ListView _view;
-
-  TreeViewModelDataSource(this._view);
-
-
-  @override
-  int get length => _view.length;
-
-  @override
-  Iterable<TaskListViewModel> getRange(int start, int end) {
-    final models = _view.getRange(start, end);
-
-    return map(models).toList();
-  }
-
-  @override
+/// Maps model collection to ViewModel collection
+class ViewModelMapper  {
   Iterable<TaskListViewModel> map(Iterable<TaskListModelBase> models) {
     return models.map((i) {
       switch(i.type) {
@@ -41,5 +26,4 @@ class TreeViewModelDataSource implements ViewModelDataSource {
       }
     });
   }
-
 }

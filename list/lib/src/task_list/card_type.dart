@@ -1,3 +1,5 @@
+import 'package:list/src/task_list/models/model_type.dart';
+
 
 /// Describes size map for cards
 class CardType {
@@ -12,4 +14,14 @@ class CardType {
   final int groupCardHeight = 0;
 
   const CardType._(this.taskCardHeight);
+
+
+  int getHeight(ModelType modelType) {
+    switch(modelType) {
+      case ModelType.Task: return taskCardHeight;
+      case ModelType.Folder: return folderCardHeight;
+      case ModelType.Group: return groupCardHeight;
+      default: return null;
+    }
+  }
 }

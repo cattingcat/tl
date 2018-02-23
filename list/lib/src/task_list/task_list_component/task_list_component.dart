@@ -9,13 +9,9 @@ import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/models/model_type.dart';
-import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_view_models.dart';
-import 'package:list/src/task_list/view_models/data_source/tree_view_model_data_source.dart';
-import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
+import 'package:list/src/task_list/view_models/data_source/view_model_mapper.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
@@ -32,6 +28,8 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 class TaskListComponent implements AfterViewInit, OnChanges {
   final _subscr = new Subscriptions();
   final _toggleCtrl = new StreamController<ToggleTaskListCardEvent>(sync: true);
+  final ViewModelMapper _viewModelMapper = new ViewModelMapper();
+  final int _spaceSize = 200; // Space before/after viewport
 
   final NgZone _ngZone;
   final Element _hostElement;
@@ -39,10 +37,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
-  ViewportViewModels _viewportViewModels;
-  ViewModelDataSource _dataSource;
 
-  final int _spaceSize = 200; // Space before/after viewport
   ViewportModels _viewportModels;
 
   @Input() ListView dataSource;
@@ -56,7 +51,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   TaskListComponent(this._ngZone, this._hostElement, this._cdr);
 
 
-  //Iterable<TaskListViewModel> get models => _viewportViewModels.viewModels;
   Iterable<TaskListViewModel> models;
 
   bool get isDefaultCard => cardType == CardType.Default;
@@ -66,7 +60,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   void onToggle(ToggleCardEvent event) {
     final model = event.model;
-    final cardIndex = _viewportViewModels.getIndexOfModel(model);
+    final cardIndex = _viewportModels.getIndexOfModel(model);
     final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
 
     _toggleCtrl.add(listEvent);
@@ -85,12 +79,12 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   @override
   void ngOnChanges(Map<String, SimpleChange> changes) {
     if(changes.containsKey('dataSource')) {
+      _viewportElement = new _ViewportElement(viewportEl);
+      _scrollWrapper = new _ScrollWrapperElement(wrapperEl);
 
-      _init();
       final ds = changes['dataSource'].currentValue as ListView;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
-      _dataSource = new TreeViewModelDataSource(ds);
       _ngZone.runOutsideAngular(() {
         _subscr
           ..cancelClear()
@@ -101,12 +95,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
       _viewportModels = new ViewportModels(ds);
 
-      _viewportViewModels = new ViewportViewModels(40, _dataSource);
-      _viewportViewModels.setViewportStart(0);
-
-      _viewportElement.setup(cardType, 40);
-      _scrollWrapper.setup(_dataSource, card);
-
+      _scrollWrapper.setup(ds, card);
 
       // update scroll position
       _hostElement.scrollTop = 0;
@@ -114,7 +103,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
       final cardType = changes['cardType'].currentValue as CardType;
-      _scrollWrapper.setup(_dataSource, cardType);
+      _scrollWrapper.setup(dataSource, cardType);
     }
   }
 
@@ -127,24 +116,17 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     int height = _hostElement.clientHeight + _spaceSize * 2;
     _viewportModels.takeFrontWhile((model) {
-      height -= _getModelHeight(model);
+      height -= cardType.getHeight(model.type);
       return height > 0;
     });
 
-    final viewModels = _dataSource.map(_viewportModels.models);
+    final viewModels = _viewModelMapper.map(_viewportModels.models);
     models = viewModels;
 
     _cdr.markForCheck();
     _cdr.detectChanges();
   }
 
-
-//  _ScrollInfo _getIndexByScroll(int scrollPx) {
-//    final index = (scrollPx / cardType.taskCardHeight).floor();
-//    final rest = scrollPx % cardType.taskCardHeight;
-//
-//    return new _ScrollInfo(index, rest);
-//  }
 
   int _viewportStart = 0;
   void _handleScrollEvent(Event e) {
@@ -170,7 +152,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
         int takeAcc = 0;
         _viewportModels.takeFrontWhile((model) {
-          final modelH = _getModelHeight(model);
+          final modelH = cardType.getHeight(model.type);
           if(takeAcc < diffAbs) {
             takeAcc += modelH;
             return true;
@@ -179,13 +161,15 @@ class TaskListComponent implements AfterViewInit, OnChanges {
           return false;
         });
 
-        final currentViewportH = _viewportModels.models.map(_getModelHeight).reduce((a, b) => a + b);
+        final currentViewportH = _viewportModels.models
+            .map((i) => cardType.getHeight(i.type))
+            .reduce((a, b) => a + b);
 
         if(currentViewportH > targetViewportH) {
           int toRemove = currentViewportH - targetViewportH;
           int actualRemoved = 0;
           _viewportModels.removeBackWhile((model) {
-            final modelH = _getModelHeight(model);
+            final modelH = cardType.getHeight(model.type);
             if(toRemove > 0) {
               toRemove -= modelH;
               actualRemoved += modelH;
@@ -204,7 +188,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
       } else {
         int takeAcc = 0;
         _viewportModels.takeBackWhile((model) {
-          final modelH = _getModelHeight(model);
+          final modelH = cardType.getHeight(model.type);
           if(takeAcc < diffAbs) {
             takeAcc += modelH;
             return true;
@@ -216,7 +200,7 @@ class TaskListComponent implements AfterViewInit, OnChanges {
         int removeAcc = 0;
         _viewportModels.removeFrontWhile((model) {
           if(removeAcc < diffAbs) {
-            removeAcc += _getModelHeight(model);
+            removeAcc += cardType.getHeight(model.type);
             return true;
           }
 
@@ -228,62 +212,12 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
       _viewportElement.offset = _viewportStart;
 
-      final viewModels = _dataSource.map(_viewportModels.models);
+      final viewModels = _viewModelMapper.map(_viewportModels.models);
       models = viewModels;
 
       _cdr.markForCheck();
       _cdr.detectChanges();
     }
-
-
-
-//    if((diffAbs - _spaceSize).abs() > 2 * _spaceSize ) {
-//
-//      int accumulator = 0;
-//      bool accumulateWhile(TaskListModelBase model) {
-//        if(accumulator < diffAbs - _spaceSize) {
-//          accumulator += _getModelHeight(model);
-//          return true;
-//        }
-//
-//        return false;
-//      }
-//
-//      // scroll from top to bottom
-//      if(checkpointDiff > 0) {
-//        _viewportModels.takeFrontWhile(accumulateWhile);
-//        accumulator = 0;
-//        _viewportModels.removeBackWhile(accumulateWhile);
-//        _viewportStart += accumulator;
-//
-//      } else {
-//        _viewportModels.takeBackWhile(accumulateWhile);
-//        _viewportStart -= accumulator;
-//        accumulator = 0;
-//        _viewportModels.removeFrontWhile(accumulateWhile);
-//      }
-//
-//      print('Scroll: new viewport start: $_viewportStart');
-//      print(_viewportModels.models.join('\n'));
-//    }
-
-
-//    final scrollInfo = _getIndexByScroll(scrollTop);
-//
-//    final vpAnchor = scrollTop - scrollInfo.rest;
-//    final vpModelIndex = scrollInfo.index;
-//    //print('scrollInfo: $scrollInfo, vpAnch: $vpAnchor');
-//
-//    _viewportElement.offset = vpAnchor;
-//    _viewportViewModels.setViewportStart(vpModelIndex);
-//
-//    _cdr.markForCheck();
-//    _cdr.detectChanges();
-  }
-
-  void _init() {
-    _viewportElement = new _ViewportElement(viewportEl);
-    _scrollWrapper = new _ScrollWrapperElement(wrapperEl);
   }
 
 
@@ -297,7 +231,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     // TODO: actualize scroll
 
-    _viewportViewModels.refresh();
     _cdr.markForCheck();
     _cdr.detectChanges();
 
@@ -314,7 +247,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     // TODO: actualize scroll
 
-    _viewportViewModels.refresh();
     _cdr.markForCheck();
     _cdr.detectChanges();
 
@@ -326,31 +258,14 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
     print(event);
   }
-
-  int _getModelHeight(TaskListModelBase model) {
-    switch(model.type) {
-      case ModelType.Task: return cardType.taskCardHeight;
-      case ModelType.Folder: return cardType.folderCardHeight;
-      case ModelType.Group: return cardType.groupCardHeight;
-      default: return null;
-    }
-  }
 }
 
 class _ViewportElement {
   final Element _viewportElement;
   int _offset = 0;
-  int _h = 0;
 
   _ViewportElement(this._viewportElement);
 
-
-  void setup(CardType cardType, int tasksInVp) {
-    _h = cardType.taskCardHeight * tasksInVp;
-    offset = 0;
-  }
-
-  int get height => _h;
 
   int get offset => _offset;
 
@@ -373,18 +288,9 @@ class _ScrollWrapperElement {
     _scrollWrapper.style.height = '${_h}px';
   }
 
-  void setup(ViewModelDataSource dataSource, CardType cardType) {
-    _h = dataSource.length * cardType.taskCardHeight;
+  void setup(ListView dataSource, CardType cardType) {
+    final h = dataSource.models.map((i) => cardType.getHeight(i.type)).reduce((a, b) => a + b);
+    _h = h;
     _scrollWrapper.style.height = '${_h}px';
   }
-}
-
-class _ScrollInfo {
-  final int index;
-  final int rest;
-
-  _ScrollInfo(this.index, this.rest);
-
-  @override
-  String toString() => '$index + $rest px';
 }

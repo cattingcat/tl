@@ -58,4 +58,8 @@ class ViewportModels {
     _models.removeRange(0, removeCount);
 
   }
+
+  int getIndexOfModel(TaskListModelBase model) {
+    return _models.indexOf(model) + _start;
+  }
 }
