@@ -1,43 +1,12 @@
 <div #wrapper
-     class="viewport-wrapper">
+     class="scroll-wrapper">
 
     <div #viewport
          class="viewport">
 
-        <div *ngIf="sublist != null">
-            <sublist
-                [model]="sublist"
-                [cardType]="cardType"></sublist>
-        </div>
-        <!-- ng-container prevents wrapping -->
-        <!--<ng-container *ngIf="isDefaultCard">
-            <ng-container
-                    *ngFor="let model of models; trackBy: trackFunction">
-
-                <default-task-card
-                    [model]="model"
-                    (toggle)="onToggle($event)"
-                    (titleChange)="onTitleChange($event)"></default-task-card>
-
-            </ng-container>
-        </ng-container>
-
-        <ng-container *ngIf="isNarrowCard">
-            <ng-container
-                    *ngFor="let model of models; trackBy: trackFunction">
-
-                <narrow-task-card
-                        [model]="model"
-                        (toggle)="onToggle($event)"
-                        (titleChange)="onTitleChange($event)"></narrow-task-card>
-
-            </ng-container>
-        </ng-container>-->
-
-
-        <!--<div class="item"-->
-             <!--*ngFor="let model of models; trackBy: trackFunction">-->
-            <!--<task-card [model]="model"></task-card>-->
-        <!--</div>-->
+        <sublist
+            *ngIf="sublist != null"
+            [model]="sublist"
+            [cardType]="cardType"></sublist>
     </div>
 </div>

@@ -85,6 +85,8 @@ class ViewModelMapper  {
     final rootSvm = new MutableSublistViewModel(null, false)
       ..sublist.add(rootSublist);
 
+    modelsMap[null] = rootSvm;
+
     return new BuildResult(rootSvm, modelsMap);
   }
 }

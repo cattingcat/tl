@@ -8,7 +8,7 @@ import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 
 @Component(
     selector: 'sublist',
-    //styleUrls: const <String>['task_list_component.css'],
+    styleUrls: const <String>['sublist_component.css'],
     templateUrl: 'sublist_component.html',
     directives: const <Object>[
       CORE_DIRECTIVES,
@@ -20,7 +20,7 @@ import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 )
 class SublistComponent {
   @Input() SublistViewModel model;
-  @Input() CardType cardType = CardType.Default;
+  @Input() CardType cardType;
 
 
   bool get isDefaultCard => cardType == CardType.Default;

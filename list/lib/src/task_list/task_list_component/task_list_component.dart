@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/common/subscriptions.dart';
-import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
-import 'package:list/src/task_list/card_components/narrow/task/narrow_task_card.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
@@ -14,7 +12,6 @@ import 'package:list/src/task_list/task_list_component/events/toggle_task_list_c
 import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:list/src/task_list/task_list_component/utils/view_model_mapper.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
   selector: 'task-list',
@@ -22,8 +19,6 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   templateUrl: 'task_list_component.html',
   directives: const <Object>[
     CORE_DIRECTIVES,
-    DefaultTaskCard,
-    NarrowTaskCard,
     SublistComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -56,12 +51,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   SublistViewModel sublist;
 
-  Iterable<TaskListViewModel> models;
-
-  bool get isDefaultCard => cardType == CardType.Default;
-
-  bool get isNarrowCard => cardType == CardType.Narrow;
-
 
   void onToggle(ToggleCardEvent event) {
     final model = event.model;
@@ -73,11 +62,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   void onTitleChange(TitleChangeCardEvent event) {
     print('title changed: ${event.model}');
-  }
-
-
-  int trackFunction(int index, TaskListViewModel model) {
-    return model.hashCode;
   }
 
 
@@ -125,7 +109,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
       return height > 0;
     });
 
-    models = _viewModelMapper.map(_viewportModels.models);
     sublist = _viewModelMapper.map2(_viewportModels.models);
 
     _cdr.markForCheck();
@@ -217,7 +200,6 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
       _viewportElement.offset = _viewportStart;
 
-      models = _viewModelMapper.map(_viewportModels.models);
       sublist = _viewModelMapper.map2(_viewportModels.models);
 
       _cdr.markForCheck();

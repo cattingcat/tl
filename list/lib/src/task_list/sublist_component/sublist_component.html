@@ -1,21 +1,16 @@
 <div>
-    <ng-container *ngIf="isDefaultCard && model.model != null">
-        <default-task-card
-                [model]="model.model"></default-task-card>
-    </ng-container>
+    <default-task-card
+            *ngIf="isDefaultCard && model.model != null"
+            [model]="model.model"></default-task-card>
 
-    <ng-container *ngIf="isNarrowCard && model.model != null">
-        <narrow-task-card
-                [model]="model.model"></narrow-task-card>
-    </ng-container>
+    <narrow-task-card
+            *ngIf="isNarrowCard && model.model != null"
+            [model]="model.model"></narrow-task-card>
 
-    <div>
-        <ng-container
-                *ngFor="let m of model.sublist">
-
-            <sublist
-                [model]="m"
-                [cardType]="cardType"></sublist>
-        </ng-container>
+    <div class="children">
+        <sublist
+            *ngFor="let m of model.sublist"
+            [model]="m"
+            [cardType]="cardType"></sublist>
     </div>
 </div>
