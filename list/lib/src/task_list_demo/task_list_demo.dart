@@ -28,10 +28,11 @@ class TaskListDemo {
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModelBase>();
-    for(int i = 0; i < 500; ++i) {
+    for(int i = 0; i < 50; ++i) {
       final task = new TaskModel('$i');
+      task.isExpanded = true;
 
-      for(int j = 0; j < 20; ++j) {
+      for(int j = 0; j < 5; ++j) {
         final subTask = new TaskModel('$i ; $j');
         task.addChild(subTask);
       }

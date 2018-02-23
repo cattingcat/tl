@@ -4,8 +4,13 @@
     <div #viewport
          class="viewport">
 
+        <div *ngIf="sublist != null">
+            <sublist
+                [model]="sublist"
+                [cardType]="cardType"></sublist>
+        </div>
         <!-- ng-container prevents wrapping -->
-        <ng-container *ngIf="isDefaultCard">
+        <!--<ng-container *ngIf="isDefaultCard">
             <ng-container
                     *ngFor="let model of models; trackBy: trackFunction">
 
@@ -27,7 +32,7 @@
                         (titleChange)="onTitleChange($event)"></narrow-task-card>
 
             </ng-container>
-        </ng-container>
+        </ng-container>-->
 
 
         <!--<div class="item"-->

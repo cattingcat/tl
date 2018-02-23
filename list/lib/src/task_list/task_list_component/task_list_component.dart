@@ -9,9 +9,11 @@ import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/sublist_component/sublist_component.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
-import 'package:list/src/task_list/view_models/data_source/view_model_mapper.dart';
+import 'package:list/src/task_list/task_list_component/utils/view_model_mapper.dart';
+import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 @Component(
@@ -21,7 +23,8 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   directives: const <Object>[
     CORE_DIRECTIVES,
     DefaultTaskCard,
-    NarrowTaskCard
+    NarrowTaskCard,
+    SublistComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -50,6 +53,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
   TaskListComponent(this._ngZone, this._hostElement, this._cdr);
 
+
+  SublistViewModel sublist;
 
   Iterable<TaskListViewModel> models;
 
@@ -120,8 +125,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
       return height > 0;
     });
 
-    final viewModels = _viewModelMapper.map(_viewportModels.models);
-    models = viewModels;
+    models = _viewModelMapper.map(_viewportModels.models);
+    sublist = _viewModelMapper.map2(_viewportModels.models);
 
     _cdr.markForCheck();
     _cdr.detectChanges();
@@ -212,8 +217,8 @@ class TaskListComponent implements AfterViewInit, OnChanges {
 
       _viewportElement.offset = _viewportStart;
 
-      final viewModels = _viewModelMapper.map(_viewportModels.models);
-      models = viewModels;
+      models = _viewModelMapper.map(_viewportModels.models);
+      sublist = _viewModelMapper.map2(_viewportModels.models);
 
       _cdr.markForCheck();
       _cdr.detectChanges();
