@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/common/subscriptions.dart';
+import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
@@ -23,7 +24,7 @@ import 'package:list/src/task_list/view_models/sublist_view_model.dart';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
-class TaskListComponent implements AfterViewInit, OnChanges {
+class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   final _subscr = new Subscriptions();
   final _toggleCtrl = new StreamController<ToggleTaskListCardEvent>(sync: true);
   final ViewModelMapper _viewModelMapper = new ViewModelMapper();
@@ -49,10 +50,15 @@ class TaskListComponent implements AfterViewInit, OnChanges {
   TaskListComponent(this._ngZone, this._hostElement, this._cdr);
 
 
+  TaskCardObserver get observer => this;
+
   SublistViewModel sublist;
 
 
-  void onToggle(ToggleCardEvent event) {
+  // <editor-fold desc="TaskCardObserver">
+
+  @override
+  void toggle(ToggleCardEvent event) {
     final model = event.model;
     final cardIndex = _viewportModels.getIndexOfModel(model);
     final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
@@ -60,9 +66,14 @@ class TaskListComponent implements AfterViewInit, OnChanges {
     _toggleCtrl.add(listEvent);
   }
 
-  void onTitleChange(TitleChangeCardEvent event) {
+  @override
+  void titleChange(TitleChangeCardEvent event) {
     print('title changed: ${event.model}');
   }
+
+  // </editor-fold>
+
+
 
 
   @override

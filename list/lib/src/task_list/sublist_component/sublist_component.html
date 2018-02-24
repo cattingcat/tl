@@ -1,16 +1,19 @@
 <div>
     <default-task-card
             *ngIf="isDefaultCard && model.model != null"
-            [model]="model.model"></default-task-card>
+            [model]="model.model"
+            [observer]="observer"></default-task-card>
 
     <narrow-task-card
             *ngIf="isNarrowCard && model.model != null"
-            [model]="model.model"></narrow-task-card>
+            [model]="model.model"
+            [observer]="observer"></narrow-task-card>
 
     <div class="children">
         <sublist
             *ngFor="let m of model.sublist"
             [model]="m"
-            [cardType]="cardType"></sublist>
+            [cardType]="cardType"
+            [observer]="observer"></sublist>
     </div>
 </div>
