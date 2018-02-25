@@ -1,10 +1,10 @@
 import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
-import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
+import 'package:list/src/task_list/models/tree_view/tree_view.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:list/src/task_list/task_list_component/task_list_component.dart';
 import 'package:list/src/task_list/card_type.dart';
@@ -23,12 +23,12 @@ import 'package:list/src/task_list/card_type.dart';
 class TaskListDemo {
   ModelTreeManager _treeManager;
 
-  ListView listView;
+  TreeView treeView;
   CardType cardType;
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModelBase>();
-    for(int i = 0; i < 50; ++i) {
+    for(int i = 0; i < 500; ++i) {
       final task = new TaskModel('$i');
       task.isExpanded = true;
 
@@ -41,7 +41,7 @@ class TaskListDemo {
     }
     _treeManager = new ModelTreeManager(tree);
 
-    listView = _treeManager.getListView();
+    treeView = _treeManager.getTreeView();
     cardType = CardType.Default;
   }
 

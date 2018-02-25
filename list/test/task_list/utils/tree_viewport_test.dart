@@ -1,7 +1,7 @@
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models2.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:test/test.dart';
 
 
@@ -28,7 +28,7 @@ void main() {
         m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 2;
       viewport.takeFrontWhile((m) => count-- > 0);
@@ -59,7 +59,7 @@ void main() {
         m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 2;
       viewport.takeFrontWhile((m) => count-- > 0);
@@ -94,7 +94,7 @@ void main() {
         m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 2;
       viewport.takeFrontWhile((m) => count-- > 0);
@@ -133,7 +133,7 @@ void main() {
         m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 4;
       viewport.takeFrontWhile((m) => count-- > 0);
@@ -168,7 +168,7 @@ void main() {
         m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 5;
       viewport.takeFrontWhile((m) => count-- > 0);
@@ -208,7 +208,7 @@ void main() {
         m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 6;
       viewport.takeFrontWhile((m) => count-- > 0);
@@ -251,7 +251,7 @@ void main() {
       m1.addChild(m8);
 
 
-      final viewport = new ViewportModels2(tree);
+      final viewport = new ViewportModels(tree);
 
       int count = 6;
       viewport.takeFrontWhile((m) => count-- > 0);

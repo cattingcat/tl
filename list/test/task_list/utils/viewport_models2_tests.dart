@@ -1,6 +1,6 @@
 import 'package:list/src/task_list/models/list_view/list_view_impl.dart';
 import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models_list.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -18,7 +18,7 @@ void main() {
     test('#setViewport() ', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       viewport.setViewport(25, 30);
 
@@ -29,7 +29,7 @@ void main() {
     test('#takeFrontWhile() ', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       viewport.setViewport(25, 30);
       int count = 3;
@@ -42,7 +42,7 @@ void main() {
     test('#takeBackWhile() ', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       viewport.setViewport(25, 30);
       int count = 3;
@@ -55,7 +55,7 @@ void main() {
     test('#removeFrontWhile() ', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       viewport.setViewport(25, 30);
       int count = 3;
@@ -68,7 +68,7 @@ void main() {
     test('#removeBackWhile() ', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       viewport.setViewport(25, 30);
       int count = 3;
@@ -84,7 +84,7 @@ void main() {
     test('#takeFrontWhile() from initial state ', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       int count = 3;
       viewport.takeFrontWhile((i) => count-- > 0);
@@ -96,7 +96,7 @@ void main() {
     test('#takeFrontWhile() from initial state take twice', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       int count = 3;
       viewport.takeFrontWhile((i) => count-- > 0);
@@ -111,7 +111,7 @@ void main() {
     test('#takeFrontWhile() from initial state take 6 items, then remove back 3', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       int count = 6;
       viewport.takeFrontWhile((i) => count-- > 0);
@@ -126,7 +126,7 @@ void main() {
     test('#takeFrontWhile() from initial state take 6, then remove first 3', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       int count = 6;
       viewport.takeFrontWhile((i) => count-- > 0);
@@ -141,7 +141,7 @@ void main() {
     test('#takeFrontWhile() from initial state take twice', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       int count = 6;
       viewport.takeFrontWhile((i) => count-- > 0);
@@ -159,7 +159,7 @@ void main() {
     test('#takeFrontWhile() from initial state take until start', () {
       final models = createModels(50);
       final listView = new ListViewImpl(models, null);
-      final viewport = new ViewportModels(listView);
+      final viewport = new ViewportModelsList(listView);
 
       int count = 6;
       viewport.takeFrontWhile((i) => count-- > 0);

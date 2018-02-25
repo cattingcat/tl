@@ -5,14 +5,14 @@ import 'package:list/src/core_components/common/subscriptions.dart';
 import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
-import 'package:list/src/task_list/models/list_view/events.dart';
-import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/models/tree_view/events.dart';
+import 'package:list/src/task_list/models/tree_view/tree_view.dart';
 import 'package:list/src/task_list/sublist_component/sublist_component.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
+import 'package:list/src/task_list/task_list_component/utils/tree_iterable.dart';
 import 'package:list/src/task_list/task_list_component/utils/view_model_mapper.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models2.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 
 @Component(
@@ -38,9 +38,9 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
 
-  ViewportModels2 _viewportModels;
+  ViewportModels _viewportModels;
 
-  @Input() ListView dataSource;
+  @Input() TreeView dataSource;
   @Input() CardType cardType = CardType.Default;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _toggleCtrl.stream;
@@ -75,15 +75,13 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   // </editor-fold>
 
 
-
-
   @override
   void ngOnChanges(Map<String, SimpleChange> changes) {
     if(changes.containsKey('dataSource')) {
       _viewportElement = new _ViewportElement(viewportEl);
       _scrollWrapper = new _ScrollWrapperElement(wrapperEl);
 
-      final ds = changes['dataSource'].currentValue as ListView;
+      final ds = changes['dataSource'].currentValue as TreeView;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
       _ngZone.runOutsideAngular(() {
@@ -94,7 +92,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
           ..listen(ds.onUpdate, _onUpdate);
       });
 
-      _viewportModels = new ViewportModels2(ds.tree);
+      _viewportModels = new ViewportModels(ds.tree);
 
       _scrollWrapper.setup(ds, card);
 
@@ -220,42 +218,16 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   }
 
 
-  void _onAdd(ListViewAddRemoveEvent event) {
+  void _onAdd(AddTreeEvent event) {
     NgZone.assertNotInAngularZone();
-
-    _scrollWrapper.height +=
-        (event.stats.taskCount * cardType.taskCardHeight) +
-        (event.stats.groupCount * cardType.groupCardHeight) +
-        (event.stats.folderCount * cardType.folderCardHeight);
-
-    // TODO: actualize scroll
-
-    _cdr.markForCheck();
-    _cdr.detectChanges();
-
-    print(event);
   }
 
-  void _onRemove(ListViewAddRemoveEvent event) {
+  void _onRemove(RemoveTreeEvent event) {
     NgZone.assertNotInAngularZone();
-
-    _scrollWrapper.height -=
-        (event.stats.taskCount * cardType.taskCardHeight) +
-        (event.stats.groupCount * cardType.groupCardHeight) +
-        (event.stats.folderCount * cardType.folderCardHeight);
-
-    // TODO: actualize scroll
-
-    _cdr.markForCheck();
-    _cdr.detectChanges();
-
-    print(event);
   }
 
-  void _onUpdate(ListViewEvent event) {
+  void _onUpdate(UpdateTreeEvent event) {
     NgZone.assertNotInAngularZone();
-
-    print(event);
   }
 }
 
@@ -287,8 +259,9 @@ class _ScrollWrapperElement {
     _scrollWrapper.style.height = '${_h}px';
   }
 
-  void setup(ListView dataSource, CardType cardType) {
-    final h = dataSource.models.map((i) => cardType.getHeight(i.type)).reduce((a, b) => a + b);
+  void setup(TreeView dataSource, CardType cardType) {
+    final flatTree = new TreeIterable.forward(dataSource.tree);
+    final h = flatTree.map((i) => cardType.getHeight(i.type)).reduce((a, b) => a + b);
     _h = h;
     _scrollWrapper.style.height = '${_h}px';
   }

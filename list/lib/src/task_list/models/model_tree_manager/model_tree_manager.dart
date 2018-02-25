@@ -4,6 +4,8 @@ import 'package:list/src/task_list/models/list_view/list_view_impl.dart';
 import 'package:list/src/task_list/models/model_tree_manager/sublist_stats.dart';
 import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
+import 'package:list/src/task_list/models/tree_view/tree_view.dart';
+import 'package:list/src/task_list/models/tree_view/tree_view_impl.dart';
 
 class ModelTreeManager {
   final LinkedTree<TaskListModelBase> _tree;
@@ -22,6 +24,9 @@ class ModelTreeManager {
     return _listView = new ListViewImpl(stats.list, tree);
   }
 
+  TreeView getTreeView() {
+    return new TreeViewImpl(_tree);
+  }
 
   void expand(TaskListModelBase model, {int index = -1}) {
     assert(model != null, 'Model shouldnt be null');

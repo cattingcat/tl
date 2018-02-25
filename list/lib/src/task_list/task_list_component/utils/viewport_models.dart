@@ -1,65 +1,78 @@
-import 'package:list/src/task_list/models/list_view/list_view.dart';
+import 'dart:collection';
+
+import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
+import 'package:list/src/task_list/task_list_component/utils/tree_iterable.dart';
 
 class ViewportModels {
-  final ListView _listView;
-  List<TaskListModelBase> _models = new List<TaskListModelBase>();
-  int _start = 0;
-  int _end = 0;
+  final LinkedTree<TaskListModelBase> _tree;
 
-  ViewportModels(this._listView);
+  TaskListModelBase _start, _end;
+  final _models = new Queue<TaskListModelBase>();
+
+  ViewportModels(this._tree);
 
 
   Iterable<TaskListModelBase> get models => _models;
 
-  void setViewport(int start, int end) {
-    _start = start;
-    _end = end;
-    _models = _listView.getRange(start, end).toList();
-  }
-
   void takeFrontWhile(bool test(TaskListModelBase model)) {
-    final range = _listView.takeWhileFrom(_end, Direction.Forward, test);
-    final oldLen = _models.length;
-    _models.addAll(range);
-    _end += (_models.length - oldLen);
+    final treeIterable = new TreeIterable.forward(_tree, _end);
+    final iterable = _end == null ? treeIterable : treeIterable.skip(1);
+
+    for(var model in iterable) {
+      if(test(model)) {
+        _models.addLast(model);
+      } else {
+        break;
+      }
+    }
+
+    _setAnchors();
   }
 
   void takeBackWhile(bool test(TaskListModelBase model)) {
-    final range = _listView.takeWhileFrom(_start - 1, Direction.Backward, test).toList();
-    _models.insertAll(0, range.reversed);
-    _start -= range.length;
+    assert(_start != null, 'call Take front before');
+
+    final iterable = new TreeIterable.backward(_tree, _start).skip(1);
+    for(var model in iterable) {
+      if(test(model)) {
+        _models.addFirst(model);
+      } else {
+        break;
+      }
+    }
+
+    _setAnchors();
   }
 
   void removeFrontWhile(bool test(TaskListModelBase model)) {
-    for(int i = _models.length - 1; i > 0; --i) {
-      final model = _models[i];
-      if(test(model)) {
-        _models.removeLast();
-        --_end;
-      } else {
-        break;
-      }
-    }
+    bool b = true;
+    do {
+      b = test(_models.last);
+      if(b) _models.removeLast();
+    } while(b && _models.isNotEmpty);
+
+    _setAnchors();
   }
 
   void removeBackWhile(bool test(TaskListModelBase model)) {
-    int removeCount = 0;
-    for(int i = 0; i < _models.length; ++i) {
-      final model = _models[i];
-      if(test(model)) {
-        ++_start;
-        ++removeCount;
-      } else {
-        break;
-      }
-    }
+    bool b = true;
+    do {
+      b = test(_models.first);
+      if(b) _models.removeFirst();
+    } while(b && _models.isNotEmpty);
 
-    _models.removeRange(0, removeCount);
-
+    _setAnchors();
   }
 
-  int getIndexOfModel(TaskListModelBase model) {
-    return _models.indexOf(model) + _start;
+
+  void _setAnchors() {
+    if(_models.isEmpty) {
+      _start = _end = null;
+    } else {
+      _start = _models.first;
+      _end = _models.last;
+    }
   }
 }
+
