@@ -19,7 +19,7 @@ class ModelTreeManager {
 
     final stats = _getListViewFor(_tree.children);
 
-    return _listView = new ListViewImpl(stats.list);
+    return _listView = new ListViewImpl(stats.list, tree);
   }
 
 

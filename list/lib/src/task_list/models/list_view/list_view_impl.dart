@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/list_view/list_view.dart';
 import 'package:list/src/task_list/models/model_tree_manager/sublist_stats.dart';
@@ -12,7 +13,9 @@ class ListViewImpl implements ListView {
 
   final List<TaskListModelBase> _models;
 
-  ListViewImpl(this._models);
+  final LinkedTree<TaskListModelBase> tree;
+
+  ListViewImpl(this._models, this.tree);
 
 
   void addModelsAfter(int index, SublistStats subListInfo) {

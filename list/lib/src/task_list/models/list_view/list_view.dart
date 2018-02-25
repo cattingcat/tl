@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/models/list_view/events.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 /// Flat representation of Model-tree
+/// TODO: TreeView
 abstract class ListView {
+  LinkedTree<TaskListModelBase> get tree;
+
+
   /// Triggered when models range was added into list
   Stream<ListViewAddRemoveEvent> get onAdd;
 

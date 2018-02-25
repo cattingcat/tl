@@ -12,6 +12,7 @@ import 'package:list/src/task_list/sublist_component/sublist_component.dart';
 import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:list/src/task_list/task_list_component/utils/view_model_mapper.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models2.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 
 @Component(
@@ -37,7 +38,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
 
-  ViewportModels _viewportModels;
+  ViewportModels2 _viewportModels;
 
   @Input() ListView dataSource;
   @Input() CardType cardType = CardType.Default;
@@ -59,11 +60,11 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
   @override
   void toggle(ToggleCardEvent event) {
-    final model = event.model;
-    final cardIndex = _viewportModels.getIndexOfModel(model);
-    final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
-
-    _toggleCtrl.add(listEvent);
+//    final model = event.model;
+//    final cardIndex = _viewportModels.getIndexOfModel(model);
+//    final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
+//
+//    _toggleCtrl.add(listEvent);
   }
 
   @override
@@ -93,7 +94,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
           ..listen(ds.onUpdate, _onUpdate);
       });
 
-      _viewportModels = new ViewportModels(ds);
+      _viewportModels = new ViewportModels2(ds.tree);
 
       _scrollWrapper.setup(ds, card);
 

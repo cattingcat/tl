@@ -17,7 +17,7 @@ void main() {
   group('ViewportModels tests', () {
     test('#setViewport() ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       viewport.setViewport(25, 30);
@@ -28,7 +28,7 @@ void main() {
 
     test('#takeFrontWhile() ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       viewport.setViewport(25, 30);
@@ -41,7 +41,7 @@ void main() {
 
     test('#takeBackWhile() ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       viewport.setViewport(25, 30);
@@ -54,7 +54,7 @@ void main() {
 
     test('#removeFrontWhile() ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       viewport.setViewport(25, 30);
@@ -67,7 +67,7 @@ void main() {
 
     test('#removeBackWhile() ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       viewport.setViewport(25, 30);
@@ -83,7 +83,7 @@ void main() {
   group('ViewportModels inner state validation tests', () {
     test('#takeFrontWhile() from initial state ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       int count = 3;
@@ -95,7 +95,7 @@ void main() {
 
     test('#takeFrontWhile() from initial state take twice', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       int count = 3;
@@ -110,7 +110,7 @@ void main() {
 
     test('#takeFrontWhile() from initial state take 6 items, then remove back 3', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       int count = 6;
@@ -125,7 +125,7 @@ void main() {
 
     test('#takeFrontWhile() from initial state take 6, then remove first 3', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       int count = 6;
@@ -140,7 +140,7 @@ void main() {
 
     test('#takeFrontWhile() from initial state take twice', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       int count = 6;
@@ -158,7 +158,7 @@ void main() {
 
     test('#takeFrontWhile() from initial state take until start', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       final viewport = new ViewportModels(listView);
 
       int count = 6;

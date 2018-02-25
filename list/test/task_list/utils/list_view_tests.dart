@@ -18,7 +18,7 @@ void main() {
   group('ListViewImpl tests', () {
     test('#takeWhileFrom() forward ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       int count = 5;
       final taken = listView.takeWhileFrom(25, Direction.Forward, (i) {
         return count-- != 0;
@@ -31,7 +31,7 @@ void main() {
 
     test('#takeWhileFrom() backward ', () {
       final models = createModels(50);
-      final listView = new ListViewImpl(models);
+      final listView = new ListViewImpl(models, null);
       int count = 5;
       final taken = listView.takeWhileFrom(25, Direction.Backward, (i) {
         return count-- != 0;
