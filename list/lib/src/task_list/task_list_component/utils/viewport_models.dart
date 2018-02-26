@@ -65,6 +65,11 @@ class ViewportModels {
     _setAnchors();
   }
 
+  void reset() {
+    _start = _end = null;
+    _models.clear();
+  }
+
 
   void _setAnchors() {
     if(_models.isEmpty) {

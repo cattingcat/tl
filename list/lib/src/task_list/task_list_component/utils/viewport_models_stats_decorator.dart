@@ -5,13 +5,22 @@ import 'package:list/src/task_list/task_list_component/utils/viewport_models.dar
 
 class ViewportModelsStatsDecorator implements ViewportModels {
   final ViewportModels _original;
-  final CardType _cardType;
+  CardType _cardType;
   int _height = 0;
 
   ViewportModelsStatsDecorator(this._original, this._cardType);
 
 
   int get height => _height;
+
+  CardType get cardType => _cardType;
+
+  set cardType(CardType value) {
+    _height = _original.models
+        .map((m) => cardType.getHeight(m.type))
+        .reduce((a, b) => a + b);
+    _cardType = value;
+  }
 
 
   @override
@@ -63,5 +72,11 @@ class ViewportModelsStatsDecorator implements ViewportModels {
 
       return false;
     });
+  }
+
+  @override
+  void reset() {
+    _original.reset();
+    _height = 0;
   }
 }

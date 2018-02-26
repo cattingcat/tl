@@ -27,13 +27,12 @@ import 'package:list/src/task_list/view_models/sublist_view_model.dart';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
-class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
+class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCardObserver {
   final _subscr = new Subscriptions();
   final _toggleCtrl = new StreamController<ToggleTaskListCardEvent>(sync: true);
   final ViewModelMapper _viewModelMapper = new ViewModelMapper();
   final int _spaceSize = 200; // Space before/after viewport
 
-  final NgZone _ngZone;
   final Element _hostElement;
   final ChangeDetectorRef _cdr;
 
@@ -50,7 +49,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   @ViewChild('viewport') Element viewportEl;
   @ViewChild('wrapper') Element wrapperEl;
 
-  TaskListComponent(this._ngZone, this._hostElement, this._cdr);
+  TaskListComponent(this._hostElement, this._cdr);
 
 
   TaskCardObserver get observer => this;
@@ -106,28 +105,27 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
       _viewportElement = new _ViewportElement(viewportEl);
       _scrollWrapper = new _ScrollWrapperElement(wrapperEl);
 
-      final ds = changes['dataSource'].currentValue as TreeView;
+      final treeView = changes['dataSource'].currentValue as TreeView;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
-      _ngZone.runOutsideAngular(() {
+      Zone.ROOT.run(() {
         _subscr
           ..cancelClear()
-          ..listen(ds.onAdd, _onAdd)
-          ..listen(ds.onRemove, _onRemove)
-          ..listen(ds.onUpdate, _onUpdate);
+          ..listen(treeView.onAdd, _onAdd)
+          ..listen(treeView.onRemove, _onRemove)
+          ..listen(treeView.onUpdate, _onUpdate);
       });
 
-      _viewportModels = new ViewportModelsStatsDecorator(new ViewportModels(ds.tree), card);
-
-      _scrollWrapper.setup(ds, card);
-
-      // update scroll position
+      _viewportModels = new ViewportModelsStatsDecorator(new ViewportModels(treeView.tree), card);
+      _scrollWrapper.setup(treeView, card);
       _hostElement.scrollTop = 0;
     }
 
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
       final cardType = changes['cardType'].currentValue as CardType;
       _scrollWrapper.setup(dataSource, cardType);
+      _viewportModels.cardType = cardType;
+      _resetList();
     }
   }
 
@@ -136,18 +134,13 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
     // It is out of NgZone, see assert in callback
     _hostElement.addEventListener('scroll', _handleScrollEvent);
 
-    print('host h: ${_hostElement.clientHeight}');
+    _resetList();
+  }
 
-    int height = _hostElement.clientHeight + _spaceSize * 2;
-    _viewportModels.takeFrontWhile((model) {
-      height -= cardType.getHeight(model.type);
-      return height > 0;
-    });
-
-    sublist = _viewModelMapper.map2(_viewportModels.models);
-
-    _cdr.markForCheck();
-    _cdr.detectChanges();
+  @override
+  void ngOnDestroy() {
+    _hostElement.removeEventListener('scroll', _handleScrollEvent);
+    _subscr.cancelClear();
   }
 
 
@@ -270,6 +263,23 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
       return false;
     });
+  }
+
+  /// Reset viewport and scroll position to initial state and re-render elements
+  void _resetList() {
+    _viewportStart = _hostElement.scrollTop = 0;
+    _viewportModels.reset();
+
+    int height = _estimatedViewportHeight;
+    _viewportModels.takeFrontWhile((model) {
+      height -= cardType.getHeight(model.type);
+      return height > 0;
+    });
+
+    sublist = _viewModelMapper.map2(_viewportModels.models);
+
+    _cdr.markForCheck();
+    _cdr.detectChanges();
   }
 
   int get _estimatedViewportHeight => _hostElement.clientHeight + 2 * _spaceSize;
