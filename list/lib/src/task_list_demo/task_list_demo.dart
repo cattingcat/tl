@@ -5,7 +5,6 @@ import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
 import 'package:list/src/task_list/models/tree_view/tree_view.dart';
-import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:list/src/task_list/task_list_component/task_list_component.dart';
 import 'package:list/src/task_list/card_type.dart';
 
@@ -43,10 +42,6 @@ class TaskListDemo {
 
     treeView = _treeManager.getTreeView();
     cardType = CardType.Default;
-  }
-
-  void onCardToggle(ToggleTaskListCardEvent event) {
-    _treeManager.toggle(event.model, index: event.index);
   }
 
   void changeDataSource() {

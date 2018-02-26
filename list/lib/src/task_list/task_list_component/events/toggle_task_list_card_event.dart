@@ -4,5 +4,5 @@ import 'package:list/src/task_list/task_list_component/events/task_list_card_eve
 class ToggleTaskListCardEvent extends TaskListCardEvent {
   final bool isExpanded;
 
-  ToggleTaskListCardEvent(TaskListModelBase model, int index, this.isExpanded): super(model, index);
+  ToggleTaskListCardEvent(TaskListModelBase model, this.isExpanded): super(model);
 }

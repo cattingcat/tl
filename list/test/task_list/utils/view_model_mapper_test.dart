@@ -60,7 +60,7 @@ void main() {
 
       final mapping = mapper.buildSkeleton(m4).modelsMap;
 
-      expect(mapping.keys, unorderedEquals([m1, m2, m3, m4]));
+      expect(mapping.keys, unorderedEquals([m1, m2, m3, m4, null]));
     });
 
     test('Should map sublist of modelt to hierarchical view model', () {

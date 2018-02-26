@@ -3,7 +3,5 @@ import 'package:list/src/task_list/models/task_list_model_base.dart';
 
 /// Base class for card events in task-list
 class TaskListCardEvent extends TaskCardEvent {
-  final int index;
-
-  TaskListCardEvent(TaskListModelBase model, this.index): super(model);
+  TaskListCardEvent(TaskListModelBase model): super(model);
 }

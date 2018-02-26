@@ -2,8 +2,7 @@
 <div>
     <task-list
         [dataSource]="treeView"
-        [cardType]="cardType"
-        (cardToggle)="onCardToggle($event)"></task-list>
+        [cardType]="cardType"></task-list>
 
     <button
         (click)="changeDataSource()">

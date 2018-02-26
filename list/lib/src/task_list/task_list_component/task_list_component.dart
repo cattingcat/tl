@@ -6,6 +6,7 @@ import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/tree_view/events.dart';
 import 'package:list/src/task_list/models/tree_view/tree_view.dart';
 import 'package:list/src/task_list/sublist_component/sublist_component.dart';
@@ -60,11 +61,27 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
   @override
   void toggle(ToggleCardEvent event) {
-//    final model = event.model;
-//    final cardIndex = _viewportModels.getIndexOfModel(model);
-//    final listEvent = new ToggleTaskListCardEvent(model, cardIndex, event.isExpanded);
-//
-//    _toggleCtrl.add(listEvent);
+    NgZone.assertNotInAngularZone();
+
+    final model = event.model;
+    assert(model.children.isNotEmpty, 'Expander shouldnt be shown for nodes without children');
+
+    final listEvent = new ToggleTaskListCardEvent(model, event.isExpanded);
+    _toggleCtrl.add(listEvent);
+
+    model.isExpanded = event.isExpanded;
+    if(model.isExpanded) {
+      // TODO: visit visible children and increase scroll-wrapper size
+    } else {
+      // TODO: visit visible children and decrease scroll-wrapper size
+    }
+
+    _refreshModelsAfter(model);
+
+    sublist = _viewModelMapper.map2(_viewportModels.models);
+
+    _cdr.markForCheck();
+    _cdr.detectChanges();
   }
 
   @override
@@ -228,6 +245,28 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
   void _onUpdate(UpdateTreeEvent event) {
     NgZone.assertNotInAngularZone();
+  }
+
+
+  void _refreshModelsAfter(TaskListModelBase model) {
+    int removedHeight = 0;
+    _viewportModels.removeFrontWhile((m) {
+      if(m != model) {
+        removedHeight += cardType.getHeight(m.type);
+        return true;
+      }
+
+      return false;
+    });
+
+    _viewportModels.takeFrontWhile((m) {
+      if(removedHeight > 0) {
+        removedHeight -= cardType.getHeight(m.type);
+        return true;
+      }
+
+      return false;
+    });
   }
 }
 

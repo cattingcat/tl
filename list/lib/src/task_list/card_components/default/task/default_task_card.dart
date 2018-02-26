@@ -20,20 +20,27 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class DefaultTaskCard implements AfterViewInit, OnChanges {
+  final NgZone _ngZone;
   @Input() TaskListViewModel model;
   @Input() TaskCardObserver observer;
 
   TitleModel titleModel;
 
+  DefaultTaskCard(this._ngZone);
+
 
   void onTitleChange(String title) {
-    final event = new TitleChangeCardEvent(model.model, title);
-    observer.titleChange(event);
+    _ngZone.runOutsideAngular(() {
+      final event = new TitleChangeCardEvent(model.model, title);
+      observer.titleChange(event);
+    });
   }
 
   void onExpanderClick() {
-    final event = new ToggleCardEvent(model.model, !model.model.isExpanded);
-    observer.toggle(event);
+    _ngZone.runOutsideAngular(() {
+      final event = new ToggleCardEvent(model.model, !model.model.isExpanded);
+      observer.toggle(event);
+    });
   }
 
 
