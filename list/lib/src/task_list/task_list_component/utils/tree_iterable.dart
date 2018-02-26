@@ -5,6 +5,8 @@ import 'package:list/src/task_list/models/task_list_model_base.dart';
 abstract class TreeIterable extends Iterable<TaskListModelBase> {
   factory TreeIterable.forward(LinkedTree<TaskListModelBase> tree, [TaskListModelBase fromNode]) => new _ForwardTreeIterable(tree, fromNode);
   factory TreeIterable.backward(LinkedTree<TaskListModelBase> tree, TaskListModelBase fromNode) => new _BackwardTreeIterable(tree, fromNode);
+
+  factory TreeIterable.node(TaskListModelBase node) => new _VisibleSubNodelTreeIterable(node);
 }
 
 
@@ -125,5 +127,57 @@ class _BackwardTreeIterator implements Iterator<TaskListModelBase> {
     }
 
     return m;
+  }
+}
+
+
+class _VisibleSubNodelTreeIterable extends Iterable<TaskListModelBase> implements TreeIterable {
+  final TaskListModelBase _node;
+
+  _VisibleSubNodelTreeIterable(this._node);
+
+
+  @override
+  Iterator<TaskListModelBase> get iterator => new _VisibleSubNodelTreeIterator(_node);
+}
+
+class _VisibleSubNodelTreeIterator implements Iterator<TaskListModelBase> {
+  final TaskListModelBase _node;
+
+  _VisibleSubNodelTreeIterator(this._node);
+
+
+  TaskListModelBase _current;
+
+  @override
+  TaskListModelBase get current => _current;
+
+  @override
+  bool moveNext() {
+    if(_current == null) {
+      _current = _node;
+      return true;
+    } else {
+      if((_current.isExpanded || _current == _node) && _current.children.isNotEmpty) {
+        _current = _current.children.first;
+        return true;
+      } else {
+        if(_current.next != null) {
+          _current = _current.next;
+          return true;
+        } else {
+          final parent = _current.parent;
+          if(parent == _node) {
+            return false;
+
+          }else if(parent.next != null) {
+            _current = parent.next;
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    }
   }
 }

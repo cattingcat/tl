@@ -65,15 +65,19 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
     final model = event.model;
     assert(model.children.isNotEmpty, 'Expander shouldnt be shown for nodes without children');
+    assert(_viewportModels.models.contains(model), 'Model should bew from viewport, cause of ScrollWrapper height calcaletion');
 
     final listEvent = new ToggleTaskListCardEvent(model, event.isExpanded);
     _toggleCtrl.add(listEvent);
 
     model.isExpanded = event.isExpanded;
+
+    final iterable = new TreeIterable.node(model);
+    final height = iterable.map((m) => cardType.getHeight(m.type)).reduce((a, b) => a + b);
     if(model.isExpanded) {
-      // TODO: visit visible children and increase scroll-wrapper size
+      _scrollWrapper.height += height;
     } else {
-      // TODO: visit visible children and decrease scroll-wrapper size
+      _scrollWrapper.height -= height;
     }
 
     _refreshModelsAfter(model);
