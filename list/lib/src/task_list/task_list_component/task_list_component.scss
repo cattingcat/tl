@@ -2,7 +2,7 @@
     height: 100%;
     display: block;
     overflow: auto;
-    max-height: 500px;
+    height: 500px; // TODO: change height from outer scope
 
     .scroll-wrapper {
         position: relative;

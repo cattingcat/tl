@@ -14,6 +14,7 @@ import 'package:list/src/task_list/task_list_component/events/toggle_task_list_c
 import 'package:list/src/task_list/task_list_component/utils/tree_iterable.dart';
 import 'package:list/src/task_list/task_list_component/utils/view_model_mapper.dart';
 import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
+import 'package:list/src/task_list/task_list_component/utils/viewport_models_stats_decorator.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 
 @Component(
@@ -39,7 +40,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
   _ViewportElement _viewportElement;
   _ScrollWrapperElement _scrollWrapper;
 
-  ViewportModels _viewportModels;
+  ViewportModelsStatsDecorator _viewportModels;
 
   @Input() TreeView dataSource;
   @Input() CardType cardType = CardType.Default;
@@ -73,7 +74,10 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
     model.isExpanded = event.isExpanded;
 
     final iterable = new TreeIterable.node(model);
-    final height = iterable.map((m) => cardType.getHeight(m.type)).reduce((a, b) => a + b);
+    final height = iterable
+        .skip(1) // skip first item because it will not be changed (is is [model])
+        .map((m) => cardType.getHeight(m.type))
+        .reduce((a, b) => a + b);
     if(model.isExpanded) {
       _scrollWrapper.height += height;
     } else {
@@ -113,7 +117,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
           ..listen(ds.onUpdate, _onUpdate);
       });
 
-      _viewportModels = new ViewportModels(ds.tree);
+      _viewportModels = new ViewportModelsStatsDecorator(new ViewportModels(ds.tree), card);
 
       _scrollWrapper.setup(ds, card);
 
@@ -153,7 +157,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
     final scrollTop = _hostElement.scrollTop;
 
-    final targetViewportH = _hostElement.clientHeight + 2 * _spaceSize;
+    final targetViewportH = _estimatedViewportHeight;
     final targetViewportStart = (scrollTop - _spaceSize).clamp(0, _scrollWrapper.height);
     //final targetWiewportEnd = targetViewportStart + targetViewportH;
 
@@ -253,25 +257,22 @@ class TaskListComponent implements AfterViewInit, OnChanges, TaskCardObserver {
 
 
   void _refreshModelsAfter(TaskListModelBase model) {
-    int removedHeight = 0;
-    _viewportModels.removeFrontWhile((m) {
-      if(m != model) {
-        removedHeight += cardType.getHeight(m.type);
-        return true;
-      }
+    // remove models after [models]
+    _viewportModels.removeFrontWhile((m) =>  m != model);
 
-      return false;
-    });
-
+    // then fill blank space
+    int toAdd = _estimatedViewportHeight - _viewportModels.height;
     _viewportModels.takeFrontWhile((m) {
-      if(removedHeight > 0) {
-        removedHeight -= cardType.getHeight(m.type);
+      if(toAdd > 0) {
+        toAdd -= cardType.getHeight(m.type);
         return true;
       }
 
       return false;
     });
   }
+
+  int get _estimatedViewportHeight => _hostElement.clientHeight + 2 * _spaceSize;
 }
 
 class _ViewportElement {
