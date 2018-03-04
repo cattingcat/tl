@@ -13,7 +13,6 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
   styleUrls: const <String>['default_task_card.css'],
   templateUrl: 'default_task_card.html',
   directives: const <Object>[
-    CORE_DIRECTIVES,
     HoverHooks,
     EditableText
   ],

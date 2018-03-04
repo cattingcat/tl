@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/common/subscriptions.dart';
+import 'package:list/src/task_list/card_components/dnd_events.dart';
 import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
@@ -22,14 +23,18 @@ import 'package:list/src/task_list/view_models/sublist_view_model.dart';
   styleUrls: const <String>['task_list_component.css'],
   templateUrl: 'task_list_component.html',
   directives: const <Object>[
-    CORE_DIRECTIVES,
+    NgIf,
     SublistComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCardObserver {
   final _subscr = new Subscriptions();
-  final _toggleCtrl = new StreamController<ToggleTaskListCardEvent>(sync: true);
+  final _toggleCtrl =     new StreamController<ToggleTaskListCardEvent>(sync: true);
+  final _dragOverCtrl =   new StreamController<DndEvent>(sync: true);
+  final _dragEnterCtrl =  new StreamController<DndEvent>(sync: true);
+  final _dragLeaveCtrl =  new StreamController<DndEvent>(sync: true);
+  final _dropCtrl =       new StreamController<DndEvent>(sync: true);
   final ViewModelMapper _viewModelMapper = new ViewModelMapper();
   final int _spaceSize = 200; // Space before/after viewport
 
@@ -45,6 +50,10 @@ class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCard
   @Input() CardType cardType = CardType.Default;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _toggleCtrl.stream;
+  @Output() Stream<DndEvent> get dragOver => _dragOverCtrl.stream;
+  @Output() Stream<DndEvent> get dragEnter => _dragEnterCtrl.stream;
+  @Output() Stream<DndEvent> get dragLeave => _dragLeaveCtrl.stream;
+  @Output() Stream<DndEvent> get drop => _dropCtrl.stream;
 
   @ViewChild('viewport') Element viewportEl;
   @ViewChild('wrapper') Element wrapperEl;
@@ -94,6 +103,27 @@ class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCard
   @override
   void titleChange(TitleChangeCardEvent event) {
     print('title changed: ${event.model}');
+  }
+
+
+  @override
+  void onDragOver(DndEvent event) {
+    _dragOverCtrl.add(event);
+  }
+
+  @override
+  void onDragEnter(DndEvent event) {
+    _dragEnterCtrl.add(event);
+  }
+
+  @override
+  void onDragLeave(DndEvent event) {
+    _dragLeaveCtrl.add(event);
+  }
+
+  @override
+  void onDrop(DndEvent event) {
+    _dropCtrl.add(event);
   }
 
   // </editor-fold>
