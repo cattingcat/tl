@@ -61,8 +61,6 @@ class TaskListDemo {
     }
   }
 
-
-
   void onDragOver(DndEvent event) {
     print('dragOver ${event.model}');
   }

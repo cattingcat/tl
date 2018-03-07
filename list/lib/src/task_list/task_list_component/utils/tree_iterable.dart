@@ -77,7 +77,7 @@ class _BackwardTreeIterator implements Iterator<TaskListModelBase> {
   final TaskListModelBase _fromNode;
 
   _BackwardTreeIterator(this._tree, [this._fromNode]):
-        assert(_tree != null, 'Tree should not be null');
+    assert(_tree != null, 'Tree should not be null');
 
 
   TaskListModelBase _current;
