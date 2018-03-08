@@ -1,5 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto);
-@import url(https://fonts.googleapis.com/css?family=Material+Icons);
+/* TODO: Download fonts and store with static content */
+@import url(https://cdn.rawgit.com/mailtoharshit/San-Francisco-Font-/master/sanfrancisco.css);
 
 body {
   margin: 0;

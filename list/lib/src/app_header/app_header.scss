@@ -1,0 +1,39 @@
+:host {
+  $header-height: 50px;
+
+  display: block;
+  height: $header-height;
+  background-color: #494E6B;
+  color: #afb1bd;
+
+  header {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-item {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0 5px;
+    font-size: x-large;
+    vertical-align: middle;
+
+    a:link, a:visited {
+      text-align: center;
+      vertical-align: middle;
+      height: 100%;
+      line-height: $header-height;
+
+      text-decoration: inherit;
+      color: currentColor;
+      cursor: auto;
+    }
+  }
+
+  .logo {
+    width: 100px;
+    font-size: x-large;
+  }
+}

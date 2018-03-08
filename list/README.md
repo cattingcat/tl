@@ -43,11 +43,11 @@
 
 [Material icons](https://material.io/icons)
 
-[Color schemes](https://www.canva.com/learn/website-color-schemes/)
+[Color schemes](https://www.canva.com/learn/website-color-schemes)
 
 Multiple SDK on same machine
 ```
-sudo ln -sTf ~/dart2/ /usr/lib/dart
+    sudo ln -sTf ~/dart2/ /usr/lib/dart
 ```
 
 
