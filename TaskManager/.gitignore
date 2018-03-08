@@ -1,18 +1,3 @@
-# dart
-# Files and directories created by pub
-.packages
-packages/
-.pub/
-.idea
-.dart_tool
-build/
-# Remove the following pattern if you wish to check in your lock file
-pubspec.lock
-
-# Directory created by dartdoc
-doc/api/
-
-# .net 
 # Download this file using PowerShell v3 under Windows with the following comand:
 # Invoke-WebRequest https://gist.githubusercontent.com/kmorcinek/2710267/raw/ -OutFile .gitignore
 # or wget:

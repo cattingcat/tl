@@ -1,5 +1,5 @@
-name: list
-description: List
+name: frontend
+description: Main app
 version: 0.0.1
 
 environment:
