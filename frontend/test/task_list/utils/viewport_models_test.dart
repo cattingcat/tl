@@ -1,9 +1,9 @@
-import 'package:list/src/task_list/models/task_list_model_base.dart';
-import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_view_models.dart';
-import 'package:list/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
-import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_model.dart';
+import 'package:frontend/src/task_list/task_list_component/utils/viewport_view_models.dart';
+import 'package:frontend/src/task_list/view_models/data_source/from_list_view_model_data_source.dart';
+import 'package:frontend/src/task_list/view_models/data_source/view_model_data_source.dart';
+import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 

@@ -1,5 +1,5 @@
-import 'package:list/src/core/linked_tree/linked_tree.dart';
-import 'package:list/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/core/linked_tree/linked_tree.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 
 abstract class TreeIterable extends Iterable<TaskListModelBase> {

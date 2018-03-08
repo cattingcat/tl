@@ -1,8 +1,8 @@
 import 'dart:html' as html;
 
-import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/models/tree_view/tree_view.dart';
-import 'package:list/src/task_list/task_list_component/utils/tree_iterable.dart';
+import 'package:frontend/src/task_list/card_type.dart';
+import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
+import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
 
 
 class ScrollWrapperElement {

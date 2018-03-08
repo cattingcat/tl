@@ -1,5 +1,5 @@
-import 'package:list/src/task_list/models/model_type.dart';
-import 'package:list/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/model_type.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 abstract class TaskListViewModel {
   TaskListModelBase get model;

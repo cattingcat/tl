@@ -1,7 +1,7 @@
 import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
-import 'package:list/src/core_components/common/subscriptions.dart';
+import 'package:frontend/src/core_components/common/subscriptions.dart';
 
 
 /// Provides ability to add CSS classes on

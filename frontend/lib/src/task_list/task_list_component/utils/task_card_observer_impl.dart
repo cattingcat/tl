@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:angular/core.dart';
-import 'package:list/src/task_list/card_components/click_card_event.dart';
-import 'package:list/src/task_list/card_components/dnd_events.dart';
-import 'package:list/src/task_list/card_components/task_card_observer.dart';
-import 'package:list/src/task_list/card_components/task_list_card_event.dart';
-import 'package:list/src/task_list/card_components/title_change_card_event.dart';
-import 'package:list/src/task_list/card_components/toggle_card_event.dart';
-import 'package:list/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
+import 'package:frontend/src/task_list/card_components/click_card_event.dart';
+import 'package:frontend/src/task_list/card_components/dnd_events.dart';
+import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
+import 'package:frontend/src/task_list/card_components/task_list_card_event.dart';
+import 'package:frontend/src/task_list/card_components/title_change_card_event.dart';
+import 'package:frontend/src/task_list/card_components/toggle_card_event.dart';
+import 'package:frontend/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 
 class TaskCardObserverImpl implements TaskCardObserver {
   final _toggleCtrl =     new StreamController<ToggleTaskListCardEvent>(sync: true);

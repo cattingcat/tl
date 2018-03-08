@@ -1,7 +1,7 @@
 import 'dart:html' as html;
 
 import 'package:angular/core.dart';
-import 'package:list/src/core_components/dnd/drop_target_observer.dart';
+import 'package:frontend/src/core_components/dnd/drop_target_observer.dart';
 
 
 @Directive(selector: '[drop-target]')

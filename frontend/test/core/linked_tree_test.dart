@@ -1,7 +1,7 @@
 @TestOn('vm')
 @Tags(const ['core'])
 
-import 'package:list/src/core/linked_tree/linked_tree.dart';
+import 'package:frontend/src/core/linked_tree/linked_tree.dart';
 import 'package:test/test.dart';
 
 

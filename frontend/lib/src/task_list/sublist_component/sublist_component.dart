@@ -2,17 +2,17 @@ import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
-import 'package:list/src/core_components/dnd/draggable.dart';
-import 'package:list/src/core_components/dnd/drop_target.dart';
-import 'package:list/src/core_components/dnd/drop_target_observer.dart';
-import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
-import 'package:list/src/task_list/card_components/dnd_events.dart';
-import 'package:list/src/task_list/card_components/narrow/task/narrow_task_card.dart';
-import 'package:list/src/task_list/card_components/task_card_observer.dart';
-import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/highlight_options.dart';
-import 'package:list/src/task_list/view_models/sublist_view_model.dart';
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
+import 'package:frontend/src/core_components/dnd/draggable.dart';
+import 'package:frontend/src/core_components/dnd/drop_target.dart';
+import 'package:frontend/src/core_components/dnd/drop_target_observer.dart';
+import 'package:frontend/src/task_list/card_components/default/task/default_task_card.dart';
+import 'package:frontend/src/task_list/card_components/dnd_events.dart';
+import 'package:frontend/src/task_list/card_components/narrow/task/narrow_task_card.dart';
+import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
+import 'package:frontend/src/task_list/card_type.dart';
+import 'package:frontend/src/task_list/highlight_options.dart';
+import 'package:frontend/src/task_list/view_models/sublist_view_model.dart';
+import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 
 
 @Component(

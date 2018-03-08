@@ -1,18 +1,18 @@
 import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
-import 'package:list/src/core/linked_tree/linked_tree.dart';
-import 'package:list/src/task_list/card_components/click_card_event.dart';
-import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
-import 'package:list/src/task_list/card_components/dnd_events.dart';
-import 'package:list/src/task_list/highlight_options.dart';
-import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
-import 'package:list/src/task_list/models/task_list_model_base.dart';
-import 'package:list/src/task_list/models/task_model.dart';
-import 'package:list/src/task_list/models/tree_view/tree_view.dart';
-import 'package:list/src/task_list/task_list_component/task_list_component.dart';
-import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list_demo/test_component/test_component.dart';
+import 'package:frontend/src/core/linked_tree/linked_tree.dart';
+import 'package:frontend/src/task_list/card_components/click_card_event.dart';
+import 'package:frontend/src/task_list/card_components/default/task/default_task_card.dart';
+import 'package:frontend/src/task_list/card_components/dnd_events.dart';
+import 'package:frontend/src/task_list/highlight_options.dart';
+import 'package:frontend/src/task_list/models/model_tree_manager/model_tree_manager.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_model.dart';
+import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
+import 'package:frontend/src/task_list/task_list_component/task_list_component.dart';
+import 'package:frontend/src/task_list/card_type.dart';
+import 'package:frontend/src/task_list_demo/test_component/test_component.dart';
 
 @Component(
     selector: 'task-list-demo',

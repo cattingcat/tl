@@ -1,4 +1,4 @@
-import 'package:list/src/task_list/models/model_type.dart';
+import 'package:frontend/src/task_list/models/model_type.dart';
 
 
 /// Describes size map for cards

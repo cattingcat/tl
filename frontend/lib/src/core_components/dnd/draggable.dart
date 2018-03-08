@@ -1,7 +1,7 @@
 import 'dart:html' as html;
 
 import 'package:angular/core.dart';
-import 'package:list/src/core_components/dnd/dnd.dart';
+import 'package:frontend/src/core_components/dnd/dnd.dart';
 
 
 @Directive(selector: '[draggable]')

@@ -1,6 +1,6 @@
-import 'package:list/src/task_list/models/task_list_model_base.dart';
-import 'package:list/src/task_list/view_models/data_source/view_model_data_source.dart';
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/view_models/data_source/view_model_data_source.dart';
+import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 
 /// Provides methods to work with [ViewModelDataSource]
 ///  optimal

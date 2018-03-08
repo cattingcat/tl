@@ -1,4 +1,4 @@
-import 'package:list/src/task_list/view_models/task_list_view_model.dart';
+import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 
 /// Describes parent node and their children
 ///

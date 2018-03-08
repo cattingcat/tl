@@ -1,6 +1,6 @@
 import 'package:angular/core.dart';
-import 'package:list/src/app_header/app_header.dart';
-import 'package:list/src/task_list_demo/task_list_demo.dart';
+import 'package:frontend/src/app_header/app_header.dart';
+import 'package:frontend/src/task_list_demo/task_list_demo.dart';
 
 @Component(
   selector: 'my-app',

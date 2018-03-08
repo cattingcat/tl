@@ -1,6 +1,6 @@
-import 'package:list/src/task_list/card_type.dart';
-import 'package:list/src/task_list/models/task_list_model_base.dart';
-import 'package:list/src/task_list/task_list_component/utils/viewport_models.dart';
+import 'package:frontend/src/task_list/card_type.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
 
 
 class ViewportModelsStatsDecorator implements ViewportModels {
