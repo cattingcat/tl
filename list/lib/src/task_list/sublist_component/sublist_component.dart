@@ -10,6 +10,7 @@ import 'package:list/src/task_list/card_components/dnd_events.dart';
 import 'package:list/src/task_list/card_components/narrow/task/narrow_task_card.dart';
 import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
 
 
@@ -32,11 +33,20 @@ class SublistComponent implements DropTargetObserver {
   @Input() SublistViewModel model;
   @Input() CardType cardType;
   @Input() TaskCardObserver observer;
-
+  @Input() HighlightOptions highlight;
 
   bool get isDefaultCard => cardType == CardType.Default;
 
   bool get isNarrowCard => cardType == CardType.Narrow;
+
+
+  bool get highlightBefore => _hlThis && highlight.position == HighlightPosition.Before;
+
+  bool get highlightAfter => _hlThis && highlight.position == HighlightPosition.After;
+
+  bool get highlightCenter => _hlThis && highlight.position == HighlightPosition.Center;
+
+  bool get highlightSublist => _hlThis && highlight.position == HighlightPosition.Sublist;
 
   DropTargetObserver get dndObserver => this;
 
@@ -64,4 +74,7 @@ class SublistComponent implements DropTargetObserver {
     final e = new DndEvent(model.model.model, event);
     observer.onDrop(e);
   }
+
+
+  bool get _hlThis => highlight != null && highlight.model == model?.model?.model;
 }

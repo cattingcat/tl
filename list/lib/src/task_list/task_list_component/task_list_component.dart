@@ -7,6 +7,7 @@ import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_components/title_change_card_event.dart';
 import 'package:list/src/task_list/card_components/toggle_card_event.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/tree_view/events.dart';
 import 'package:list/src/task_list/models/tree_view/tree_view.dart';
@@ -47,6 +48,7 @@ class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCard
   ViewportModelsStatsDecorator _viewportModels;
 
   @Input() TreeView dataSource;
+  @Input() HighlightOptions highlight;
   @Input() CardType cardType = CardType.Default;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _toggleCtrl.stream;
@@ -156,6 +158,11 @@ class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCard
       _scrollWrapper.setup(dataSource, cardType);
       _viewportModels.cardType = cardType;
       _resetList();
+    }
+
+    if(changes.containsKey('highlight') && !changes.containsKey('dataSource')) {
+      final highlight = changes['highlight'].currentValue as HighlightOptions;
+      _viewModelMapper.highlightOptions = highlight;
     }
   }
 
@@ -308,6 +315,10 @@ class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCard
 
     sublist = _viewModelMapper.map2(_viewportModels.models);
 
+    _detectChanges();
+  }
+
+  void _detectChanges() {
     _cdr.markForCheck();
     _cdr.detectChanges();
   }

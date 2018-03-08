@@ -1,23 +1,32 @@
 <div>
     <div
+        *ngIf="model.model != null"
         [draggable]="model.model"
-        [drop-target]="dndObserver">
+        [drop-target]="dndObserver"
+        [class.highlight-before]="highlightBefore"
+        [class.highlight-after]="highlightAfter"
+        [class.highlight-center]="highlightCenter">
 
         <default-task-card
-                *ngIf="isDefaultCard && model.model != null"
+                *ngIf="isDefaultCard"
                 [model]="model.model"
                 [observer]="observer"></default-task-card>
 
         <narrow-task-card
-                *ngIf="isNarrowCard && model.model != null"
+                *ngIf="isNarrowCard"
                 [model]="model.model"
                 [observer]="observer"></narrow-task-card>
     </div>
-    <div class="children">
+    <div
+        *ngIf="model.sublist != null"
+        [class.highlight-sublist]="highlightSublist"
+        class="children">
+
         <sublist
             *ngFor="let m of model.sublist"
             [model]="m"
             [cardType]="cardType"
-            [observer]="observer"></sublist>
+            [observer]="observer"
+            [highlight]="highlight"></sublist>
     </div>
 </div>

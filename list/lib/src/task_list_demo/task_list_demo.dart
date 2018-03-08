@@ -2,12 +2,14 @@ import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
 import 'package:list/src/task_list/card_components/dnd_events.dart';
+import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
 import 'package:list/src/task_list/models/tree_view/tree_view.dart';
 import 'package:list/src/task_list/task_list_component/task_list_component.dart';
 import 'package:list/src/task_list/card_type.dart';
+import 'package:list/src/task_list_demo/test_component/test_component.dart';
 
 @Component(
     selector: 'task-list-demo',
@@ -15,7 +17,9 @@ import 'package:list/src/task_list/card_type.dart';
     styleUrls: const <String>['task_list_demo.css'],
     directives: const <Object>[
       DefaultTaskCard,
-      TaskListComponent
+      TaskListComponent,
+
+      TestComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -24,6 +28,7 @@ class TaskListDemo {
 
   TreeView treeView;
   CardType cardType;
+  HighlightOptions highlightOptions;
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModelBase>();
@@ -66,6 +71,7 @@ class TaskListDemo {
   }
   void onDragEnter(DndEvent event) {
     print('dragEnter ${event.model}');
+    highlightOptions = new HighlightOptions(event.model, HighlightPosition.Center);
   }
   void onDragLeave(DndEvent event) {
     print('dragLeave ${event.model}');

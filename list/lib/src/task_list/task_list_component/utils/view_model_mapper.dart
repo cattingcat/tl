@@ -1,3 +1,4 @@
+import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/view_models/folder_card_model.dart';
@@ -8,6 +9,9 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 /// Maps model collection to ViewModel collection
 class ViewModelMapper  {
+  HighlightOptions highlightOptions;
+
+
   SublistViewModel map2(Iterable<TaskListModelBase> models) {
     assert(models != null && models.isNotEmpty, 'Models required');
 

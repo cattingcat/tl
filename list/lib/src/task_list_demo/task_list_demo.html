@@ -2,6 +2,7 @@
 <div>
     <task-list
         [dataSource]="treeView"
+        [highlight]="highlightOptions"
         [cardType]="cardType"
         (dragOver)="onDragOver($event)"
         (dragEnter)="onDragEnter($event)"
@@ -17,4 +18,7 @@
         (click)="changeCardType()">
         Change card type
     </button>
+
+
+    <test-component></test-component>
 </div>
