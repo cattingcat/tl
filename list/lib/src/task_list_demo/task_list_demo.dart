@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+
 import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
 import 'package:list/src/task_list/card_components/click_card_event.dart';
@@ -68,17 +70,33 @@ class TaskListDemo {
   }
 
   void onDragOver(DndEvent event) {
-    print('dragOver ${event.model}');
+    final element = event.nativeEvent.target as html.Element;
+    final yPos = event.nativeEvent.offset.y;
+
+    if(yPos < element.clientHeight * 0.3) {
+      highlightOptions = new HighlightOptions(event.model, HighlightPosition.Before);
+    } else if(yPos > element.clientHeight * 0.7) {
+      highlightOptions = new HighlightOptions(event.model, HighlightPosition.After);
+    } else {
+      highlightOptions = new HighlightOptions(event.model, HighlightPosition.Center);
+    }
   }
   void onDragEnter(DndEvent event) {
     print('dragEnter ${event.model}');
-    highlightOptions = new HighlightOptions(event.model, HighlightPosition.Center);
   }
   void onDragLeave(DndEvent event) {
     print('dragLeave ${event.model}');
+
+    if(highlightOptions.model == event.model) {
+      highlightOptions = const HighlightOptions.none();
+    }
   }
   void onDrop(DndEvent event) {
     print('drop ${event.model}');
+
+    if(highlightOptions.model == event.model) {
+      highlightOptions = const HighlightOptions.none();
+    }
   }
 
   void onClick(ClickCardEvent event) {
