@@ -24,8 +24,8 @@ class _ForwardTreeIterator implements Iterator<TaskListModelBase> {
   final LinkedTree<TaskListModelBase> _tree;
   final TaskListModelBase _fromNode;
 
-  _ForwardTreeIterator(this._tree, [this._fromNode]):
-      assert(_tree != null, 'Tree should not be null');
+  _ForwardTreeIterator(this._tree, [this._fromNode])/*:
+      assert(_tree != null, 'Tree should not be null')*/;
 
 
   TaskListModelBase _current;
@@ -65,8 +65,8 @@ class _BackwardTreeIterable extends Iterable<TaskListModelBase> implements TreeI
   final LinkedTree<TaskListModelBase> _tree;
   final TaskListModelBase _fromNode;
 
-  _BackwardTreeIterable(this._tree, this._fromNode):
-    assert(_tree != null && _fromNode != null, 'from node required for backward iteration');
+  _BackwardTreeIterable(this._tree, this._fromNode)/*:
+    assert(_tree != null && _fromNode != null, 'from node required for backward iteration');*/;
 
   @override
   Iterator<TaskListModelBase> get iterator => new _BackwardTreeIterator(_tree, _fromNode);
@@ -76,8 +76,8 @@ class _BackwardTreeIterator implements Iterator<TaskListModelBase> {
   final LinkedTree<TaskListModelBase> _tree;
   final TaskListModelBase _fromNode;
 
-  _BackwardTreeIterator(this._tree, [this._fromNode]):
-    assert(_tree != null, 'Tree should not be null');
+  _BackwardTreeIterator(this._tree, [this._fromNode])/*:
+    assert(_tree != null, 'Tree should not be null');*/;
 
 
   TaskListModelBase _current;
