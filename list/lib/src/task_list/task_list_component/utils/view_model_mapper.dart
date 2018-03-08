@@ -1,4 +1,3 @@
-import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/models/model_type.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/view_models/folder_card_model.dart';
@@ -30,9 +29,6 @@ class ViewModelMapper  {
     return skeleton.viewModel;
   }
 
-  Iterable<TaskListViewModel> map(Iterable<TaskListModelBase> models) {
-    return models.map(_mapModel);
-  }
 
   TaskListViewModel _mapModel(TaskListModelBase model) {
     switch(model.type) {
@@ -93,12 +89,12 @@ class ViewModelMapper  {
 }
 
 class MutableSublistViewModel implements SublistViewModel{
-  @override TaskListViewModel model;
+  @override TaskListViewModel headerModel;
   @override List<SublistViewModel> sublist = new List<SublistViewModel>();
   @override bool showHeader;
   @override bool get showSublist => sublist.isNotEmpty;
 
-  MutableSublistViewModel(this.model, this.showHeader);
+  MutableSublistViewModel(this.headerModel, this.showHeader);
 }
 
 class BuildResult {

@@ -9,9 +9,11 @@ import 'package:list/src/task_list/card_components/default/task/default_task_car
 import 'package:list/src/task_list/card_components/dnd_events.dart';
 import 'package:list/src/task_list/card_components/narrow/task/narrow_task_card.dart';
 import 'package:list/src/task_list/card_components/task_card_observer.dart';
+import 'package:list/src/task_list/card_components/task_list_card_event.dart';
 import 'package:list/src/task_list/card_type.dart';
 import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
+import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 
 @Component(
@@ -35,6 +37,12 @@ class SublistComponent implements DropTargetObserver {
   @Input() TaskCardObserver observer;
   @Input() HighlightOptions highlight;
 
+
+  bool get showHeader => model.showHeader && model.headerModel != null;
+
+  bool get showSublist => model.showSublist && model.sublist != null && model.sublist.isNotEmpty;
+
+
   bool get isDefaultCard => cardType == CardType.Default;
 
   bool get isNarrowCard => cardType == CardType.Narrow;
@@ -48,33 +56,36 @@ class SublistComponent implements DropTargetObserver {
 
   bool get highlightSublist => _hlThis && highlight.position == HighlightPosition.Sublist;
 
+
   DropTargetObserver get dndObserver => this;
+
+  TaskListViewModel get headerModel => model.headerModel;
 
 
   @override
   void onDragOver(html.MouseEvent event) {
-    final e = new DndEvent(model.model.model, event);
+    final e = new DndEvent(model.headerModel.model, event);
     observer.onDragOver(e);
   }
 
   @override
   void onDragLeave(html.MouseEvent event) {
-    final e = new DndEvent(model.model.model, event);
+    final e = new DndEvent(model.headerModel.model, event);
     observer.onDragLeave(e);
   }
 
   @override
   void onDragEnter(html.MouseEvent event) {
-    final e = new DndEvent(model.model.model, event);
+    final e = new DndEvent(model.headerModel.model, event);
     observer.onDragEnter(e);
   }
 
   @override
   void onDrop(html.MouseEvent event) {
-    final e = new DndEvent(model.model.model, event);
+    final e = new DndEvent(model.headerModel.model, event);
     observer.onDrop(e);
   }
 
 
-  bool get _hlThis => highlight != null && highlight.model == model?.model?.model;
+  bool get _hlThis => highlight != null && highlight.model == model?.headerModel?.model;
 }

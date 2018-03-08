@@ -25,20 +25,20 @@ void main() {
 
       final sublistVm = mapper.buildSkeleton(m4).viewModel;
 
-      expect(sublistVm.model, isNull, reason: 'root node without VM');
+      expect(sublistVm.headerModel, isNull, reason: 'root node without VM');
       expect(sublistVm.sublist, hasLength(1));
 
       final m1Vm = sublistVm.sublist.first;
-      expect(m1Vm.model.model, m1);
+      expect(m1Vm.headerModel.model, m1);
 
       final m2Vm = m1Vm.sublist.first;
-      expect(m2Vm.model.model, m2);
+      expect(m2Vm.headerModel.model, m2);
 
       final m3Vm = m2Vm.sublist.first;
-      expect(m3Vm.model.model, m3);
+      expect(m3Vm.headerModel.model, m3);
 
       final m4Vm = m3Vm.sublist.first;
-      expect(m4Vm.model.model, m4);
+      expect(m4Vm.headerModel.model, m4);
       expect(m4Vm.sublist, isEmpty);
     });
 
@@ -94,7 +94,7 @@ void main() {
 
       final sublistVm = mapper.map2(sublistToShow);
 
-      expect(sublistVm.model, isNull, reason: 'root node without VM');
+      expect(sublistVm.headerModel, isNull, reason: 'root node without VM');
       expect(sublistVm.showHeader, isFalse, reason: 'root always invisible');
       expect(sublistVm.sublist, hasLength(1));
 

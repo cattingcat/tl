@@ -1,7 +1,7 @@
 <div>
     <div
-        *ngIf="model.model != null"
-        [draggable]="model.model"
+        *ngIf="showHeader"
+        [draggable]="headerModel"
         [drop-target]="dndObserver"
         [class.highlight-before]="highlightBefore"
         [class.highlight-after]="highlightAfter"
@@ -9,16 +9,16 @@
 
         <default-task-card
                 *ngIf="isDefaultCard"
-                [model]="model.model"
+                [model]="headerModel"
                 [observer]="observer"></default-task-card>
 
         <narrow-task-card
                 *ngIf="isNarrowCard"
-                [model]="model.model"
+                [model]="headerModel"
                 [observer]="observer"></narrow-task-card>
     </div>
     <div
-        *ngIf="model.sublist != null"
+        *ngIf="showSublist"
         [class.highlight-sublist]="highlightSublist"
         class="children">
 
