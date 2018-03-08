@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:list/src/core_components/common/subscriptions.dart';
+import 'package:list/src/task_list/card_components/click_card_event.dart';
 import 'package:list/src/task_list/card_components/dnd_events.dart';
 import 'package:list/src/task_list/card_components/task_card_observer.dart';
 import 'package:list/src/task_list/card_type.dart';
@@ -51,6 +52,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
   @Input() CardType cardType = CardType.Default;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _cardObserver.cardToggle;
+  @Output() Stream<ClickCardEvent> get clickCard => _cardObserver.clickCard;
   @Output() Stream<DndEvent> get dragOver => _cardObserver.dragOver;
   @Output() Stream<DndEvent> get dragEnter => _cardObserver.dragEnter;
   @Output() Stream<DndEvent> get dragLeave => _cardObserver.dragLeave;

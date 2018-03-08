@@ -1,5 +1,6 @@
 import 'package:angular/angular.dart';
 import 'package:list/src/core/linked_tree/linked_tree.dart';
+import 'package:list/src/task_list/card_components/click_card_event.dart';
 import 'package:list/src/task_list/card_components/default/task/default_task_card.dart';
 import 'package:list/src/task_list/card_components/dnd_events.dart';
 import 'package:list/src/task_list/highlight_options.dart';
@@ -78,5 +79,9 @@ class TaskListDemo {
   }
   void onDrop(DndEvent event) {
     print('drop ${event.model}');
+  }
+
+  void onClick(ClickCardEvent event) {
+    print('clicked: ${event.model}');
   }
 }

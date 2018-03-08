@@ -7,7 +7,8 @@
         (dragOver)="onDragOver($event)"
         (dragEnter)="onDragEnter($event)"
         (dragLeave)="onDragLeave($event)"
-        (drop)="onDrop($event)"></task-list>
+        (drop)="onDrop($event)"
+        (clickCard)="onClick($event)"></task-list>
 
     <button
         (click)="changeDataSource()">
