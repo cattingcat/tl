@@ -1,4 +1,3 @@
-import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/models/task_list_model_base.dart';
 import 'package:list/src/task_list/models/task_model.dart';
 import 'package:list/src/task_list/task_list_component/utils/viewport_view_models.dart';
@@ -18,12 +17,6 @@ class ViewModelStub implements TaskListViewModel {
   @override bool get isGroup => false;
   @override bool get isTask => true;
   @override String toString() => text;
-
-  @override bool get highlightSublist => false;
-  @override bool get highlightCenter => false;
-  @override bool get highlightAfter => false;
-  @override bool get highlightBefore => false;
-  @override HighlightPosition get highlightPosition => null;
 }
 
 class ViewModelDataSourceMock extends Mock implements ViewModelDataSource {}

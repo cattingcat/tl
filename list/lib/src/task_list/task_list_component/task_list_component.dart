@@ -159,11 +159,6 @@ class TaskListComponent implements AfterViewInit, OnChanges, OnDestroy, TaskCard
       _viewportModels.cardType = cardType;
       _resetList();
     }
-
-    if(changes.containsKey('highlight') && !changes.containsKey('dataSource')) {
-      final highlight = changes['highlight'].currentValue as HighlightOptions;
-      _viewModelMapper.highlightOptions = highlight;
-    }
   }
 
   @override

@@ -9,9 +9,6 @@ import 'package:list/src/task_list/view_models/task_list_view_model.dart';
 
 /// Maps model collection to ViewModel collection
 class ViewModelMapper  {
-  HighlightOptions highlightOptions;
-
-
   SublistViewModel map2(Iterable<TaskListModelBase> models) {
     assert(models != null && models.isNotEmpty, 'Models required');
 
