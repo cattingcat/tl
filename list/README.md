@@ -33,7 +33,7 @@
     git push origin heroku-deploy
 ```
 6. Run deploy on heroku dashboard
-7. Open [herokuapp](https://notes-for-poor.herokuapp.com/list/build/web/index.html)
+7. Open [herokuapp](https://notes-for-poor.herokuapp.com)
 
 
 ### OTHER COMMENTS
@@ -42,6 +42,8 @@
 [Solution for windows angular](https://github.com/dart-lang/angular/issues/766)
 
 [Material icons](https://material.io/icons)
+
+[Color schemes](https://www.canva.com/learn/website-color-schemes/)
 
 Multiple SDK on same machine
 ```
