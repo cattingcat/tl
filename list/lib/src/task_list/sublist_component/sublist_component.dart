@@ -9,7 +9,6 @@ import 'package:list/src/task_list/card_components/default/task/default_task_car
 import 'package:list/src/task_list/card_components/dnd_events.dart';
 import 'package:list/src/task_list/card_components/narrow/task/narrow_task_card.dart';
 import 'package:list/src/task_list/card_components/task_card_observer.dart';
-import 'package:list/src/task_list/card_components/task_list_card_event.dart';
 import 'package:list/src/task_list/card_type.dart';
 import 'package:list/src/task_list/highlight_options.dart';
 import 'package:list/src/task_list/view_models/sublist_view_model.dart';
