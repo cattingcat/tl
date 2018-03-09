@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using UiService.BusinessObjects;
 using UiService.Services;
 
@@ -20,10 +21,10 @@ namespace UiService.Controllers
             return new OkObjectResult(_taskService.GetAll());
         }
         
-        [HttpGet("{id}", Name = nameof(Get))]
-        public IActionResult Get([FromQuery] int id)
+        [HttpGet("{uuid}", Name = nameof(Get))]
+        public IActionResult Get([FromQuery] Guid uuid)
         {
-            var task = _taskService.Get(id);
+            var task = _taskService.Get(uuid);
             
             if (task == null)
                 return new NotFoundResult();
@@ -48,10 +49,10 @@ namespace UiService.Controllers
             return new OkObjectResult(_taskService.Create(task));
         }
 
-        [HttpDelete("{id}", Name = nameof(Delete))]
-        public IActionResult Delete([FromQuery] int id)
+        [HttpDelete("{uuid}", Name = nameof(Delete))]
+        public IActionResult Delete([FromQuery] Guid uuid)
         {
-            var status = _taskService.Delete(id);
+            var status = _taskService.Delete(uuid);
 
             return new OkObjectResult(status);
         }

@@ -1,8 +1,10 @@
-﻿namespace UiService.BusinessObjects
+﻿using System;
+
+namespace UiService.BusinessObjects
 {
     public class Task
     {
-        public int Id { get; set; }
+        public Guid Uuid { get; set; }
 
         public string Name { get; set; }
 

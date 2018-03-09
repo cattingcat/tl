@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UiService.BusinessObjects;
 
 namespace UiService.Services
 {
     public class TaskService
     {
-        private readonly Dictionary<int, Task> _tasks = new Dictionary<int, Task>();
+        private readonly Dictionary<Guid, Task> _tasks = new Dictionary<Guid, Task>();
 
         /// <summary>
         /// Создать таску
@@ -16,22 +17,25 @@ namespace UiService.Services
         {
             if (task == null)
                 return null;
+
+            if (Guid.Empty == task.Uuid)
+                task.Uuid = Guid.NewGuid();
             
-            _tasks.TryAdd(task.Id, task);
+            _tasks.TryAdd(task.Uuid, task);
             return task;
         }
 
         /// <summary>
         /// Получить по идентификатору
         /// </summary>
-        /// <param name="id">Идентификатор</param>
+        /// <param name="uuid">Идентификатор</param>
         /// <returns>Таска</returns>
-        public Task Get(int id)
+        public Task Get(Guid uuid)
         {
-            if (id < 1)
+            if (Guid.Empty == uuid)
                 return null;
 
-            _tasks.TryGetValue(id, out var task);
+            _tasks.TryGetValue(uuid, out var task);
             return task;
         }
 
@@ -54,8 +58,8 @@ namespace UiService.Services
             if (task == null)
                 return null;
 
-            _tasks.Remove(task.Id);
-            _tasks.TryAdd(task.Id, task);
+            _tasks.Remove(task.Uuid);
+            _tasks.TryAdd(task.Uuid, task);
 
             return task;
         }
@@ -63,15 +67,15 @@ namespace UiService.Services
         /// <summary>
         /// Удаление объекта
         /// </summary>
-        /// <param name="id">Идентификатор объекта</param>
-        public bool Delete(int id)
+        /// <param name="uuid">Идентификатор объекта</param>
+        public bool Delete(Guid uuid)
         {
-            var isExist = _tasks.TryGetValue(id, out Task _);
+            var isExist = _tasks.TryGetValue(uuid, out Task _);
             
             if (!isExist)
                 return false;
             
-            _tasks.Remove(id);
+            _tasks.Remove(uuid);
             return true;
         }
     }
