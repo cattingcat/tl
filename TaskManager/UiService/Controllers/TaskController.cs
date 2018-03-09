@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UiService.BusinessObjects;
 using UiService.Services;
 
@@ -52,7 +51,7 @@ namespace UiService.Controllers
         [HttpDelete("{id}", Name = nameof(Delete))]
         public IActionResult Delete([FromQuery] int id)
         {
-            bool status = _taskService.Delete(id);
+            var status = _taskService.Delete(id);
 
             return new OkObjectResult(status);
         }

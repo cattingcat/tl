@@ -5,7 +5,7 @@ namespace UiService.Services
 {
     public class TaskService
     {
-        private Dictionary<int, Task> Tasks = new Dictionary<int, Task>();
+        private readonly Dictionary<int, Task> _tasks = new Dictionary<int, Task>();
 
         /// <summary>
         /// Создать таску
@@ -17,7 +17,7 @@ namespace UiService.Services
             if (task == null)
                 return null;
             
-            Tasks.TryAdd(task.Id, task);
+            _tasks.TryAdd(task.Id, task);
             return task;
         }
 
@@ -31,7 +31,7 @@ namespace UiService.Services
             if (id < 1)
                 return null;
 
-            Tasks.TryGetValue(id, out var task);
+            _tasks.TryGetValue(id, out var task);
             return task;
         }
 
@@ -41,7 +41,7 @@ namespace UiService.Services
         /// <returns>Внезапно! все элементы</returns>
         public IEnumerable<Task> GetAll()
         {
-            return Tasks.Values;
+            return _tasks.Values;
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace UiService.Services
             if (task == null)
                 return null;
 
-            Tasks.Remove(task.Id);
-            Tasks.TryAdd(task.Id, task);
+            _tasks.Remove(task.Id);
+            _tasks.TryAdd(task.Id, task);
 
             return task;
         }
@@ -66,12 +66,12 @@ namespace UiService.Services
         /// <param name="id">Идентификатор объекта</param>
         public bool Delete(int id)
         {
-            var isExist = Tasks.TryGetValue(id, out Task _);
+            var isExist = _tasks.TryGetValue(id, out Task _);
             
             if (!isExist)
                 return false;
             
-            Tasks.Remove(id);
+            _tasks.Remove(id);
             return true;
         }
     }
