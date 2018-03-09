@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+  user-select: none;
+
+  .container {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 100%;
+  }
+
+  $separator-color: #E2E2E2;
+  $separator-width: 2px;
+
+  .separator {
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    width: $separator-width;
+    z-index: 100;
+    will-change: transform;
+    transition: all 150ms;
+    transition-property: transform, background-color;
+    background-color: $separator-color;
+    cursor: col-resize;
+
+    &:hover {
+      background-color: #7e7e7e;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .left {
+    border-right: solid $separator-color $separator-width;
+  }
+
+  .right {
+  }
+}

@@ -23,7 +23,4 @@ class AppHeaderComponent {
 
 
   bool isActive(ItemModel item) => activeItem == item;
-
-  bool showIndicator(ItemModel item) =>
-    item.level != CounterLevel.None && item.title != null && item.title.isNotEmpty;
 }
