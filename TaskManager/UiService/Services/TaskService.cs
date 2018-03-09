@@ -78,5 +78,17 @@ namespace UiService.Services
             _tasks.Remove(uuid);
             return true;
         }
+
+        public void Generate(int count)
+        {
+            for (int i = 1; i <= count; i++)
+            {
+                Create(new Task
+                {
+                    Name = $"Task {i}",
+                    Body = $"Some body of Task {i}"
+                });
+            }
+        }
     }
 }

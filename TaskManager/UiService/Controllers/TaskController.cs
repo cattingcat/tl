@@ -56,5 +56,13 @@ namespace UiService.Controllers
 
             return new OkObjectResult(status);
         }
+
+        [HttpGet(nameof(Generate))]
+        public IActionResult Generate([FromQuery] int count)
+        {
+            _taskService.Generate(count);
+            
+            return new OkResult();
+        }
     }
 }
