@@ -1,6 +1,10 @@
 /* TODO: Download fonts and store with static content */
 @import url(https://cdn.rawgit.com/mailtoharshit/San-Francisco-Font-/master/sanfrancisco.css);
 
+html, body {
+  height:100%;
+}
+
 body {
   margin: 0;
   padding: 0;

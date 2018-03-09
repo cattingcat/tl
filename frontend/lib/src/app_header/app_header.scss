@@ -1,14 +1,13 @@
+@import '../menu_common/menu_common';
+
 :host {
   $header-height: 50px;
-  $base-color: #494E6B;
-  $inactive-text-color: #afb1bd;
-  $active-text-color: #ced1e0;
-  $active-bg-color: #383c52;
 
   display: block;
   height: $header-height;
   background-color: $base-color;
   color: $inactive-text-color;
+  user-select: none;
 
   header {
     height: 100%;
@@ -103,8 +102,13 @@
     padding: 5px;
 
     svg {
+      fill: $inactive-text-color;
       height: $header-height - 10;
       width: $header-height - 10;
+    }
+
+    &:hover svg {
+      fill: $active-text-color;
     }
   }
 }

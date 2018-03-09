@@ -1,2 +1,15 @@
 $bg-color: #FFFFFF;
 $highlight-color: #CAEBF2;
+
+
+.icon-button {
+  border: none;
+  background: none;
+  padding: 0;
+  vertical-align: bottom;
+  outline: none;
+
+  svg {
+    vertical-align: bottom;
+  }
+}

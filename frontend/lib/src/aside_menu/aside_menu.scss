@@ -1,0 +1,33 @@
+@import '../menu_common/menu_common';
+@import '../core_components/core';
+
+:host {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  width: 200px;
+  background-color: $base-color;
+  z-index: 100;
+  border-top: solid 1px #666669;
+
+
+  .pin-btn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    transform: rotate(35deg);
+
+    svg {
+      fill: $inactive-text-color;
+    }
+
+    &:hover svg {
+      fill: $active-text-color;
+    }
+
+    &.pined {
+      transform: none;
+    }
+  }
+}

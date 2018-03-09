@@ -1,3 +1,5 @@
+@import '../core';
+
 :host {
   display: inline-block;
   width: 300px;
@@ -14,16 +16,4 @@
     user-select: none;
     border-bottom: transparent 1px solid;
   }
-
-  .icon-button {
-    border: none;
-    background: none;
-    padding: 0;
-    vertical-align: bottom;
-
-    svg {
-      vertical-align: bottom;
-    }
-  }
-
 }
