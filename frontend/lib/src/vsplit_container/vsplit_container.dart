@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
+import 'package:frontend/src/core_components/common/subscriptions.dart';
+import 'package:frontend/src/resize_utils/resizer_wrapper.dart';
 
 @Component(
     selector: 'vsplit-container',
@@ -15,9 +18,10 @@ import 'package:angular/angular.dart';
 class VsplitContainer implements AfterViewInit, OnDestroy {
   static const int _SeparatorWDiv2 = 1;
   static const String _HiddenClass = 'hidden';
+  final Subscriptions _subscr = new Subscriptions();
   final html.Element _hostEl;
-  bool _resizing = false;
   int _separatorPosition = 0;
+  ResizerWrapper _resizer;
 
   VsplitContainer(this._hostEl);
 
@@ -26,7 +30,7 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
   @ViewChild('rightContainer') html.Element rightEl;
   @ViewChild('separator') html.Element separatorEl;
 
-  int leftMinWidthPx = 100;
+  int leftMinWidthPx = 350;
   int rightMinWidthPx = 100;
   int leftWidth = 50;
   int rightWidth = 50;
@@ -36,14 +40,17 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
   @override
   void ngAfterViewInit() {
     if(allowResize) {
-      html.document.body.addEventListener('mouseup', _handleMouseUp, false);
-
       _hostEl
-        ..addEventListener('mousemove', _mouseMove, false)
         ..addEventListener('mouseenter', _mouseEnter, false)
         ..addEventListener('mouseleave', _mouseLeave, false);
 
-      separatorEl.addEventListener('mousedown', _handleMouseDown, false);
+      _resizer = new ResizerWrapper(separatorEl);
+
+      Zone.ROOT.run(() {
+        _subscr
+          ..listen(_resizer.onResizing, _mouseMove)
+          ..listen(_resizer.onFinish, _handleMouseUp);
+      });
     }
 
     _setLeftPercent(leftWidth);
@@ -51,30 +58,22 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
 
   @override
   void ngOnDestroy() {
-    html.document.body.removeEventListener('mouseup', _handleMouseUp, false);
-
+    _subscr.cancelClear();
     _hostEl
-      ..removeEventListener('mousemove', _mouseMove, false)
       ..removeEventListener('mouseenter', _mouseEnter, false)
       ..removeEventListener('mouseleave', _mouseLeave, false);
 
-    separatorEl.removeEventListener('mousedown', _handleMouseDown, false);
+    _resizer?.destroy();
   }
 
 
-  void _handleMouseDown(html.MouseEvent event) {
-    _resizing = true;
-  }
+
 
   void _handleMouseUp(html.MouseEvent event) {
-    if(_resizing) {
-      final width = _hostEl.clientWidth;
-      final leftPercent = (((_separatorPosition + _SeparatorWDiv2) / width) * 100).floor();
+    final width = _hostEl.clientWidth;
+    final leftPercent = (((_separatorPosition + _SeparatorWDiv2) / width) * 100).floor();
 
-      _setLeftPercent(leftPercent);
-    }
-
-    _resizing = false;
+    _setLeftPercent(leftPercent);
   }
 
 
@@ -91,17 +90,15 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
   void _mouseMove(html.MouseEvent event) {
     NgZone.assertNotInAngularZone();
 
-    if(_resizing) {
-      final positionPretender = _separatorPosition + event.movement.x;
-      final width = _hostEl.clientWidth;
+    final positionPretender = _separatorPosition + event.movement.x;
+    final width = _hostEl.clientWidth;
 
-      // Don't allow to move outside bounds
-      if(positionPretender < leftMinWidthPx
-          || positionPretender > width - rightMinWidthPx) return;
+    // Don't allow to move outside bounds
+    if(positionPretender < leftMinWidthPx
+        || positionPretender > width - rightMinWidthPx) return;
 
-      _separatorPosition += event.movement.x;
-      _setSeparatorPos(_separatorPosition);
-    }
+    _separatorPosition += event.movement.x;
+    _setSeparatorPos(_separatorPosition);
   }
 
 
