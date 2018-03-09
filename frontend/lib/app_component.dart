@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+
 import 'package:angular/core.dart';
 import 'package:frontend/src/app_header/app_header.dart';
 import 'package:frontend/src/task_list_demo/task_list_demo.dart';
@@ -13,4 +15,14 @@ import 'package:frontend/src/vsplit_container/vsplit_container.dart';
     VsplitContainer
   ]
 )
-class AppComponent { }
+class AppComponent implements AfterViewInit {
+  final html.Element _hostEl;
+
+  AppComponent(this._hostEl);
+
+
+  @override
+  void ngAfterViewInit() {
+    _hostEl.classes.add('active');
+  }
+}

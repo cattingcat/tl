@@ -38,10 +38,10 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
     if(allowResize) {
       html.document.body.addEventListener('mouseup', _handleMouseUp, false);
 
-      _hostEl..addEventListener(
-          'mousemove', _mouseMove, false)..addEventListener(
-          'mouseenter', _mouseEnter, false)..addEventListener(
-          'mouseleave', _mouseLeave, false);
+      _hostEl
+        ..addEventListener('mousemove', _mouseMove, false)
+        ..addEventListener('mouseenter', _mouseEnter, false)
+        ..addEventListener('mouseleave', _mouseLeave, false);
 
       separatorEl.addEventListener('mousedown', _handleMouseDown, false);
     }
