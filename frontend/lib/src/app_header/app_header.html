@@ -2,10 +2,18 @@
     <nav class="header-item logo">
         <a href="/">N4C</a>
     </nav>
-    <nav class="header-item">
-        <a href="/">item 1</a>
-    </nav>
-    <nav class="header-item">
-        <a href="/">item 2</a>
+
+    <nav
+        *ngFor="let item of items"
+        [class.active]="isActive(item)"
+        class="header-item radio-item">
+
+        <span
+            *ngIf="item.showIndicator"
+            [class.red]="item.isRed"
+            [class.yellow]="item.isYellow"
+            class="indicator">{{item.counter}}</span>
+
+        <a href="/">{{item.title}}</a>
     </nav>
 </header>
