@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using UiService.Services;
 
 namespace UiService
 {
@@ -23,7 +24,9 @@ namespace UiService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddSingleton(sp => new TaskService());
+            
+            services.AddMvc();   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +36,7 @@ namespace UiService
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
         }
     }
