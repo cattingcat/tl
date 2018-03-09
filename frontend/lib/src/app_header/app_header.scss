@@ -79,4 +79,32 @@
     width: 100px;
     font-size: x-large;
   }
+
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    float: right;
+    cursor: pointer;
+
+    .avatar {
+    }
+
+    .profile-info {
+      .full-name {
+        text-transform: none;
+        font-size: small;
+        line-height: $header-height;
+      }
+    }
+  }
+
+  .menu {
+    cursor: pointer;
+    padding: 5px;
+
+    svg {
+      height: $header-height - 10;
+      width: $header-height - 10;
+    }
+  }
 }
