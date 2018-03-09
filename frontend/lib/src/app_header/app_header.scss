@@ -1,0 +1,82 @@
+:host {
+  $header-height: 50px;
+  $base-color: #494E6B;
+  $inactive-text-color: #afb1bd;
+  $active-text-color: #ced1e0;
+  $active-bg-color: #383c52;
+
+  display: block;
+  height: $header-height;
+  background-color: $base-color;
+  color: $inactive-text-color;
+
+  header {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-item {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0 13px 0 9px;
+    font-size: x-large;
+    vertical-align: middle;
+    text-transform: uppercase;
+
+    a:link, a:visited {
+      text-align: center;
+      vertical-align: middle;
+      height: 100%;
+      line-height: $header-height;
+
+      text-decoration: inherit;
+      color: currentColor;
+      cursor: auto;
+    }
+
+    .indicator {
+      $size: 18px;
+
+      color: #fdfdfd;
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      font-size: small;
+      border-radius: 100%;
+      height: $size;
+      width: $size;
+      line-height: $size;
+      text-align: center;
+      font-weight: bold;
+
+      &.red {
+        background: #F24C4E;
+      }
+
+      &.yellow {
+        background: #EAB126;
+      }
+    }
+  }
+
+  .radio-item {
+    &:hover {
+      box-shadow: inset 0 0 5px black;
+      background-color: $active-bg-color;
+      color: $active-text-color;
+    }
+
+    &.active {
+      background-color: $active-bg-color;
+      color: $active-text-color;
+    }
+  }
+
+  .logo {
+    width: 100px;
+    font-size: x-large;
+  }
+}
