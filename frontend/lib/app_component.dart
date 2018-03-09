@@ -1,5 +1,3 @@
-import 'dart:html' as html;
-
 import 'package:angular/angular.dart';
 import 'package:frontend/src/app_header/app_header.dart';
 import 'package:frontend/src/aside_menu/aside_menu.dart';

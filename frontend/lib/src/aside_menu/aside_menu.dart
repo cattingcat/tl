@@ -2,11 +2,7 @@ import 'dart:async';
 import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
-import 'package:frontend/src/app_header/header_events.dart';
-import 'package:frontend/src/app_header/item_model.dart';
-import 'package:frontend/src/app_header/profile_model.dart';
 import 'package:frontend/src/core_components/common/subscriptions.dart';
-import 'package:frontend/src/core_components/single_avatar/single_avatar.dart';
 import 'package:frontend/src/resize_utils/resizer_wrapper.dart';
 
 @Component(
