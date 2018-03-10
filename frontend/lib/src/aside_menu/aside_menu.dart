@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
+import 'package:frontend/src/collapsable_container/collapsible_container.dart';
 import 'package:frontend/src/core_components/common/subscriptions.dart';
 import 'package:frontend/src/resize_utils/resizer_wrapper.dart';
 
@@ -11,7 +12,8 @@ import 'package:frontend/src/resize_utils/resizer_wrapper.dart';
     templateUrl: 'aside_menu.html',
     directives: const <Object>[
       NgFor,
-      NgIf
+      NgIf,
+      CollapsibleContainerComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 )

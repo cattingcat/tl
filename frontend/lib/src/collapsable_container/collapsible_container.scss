@@ -1,0 +1,47 @@
+@import '../menu_common/menu_common';
+
+:host {
+  display: block;
+  color: $inactive-text-color;
+
+  .header {
+    cursor: pointer;
+
+    svg {
+      transition: transform 200ms;
+      fill: currentColor;
+      vertical-align: bottom;
+      transform: rotate(-90deg);
+    }
+
+    &.expand {
+      color: $active-text-color;
+
+      svg {
+        transform: rotate(0);
+      }
+    }
+
+    &:hover {
+      color: $active-text-color;
+    }
+  }
+
+  .content {
+    display: block;
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 200ms ease-in;
+    padding-left: 10px;
+
+    &.collapse {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 200ms ease-out;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
