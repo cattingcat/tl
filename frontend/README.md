@@ -39,6 +39,8 @@
 ### OTHER COMMENTS
 [Dart2 + Angular5 example](https://github.com/dart-lang/angular_components_example)
 
+[Dart builder info](https://github.com/dart-lang/build)
+
 [Solution for windows angular](https://github.com/dart-lang/angular/issues/766)
 
 [Material icons](https://material.io/icons)
@@ -50,4 +52,7 @@ Multiple SDK on same machine
     sudo ln -sTf ~/dart2/ /usr/lib/dart
 ```
 
-
+Bypass CORS for chrome
+```
+    google-chrome --disable-web-security
+```
