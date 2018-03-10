@@ -54,5 +54,5 @@ Multiple SDK on same machine
 
 Bypass CORS for chrome
 ```
-    google-chrome --disable-web-security
+    google-chrome --disable-web-security --user-data-dir
 ```

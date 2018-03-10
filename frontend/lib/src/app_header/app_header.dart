@@ -30,7 +30,7 @@ class AppHeaderComponent {
     new ItemModel('Item 4', '4', CounterLevel.Red)
   ];
 
-  final ProfileModel profile = new ProfileModel('Peka Yobavich', 'https://2ch.hk/s/src/2256158/15191668427640.jpg');
+  @Input() ProfileModel profile;
 
   @Output() Stream<RadioItemClickEvent> get radioClick => _radioItemClickCtrl.stream;
   @Output() Stream<HeaderItemClickEvent> get profileClick => _profileClickCtrl.stream;
