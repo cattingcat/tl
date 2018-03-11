@@ -15,26 +15,13 @@
 ```
 
 ### DEPLOY TO HEROKU
-1. Checkout to deploy branch
+1. Build app; See **BUILD** section
+2. Move build artifacts to [backend repo](https://github.com/stupidnerd/TaskManager) to **wwwroot** directory
 ``` 
-    git checkout heroku-deploy 
-```
-
-2. Pull changes from master-branch
-```
-    git pull origin master
-```
-3. Check **index.php** in root of repo
-4. Build app; See **BUILD** section
-5. Add build artifacts and push them to **heroku-deploy** branch
-``` 
-    git add ./build/web -f
-    git add ./build/packages/browser -f
     git commit -m '...'
     git push origin heroku-deploy
 ```
-6. Run deploy on heroku dashboard
-7. Open [herokuapp](https://notes-for-poor.herokuapp.com)
+7. Open [herokuapp](https://task-manager-for-poor.herokuapp.com)
 
 
 ### OTHER COMMENTS
