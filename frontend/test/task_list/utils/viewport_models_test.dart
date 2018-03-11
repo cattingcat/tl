@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
 class ViewModelStub implements TaskListViewModel {
-  @override final TaskListModelBase model;
+  @override final TaskListModel model;
   final String text;
 
   ViewModelStub(this.text, {this.model});

@@ -5,17 +5,17 @@ import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
 
 class ViewportModels {
-  final LinkedTree<TaskListModelBase> _tree;
+  final LinkedTree<TaskListModel> _tree;
 
-  TaskListModelBase _start, _end;
-  final _models = new Queue<TaskListModelBase>();
+  TaskListModel _start, _end;
+  final _models = new Queue<TaskListModel>();
 
   ViewportModels(this._tree);
 
 
-  Iterable<TaskListModelBase> get models => _models;
+  Iterable<TaskListModel> get models => _models;
 
-  void takeFrontWhile(bool test(TaskListModelBase model)) {
+  void takeFrontWhile(bool test(TaskListModel model)) {
     final treeIterable = new TreeIterable.forward(_tree, _end);
     final iterable = _end == null ? treeIterable : treeIterable.skip(1);
 
@@ -30,7 +30,7 @@ class ViewportModels {
     _setAnchors();
   }
 
-  void takeBackWhile(bool test(TaskListModelBase model)) {
+  void takeBackWhile(bool test(TaskListModel model)) {
     assert(_start != null, 'call Take front before');
 
     final iterable = new TreeIterable.backward(_tree, _start).skip(1);
@@ -45,7 +45,7 @@ class ViewportModels {
     _setAnchors();
   }
 
-  void removeFrontWhile(bool test(TaskListModelBase model)) {
+  void removeFrontWhile(bool test(TaskListModel model)) {
     bool b = true;
     do {
       b = test(_models.last);
@@ -55,12 +55,27 @@ class ViewportModels {
     _setAnchors();
   }
 
-  void removeBackWhile(bool test(TaskListModelBase model)) {
+  void removeBackWhile(bool test(TaskListModel model)) {
     bool b = true;
     do {
       b = test(_models.first);
       if(b) _models.removeFirst();
     } while(b && _models.isNotEmpty);
+
+    _setAnchors();
+  }
+
+  void retakeWhile(bool test(TaskListModel model)) {
+    final treeIterable = new TreeIterable.forward(_tree, _start);
+    _models.clear();
+
+    for(var model in treeIterable) {
+      if(test(model)) {
+        _models.addLast(model);
+      } else {
+        break;
+      }
+    }
 
     _setAnchors();
   }

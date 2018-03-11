@@ -34,7 +34,7 @@ class TaskListDemo {
   HighlightOptions highlightOptions;
 
   TaskListDemo() {
-    final tree = new LinkedTree<TaskListModelBase>();
+    final tree = new LinkedTree<TaskListModel>();
     for(int i = 0; i < 50; ++i) {
       final task = new TaskModel('$i');
       task.isExpanded = true;

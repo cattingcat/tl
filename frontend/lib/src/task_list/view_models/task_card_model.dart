@@ -9,7 +9,7 @@ class TaskCardModel extends TaskListViewModel {
 
 
   @override
-  TaskListModelBase get model => _model;
+  TaskListModel get model => _model;
 
   @override
   String toString() => 'TaskCardModel $_model';

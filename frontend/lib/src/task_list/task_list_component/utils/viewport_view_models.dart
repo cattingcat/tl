@@ -63,7 +63,7 @@ class ViewportViewModels {
     return _models = _dataSource.getRange(_start, endIndex).toList();
   }
 
-  int getIndexOfModel(TaskListModelBase model) {
+  int getIndexOfModel(TaskListModel model) {
     final viewportIndex = _models.takeWhile((vm) => vm.model != model).length;
 
     return _start + viewportIndex;

@@ -4,5 +4,5 @@ import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 class TitleChangeCardEvent extends TaskCardEvent {
   final String title;
 
-  TitleChangeCardEvent(TaskListModelBase model, this.title): super(model);
+  TitleChangeCardEvent(TaskListModel model, this.title): super(model);
 }

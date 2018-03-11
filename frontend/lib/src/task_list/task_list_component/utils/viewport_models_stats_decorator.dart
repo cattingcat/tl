@@ -17,20 +17,20 @@ class ViewportModelsStatsDecorator implements ViewportModels {
 
   set cardType(CardType value) {
     _height = _original.models
-        .map((m) => cardType.getHeight(m.type))
+        .map((m) => cardType.getHeight(m))
         .reduce((a, b) => a + b);
     _cardType = value;
   }
 
 
   @override
-  Iterable<TaskListModelBase> get models => _original.models;
+  Iterable<TaskListModel> get models => _original.models;
 
   @override
-  void removeBackWhile(bool test(TaskListModelBase model)) {
+  void removeBackWhile(bool test(TaskListModel model)) {
     _original.removeBackWhile((m) {
       if(test(m)) {
-        _height -= _cardType.getHeight(m.type);
+        _height -= _cardType.getHeight(m);
         return true;
       }
 
@@ -39,10 +39,10 @@ class ViewportModelsStatsDecorator implements ViewportModels {
   }
 
   @override
-  void removeFrontWhile(bool test(TaskListModelBase model)) {
+  void removeFrontWhile(bool test(TaskListModel model)) {
     _original.removeFrontWhile((m) {
       if(test(m)) {
-        _height -= _cardType.getHeight(m.type);
+        _height -= _cardType.getHeight(m);
         return true;
       }
 
@@ -51,10 +51,10 @@ class ViewportModelsStatsDecorator implements ViewportModels {
   }
 
   @override
-  void takeBackWhile(bool test(TaskListModelBase model)) {
+  void takeBackWhile(bool test(TaskListModel model)) {
     _original.takeBackWhile((m) {
       if(test(m)) {
-        _height += _cardType.getHeight(m.type);
+        _height += _cardType.getHeight(m);
         return true;
       }
 
@@ -63,10 +63,23 @@ class ViewportModelsStatsDecorator implements ViewportModels {
   }
 
   @override
-  void takeFrontWhile(bool test(TaskListModelBase model)) {
+  void takeFrontWhile(bool test(TaskListModel model)) {
     _original.takeFrontWhile((m) {
       if(test(m)) {
-        _height += _cardType.getHeight(m.type);
+        _height += _cardType.getHeight(m);
+        return true;
+      }
+
+      return false;
+    });
+  }
+
+  @override
+  void retakeWhile(bool test(TaskListModel model)) {
+    _height = 0;
+    _original.retakeWhile((m) {
+      if(test(m)) {
+        _height += _cardType.getHeight(m);
         return true;
       }
 

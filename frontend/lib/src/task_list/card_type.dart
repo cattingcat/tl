@@ -1,8 +1,10 @@
+import 'package:frontend/src/task_list/core/card_size_mapper.dart';
 import 'package:frontend/src/task_list/models/model_type.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 
 /// Describes size map for cards
-class CardType {
+class CardType implements CardSizeMapper<TaskListModel> {
   /// Default task card preset
   static const CardType Default = const CardType._(40);
   /// Task card with minimal height
@@ -16,8 +18,9 @@ class CardType {
   const CardType._(this.taskCardHeight);
 
 
-  int getHeight(ModelType modelType) {
-    switch(modelType) {
+  @override
+  int getHeight(TaskListModel model) {
+    switch(model.type) {
       case ModelType.Task: return taskCardHeight;
       case ModelType.Folder: return folderCardHeight;
       case ModelType.Group: return groupCardHeight;

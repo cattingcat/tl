@@ -9,7 +9,7 @@ class FolderCardModel extends TaskListViewModel {
 
 
   @override
-  TaskListModelBase get model => _model;
+  TaskListModel get model => _model;
 
   @override
   String toString() => 'FolderCardModel $_model';

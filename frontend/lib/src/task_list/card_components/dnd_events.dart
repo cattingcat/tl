@@ -7,5 +7,5 @@ import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 class DndEvent extends TaskCardEvent {
   final html.MouseEvent nativeEvent;
 
-  DndEvent(TaskListModelBase model, this.nativeEvent): super(model);
+  DndEvent(TaskListModel model, this.nativeEvent): super(model);
 }

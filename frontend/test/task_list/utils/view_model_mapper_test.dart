@@ -10,7 +10,7 @@ void main() {
     test('#buildSkeleton()', () {
       final mapper = new ViewModelMapper();
 
-      final tree = new LinkedTree<TaskListModelBase>();
+      final tree = new LinkedTree<TaskListModel>();
       final m1 = new TaskModel('m1');
       final m2 = new TaskModel('m2');
       final m3 = new TaskModel('m3');
@@ -45,7 +45,7 @@ void main() {
     test('#buildSkeleton() shoud return correct mapping', () {
       final mapper = new ViewModelMapper();
 
-      final tree = new LinkedTree<TaskListModelBase>();
+      final tree = new LinkedTree<TaskListModel>();
       final m1 = new TaskModel('m1');
       final m2 = new TaskModel('m2');
       final m3 = new TaskModel('m3');
@@ -66,7 +66,7 @@ void main() {
     test('Should map sublist of modelt to hierarchical view model', () {
       final mapper = new ViewModelMapper();
 
-      final tree = new LinkedTree<TaskListModelBase>();
+      final tree = new LinkedTree<TaskListModel>();
       final m1 = new TaskModel('m1');
       final m2 = new TaskModel('m2');
       final m3 = new TaskModel('m3');

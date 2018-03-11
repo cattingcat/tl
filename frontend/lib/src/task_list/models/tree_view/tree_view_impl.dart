@@ -10,7 +10,7 @@ class TreeViewImpl implements TreeView {
 
 
   @override
-  final LinkedTree<TaskListModelBase> tree;
+  final LinkedTree<TaskListModel> tree;
 
 
   @override

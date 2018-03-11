@@ -6,19 +6,20 @@ import 'package:frontend/src/task_list/card_components/click_card_event.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
 import 'package:frontend/src/task_list/card_type.dart';
+import 'package:frontend/src/task_list/core/card_size_mapper.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/tree_view/events.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
 import 'package:frontend/src/task_list/sublist_component/sublist_component.dart';
 import 'package:frontend/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
+import 'package:frontend/src/task_list/task_list_component/utils/scroll_helper.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_wrapper_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/task_card_observer_impl.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/view_model_mapper.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
-import 'package:frontend/src/task_list/task_list_component/utils/viewport_models_stats_decorator.dart';
 import 'package:frontend/src/task_list/view_models/sublist_view_model.dart';
 
 @Component(
@@ -44,12 +45,11 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
   ViewportElement _viewportElement;
   ScrollWrapperElement _scrollWrapper;
-
-  ViewportModelsStatsDecorator _viewportModels;
+  ScrollHelper _scrollHelper;
 
   @Input() TreeView dataSource;
   @Input() HighlightOptions highlight;
-  @Input() CardType cardType = CardType.Default;
+  @Input() CardSizeMapper<TaskListModel> cardType = CardType.Default;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _cardObserver.cardToggle;
   @Output() Stream<ClickCardEvent> get clickCard => _cardObserver.clickCard;
@@ -91,8 +91,12 @@ class TaskListComponent implements OnChanges, OnDestroy {
           ..listen(treeView.onUpdate, _onUpdate);
       });
 
-      _viewportModels = new ViewportModelsStatsDecorator(new ViewportModels(treeView.tree), card);
+      final vpModels = new ViewportModels(treeView.tree);
+
       _scrollWrapper.setup(treeView, card);
+
+      _scrollHelper = new ScrollHelper(vpModels, card, _scrollWrapper.height);
+
       _hostEl.scrollTop = 0;
       _resetViewModel();
     }
@@ -100,7 +104,6 @@ class TaskListComponent implements OnChanges, OnDestroy {
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
       final cardType = changes['cardType'].currentValue as CardType;
       _scrollWrapper.setup(dataSource, cardType);
-      _viewportModels.cardType = cardType;
       _resetViewModel();
     }
   }
@@ -113,17 +116,13 @@ class TaskListComponent implements OnChanges, OnDestroy {
   }
 
 
-  int _viewportStart = 0;
   void _handleScrollEvent(Event e) {
     NgZone.assertNotInAngularZone();
 
     final scrollTop = _hostEl.scrollTop;
-
-    final targetViewportH = _estimatedViewportHeight;
     final targetViewportStart = (scrollTop - _spaceSize).clamp(0, _scrollWrapper.height);
-    //final targetWiewportEnd = targetViewportStart + targetViewportH;
 
-    final scrollDiff = targetViewportStart - _viewportStart;
+    final scrollDiff = targetViewportStart - _scrollHelper.viewportStart;
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
 
 
@@ -133,71 +132,11 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
       print('Need re-render with diff: $scrollDiff');
 
-      if(scrollDiff > 0) {
+      _scrollHelper.scrollTo(targetViewportStart, _estimatedViewportHeight);
 
-        int takeAcc = 0;
-        _viewportModels.takeFrontWhile((model) {
-          final modelH = cardType.getHeight(model.type);
-          if(takeAcc < diffAbs) {
-            takeAcc += modelH;
-            return true;
-          }
+      _viewportElement.offset = _scrollHelper.viewportStart;
 
-          return false;
-        });
-
-        final currentViewportH = _viewportModels.models
-            .map((i) => cardType.getHeight(i.type))
-            .reduce((a, b) => a + b);
-
-        if(currentViewportH > targetViewportH) {
-          int toRemove = currentViewportH - targetViewportH;
-          int actualRemoved = 0;
-          _viewportModels.removeBackWhile((model) {
-            final modelH = cardType.getHeight(model.type);
-            if(toRemove > 0) {
-              toRemove -= modelH;
-              actualRemoved += modelH;
-              return true;
-            }
-
-            return false;
-          });
-
-          _viewportStart += actualRemoved;
-
-        } else {
-          print('!!!!!!1111 arr, add back when scroll to bottom');
-        }
-
-      } else {
-        int takeAcc = 0;
-        _viewportModels.takeBackWhile((model) {
-          final modelH = cardType.getHeight(model.type);
-          if(takeAcc < diffAbs) {
-            takeAcc += modelH;
-            return true;
-          }
-
-          return false;
-        });
-
-        int removeAcc = 0;
-        _viewportModels.removeFrontWhile((model) {
-          if(removeAcc < diffAbs) {
-            removeAcc += cardType.getHeight(model.type);
-            return true;
-          }
-
-          return false;
-        });
-
-        _viewportStart -= takeAcc;
-      }
-
-      _viewportElement.offset = _viewportStart;
-
-      sublistViewModel = _viewModelMapper.map2(_viewportModels.models);
+      sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
 
       _cdr.markForCheck();
       _cdr.detectChanges();
@@ -222,57 +161,35 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
     final model = event.model;
     assert(model.children.isNotEmpty, 'Expander shouldnt be shown for nodes without children');
-    assert(_viewportModels.models.contains(model), 'Model should bew from viewport, cause of ScrollWrapper height calcaletion');
+    assert(_scrollHelper.models.contains(model), 'Model should bew from viewport, cause of ScrollWrapper height calcaletion');
 
     model.isExpanded = event.isExpanded;
 
     final iterable = new TreeIterable.node(model);
-    final height = iterable
-        .skip(1) // skip first item because it will not be changed (is is [model])
-        .map((m) => cardType.getHeight(m.type))
-        .reduce((a, b) => a + b);
+    final changedModels = iterable.skip(1); // skip first item because it will not be changed (is is [model])
+
     if(model.isExpanded) {
-      _scrollWrapper.height += height;
+      _scrollHelper.addAfterViewport(changedModels);
     } else {
-      _scrollWrapper.height -= height;
+      _scrollHelper.removeAfterViewport(changedModels);
     }
 
-    _refreshModelsAfter(model);
+    /// We don't need to update viewportOffset because update after viewport start
+    _scrollWrapper.height = _scrollHelper.scrollHeight;
 
-    sublistViewModel = _viewModelMapper.map2(_viewportModels.models);
+    _scrollHelper.refresh(_estimatedViewportHeight);
+
+    sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
 
    _detectChanges();
   }
 
 
-  void _refreshModelsAfter(TaskListModelBase model) {
-    // remove models after [models]
-    _viewportModels.removeFrontWhile((m) =>  m != model);
-
-    // then fill blank space
-    int toAdd = _estimatedViewportHeight - _viewportModels.height;
-    _viewportModels.takeFrontWhile((m) {
-      if(toAdd > 0) {
-        toAdd -= cardType.getHeight(m.type);
-        return true;
-      }
-
-      return false;
-    });
-  }
-
   /// Reset viewport and scroll position to initial state and re-render elements
   void _resetViewModel() {
-    _viewportStart = _hostEl.scrollTop = 0;
-    _viewportModels.reset();
+    _scrollHelper.reset(_estimatedViewportHeight);
 
-    int height = _estimatedViewportHeight;
-    _viewportModels.takeFrontWhile((model) {
-      height -= cardType.getHeight(model.type);
-      return height > 0;
-    });
-
-    sublistViewModel = _viewModelMapper.map2(_viewportModels.models);
+    sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
   }
 
   void _detectChanges() {

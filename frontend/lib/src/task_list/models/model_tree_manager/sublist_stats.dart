@@ -8,7 +8,7 @@ class SublistStats {
   SublistStats(this.list, this._data);
 
   /// List of models
-  final List<TaskListModelBase> list;
+  final List<TaskListModel> list;
 
   /// Count on task-models in [list]
   int get taskCount => _data[ModelType.Task];

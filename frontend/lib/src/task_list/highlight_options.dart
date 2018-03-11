@@ -2,7 +2,7 @@ import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 /// Describes model to highlight while dnd
 class HighlightOptions {
-  final TaskListModelBase model;
+  final TaskListModel model;
   final HighlightPosition position;
 
   HighlightOptions(this.model, this.position);

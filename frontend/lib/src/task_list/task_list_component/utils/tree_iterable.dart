@@ -2,36 +2,36 @@ import 'package:frontend/src/core/linked_tree/linked_tree.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 
-abstract class TreeIterable extends Iterable<TaskListModelBase> {
-  factory TreeIterable.forward(LinkedTree<TaskListModelBase> tree, [TaskListModelBase fromNode]) => new _ForwardTreeIterable(tree, fromNode);
-  factory TreeIterable.backward(LinkedTree<TaskListModelBase> tree, TaskListModelBase fromNode) => new _BackwardTreeIterable(tree, fromNode);
+abstract class TreeIterable extends Iterable<TaskListModel> {
+  factory TreeIterable.forward(LinkedTree<TaskListModel> tree, [TaskListModel fromNode]) => new _ForwardTreeIterable(tree, fromNode);
+  factory TreeIterable.backward(LinkedTree<TaskListModel> tree, TaskListModel fromNode) => new _BackwardTreeIterable(tree, fromNode);
 
-  factory TreeIterable.node(TaskListModelBase node) => new _VisibleSubNodelTreeIterable(node);
+  factory TreeIterable.node(TaskListModel node) => new _VisibleSubNodelTreeIterable(node);
 }
 
 
-class _ForwardTreeIterable extends Iterable<TaskListModelBase> implements TreeIterable {
-  final LinkedTree<TaskListModelBase> _tree;
-  final TaskListModelBase _fromNode;
+class _ForwardTreeIterable extends Iterable<TaskListModel> implements TreeIterable {
+  final LinkedTree<TaskListModel> _tree;
+  final TaskListModel _fromNode;
 
   _ForwardTreeIterable(this._tree, [this._fromNode]);
 
   @override
-  Iterator<TaskListModelBase> get iterator => new _ForwardTreeIterator(_tree, _fromNode);
+  Iterator<TaskListModel> get iterator => new _ForwardTreeIterator(_tree, _fromNode);
 }
 
-class _ForwardTreeIterator implements Iterator<TaskListModelBase> {
-  final LinkedTree<TaskListModelBase> _tree;
-  final TaskListModelBase _fromNode;
+class _ForwardTreeIterator implements Iterator<TaskListModel> {
+  final LinkedTree<TaskListModel> _tree;
+  final TaskListModel _fromNode;
 
   _ForwardTreeIterator(this._tree, [this._fromNode])/*:
       assert(_tree != null, 'Tree should not be null')*/;
 
 
-  TaskListModelBase _current;
+  TaskListModel _current;
 
   @override
-  TaskListModelBase get current => _current;
+  TaskListModel get current => _current;
 
   @override
   bool moveNext() {
@@ -61,29 +61,29 @@ class _ForwardTreeIterator implements Iterator<TaskListModelBase> {
 }
 
 
-class _BackwardTreeIterable extends Iterable<TaskListModelBase> implements TreeIterable {
-  final LinkedTree<TaskListModelBase> _tree;
-  final TaskListModelBase _fromNode;
+class _BackwardTreeIterable extends Iterable<TaskListModel> implements TreeIterable {
+  final LinkedTree<TaskListModel> _tree;
+  final TaskListModel _fromNode;
 
   _BackwardTreeIterable(this._tree, this._fromNode)/*:
     assert(_tree != null && _fromNode != null, 'from node required for backward iteration');*/;
 
   @override
-  Iterator<TaskListModelBase> get iterator => new _BackwardTreeIterator(_tree, _fromNode);
+  Iterator<TaskListModel> get iterator => new _BackwardTreeIterator(_tree, _fromNode);
 }
 
-class _BackwardTreeIterator implements Iterator<TaskListModelBase> {
-  final LinkedTree<TaskListModelBase> _tree;
-  final TaskListModelBase _fromNode;
+class _BackwardTreeIterator implements Iterator<TaskListModel> {
+  final LinkedTree<TaskListModel> _tree;
+  final TaskListModel _fromNode;
 
   _BackwardTreeIterator(this._tree, [this._fromNode])/*:
     assert(_tree != null, 'Tree should not be null');*/;
 
 
-  TaskListModelBase _current;
+  TaskListModel _current;
 
   @override
-  TaskListModelBase get current => _current;
+  TaskListModel get current => _current;
 
   @override
   bool moveNext() {
@@ -119,7 +119,7 @@ class _BackwardTreeIterator implements Iterator<TaskListModelBase> {
 
 
   /// Returns latest child in hierarchy
-  TaskListModelBase _getLatestChild(TaskListModelBase model) {
+  TaskListModel _getLatestChild(TaskListModel model) {
     var m = model;
 
     while(m.isExpanded && m.children.isNotEmpty) {
@@ -131,26 +131,26 @@ class _BackwardTreeIterator implements Iterator<TaskListModelBase> {
 }
 
 
-class _VisibleSubNodelTreeIterable extends Iterable<TaskListModelBase> implements TreeIterable {
-  final TaskListModelBase _node;
+class _VisibleSubNodelTreeIterable extends Iterable<TaskListModel> implements TreeIterable {
+  final TaskListModel _node;
 
   _VisibleSubNodelTreeIterable(this._node);
 
 
   @override
-  Iterator<TaskListModelBase> get iterator => new _VisibleSubNodelTreeIterator(_node);
+  Iterator<TaskListModel> get iterator => new _VisibleSubNodelTreeIterator(_node);
 }
 
-class _VisibleSubNodelTreeIterator implements Iterator<TaskListModelBase> {
-  final TaskListModelBase _node;
+class _VisibleSubNodelTreeIterator implements Iterator<TaskListModel> {
+  final TaskListModel _node;
 
   _VisibleSubNodelTreeIterator(this._node);
 
 
-  TaskListModelBase _current;
+  TaskListModel _current;
 
   @override
-  TaskListModelBase get current => _current;
+  TaskListModel get current => _current;
 
   @override
   bool moveNext() {

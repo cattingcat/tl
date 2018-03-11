@@ -2,7 +2,7 @@ import 'package:frontend/src/task_list/models/model_type.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 abstract class TaskListViewModel {
-  TaskListModelBase get model;
+  TaskListModel get model;
 
 
   bool get isTask => model.type == ModelType.Task;

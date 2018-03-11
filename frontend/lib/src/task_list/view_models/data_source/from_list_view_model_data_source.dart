@@ -17,7 +17,7 @@ class FromListViewModelDataSource implements ViewModelDataSource {
   }
 
   @override
-  Iterable<TaskListViewModel> map(Iterable<TaskListModelBase> models) {
+  Iterable<TaskListViewModel> map(Iterable<TaskListModel> models) {
     return null;
   }
 }

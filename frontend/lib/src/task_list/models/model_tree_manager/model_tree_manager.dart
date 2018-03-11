@@ -4,12 +4,12 @@ import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view_impl.dart';
 
 class ModelTreeManager {
-  final LinkedTree<TaskListModelBase> _tree;
+  final LinkedTree<TaskListModel> _tree;
 
   ModelTreeManager(this._tree);
 
 
-  LinkedTree<TaskListModelBase> get tree => _tree;
+  LinkedTree<TaskListModel> get tree => _tree;
 
   TreeView getTreeView() {
     return new TreeViewImpl(_tree);

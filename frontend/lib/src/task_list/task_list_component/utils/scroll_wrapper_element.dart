@@ -20,7 +20,7 @@ class ScrollWrapperElement {
 
   void setup(TreeView dataSource, CardType cardType) {
     final flatTree = new TreeIterable.forward(dataSource.tree);
-    final h = flatTree.map((i) => cardType.getHeight(i.type)).reduce((a, b) => a + b);
+    final h = flatTree.map((i) => cardType.getHeight(i)).reduce((a, b) => a + b);
     _h = h;
     _scrollWrapper.style.height = '${_h}px';
   }

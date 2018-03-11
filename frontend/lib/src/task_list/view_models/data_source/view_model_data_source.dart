@@ -6,7 +6,7 @@ abstract class ViewModelDataSource {
   Iterable<TaskListViewModel> getRange(int start, int end);
 
   /// Maps models to view-models
-  Iterable<TaskListViewModel> map(Iterable<TaskListModelBase> models);
+  Iterable<TaskListViewModel> map(Iterable<TaskListModel> models);
 
   int get length;
 }

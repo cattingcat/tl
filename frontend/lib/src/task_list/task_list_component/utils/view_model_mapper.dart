@@ -8,7 +8,7 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 
 /// Maps model collection to ViewModel collection
 class ViewModelMapper  {
-  SublistViewModel map2(Iterable<TaskListModelBase> models) {
+  SublistViewModel map2(Iterable<TaskListModel> models) {
     assert(models != null && models.isNotEmpty, 'Models required');
 
     final skeleton = buildSkeleton(models.first.parent);
@@ -30,7 +30,7 @@ class ViewModelMapper  {
   }
 
 
-  TaskListViewModel _mapModel(TaskListModelBase model) {
+  TaskListViewModel _mapModel(TaskListModel model) {
     switch(model.type) {
       case ModelType.Task:
         return new TaskCardModel(model);
@@ -49,9 +49,9 @@ class ViewModelMapper  {
 
   /// Returns sublist view-models for [model]
   /// Don't use outside
-  BuildResult buildSkeleton(TaskListModelBase model) {
+  BuildResult buildSkeleton(TaskListModel model) {
     if(model == null) {
-      final modelsMap = new Map<TaskListModelBase, MutableSublistViewModel>();
+      final modelsMap = new Map<TaskListModel, MutableSublistViewModel>();
       final rootVm = new MutableSublistViewModel(null, false);
 
       modelsMap[null] = rootVm;
@@ -60,11 +60,11 @@ class ViewModelMapper  {
     }
 
 
-    TaskListModelBase root = model;
+    TaskListModel root = model;
     TaskListViewModel rootViewModel = _mapModel(model);
     MutableSublistViewModel rootSublist = new MutableSublistViewModel(rootViewModel, false);
 
-    final modelsMap = new Map<TaskListModelBase, MutableSublistViewModel>();
+    final modelsMap = new Map<TaskListModel, MutableSublistViewModel>();
     modelsMap[root] = rootSublist;
 
     root = root.parent;
@@ -99,7 +99,7 @@ class MutableSublistViewModel implements SublistViewModel{
 
 class BuildResult {
   final MutableSublistViewModel viewModel;
-  final Map<TaskListModelBase, MutableSublistViewModel> modelsMap;
+  final Map<TaskListModel, MutableSublistViewModel> modelsMap;
 
   BuildResult(this.viewModel, this.modelsMap);
 }
