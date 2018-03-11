@@ -46,4 +46,12 @@
       }
     }
   }
+
+  .title {
+  }
+
+  .tag-body {
+    display: flex;
+    flex-flow: column nowrap;
+  }
 }

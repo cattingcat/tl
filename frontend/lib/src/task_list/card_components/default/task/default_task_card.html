@@ -19,7 +19,13 @@
         [uri]="avatarUri"
         class="assignee"></single-avatar>
 
-    <editable-text
-        [model]="titleModel"
-        (change)="onTitleChange($event)"></editable-text>
+    <div class="card-body">
+        <editable-text
+            [model]="titleModel"
+            [fontWeight]="600"
+            (change)="onTitleChange($event)"
+            class="title"></editable-text>
+
+        <tag-list [tags]="tags"></tag-list>
+    </div>
 </div>

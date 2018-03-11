@@ -15,6 +15,7 @@ class EditableText {
   bool _isEditable = false;
 
   @Input('model') TitleModel model;
+  @Input('fontWeight') int fontWeight;
   @Output('change') Stream<String> get change => _ctrl.stream;
 
   @ViewChild('textInput') html.InputElement textInput;

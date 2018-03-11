@@ -5,6 +5,8 @@ import 'package:frontend/src/core_components/directives/hover_hooks.dart';
 import 'package:frontend/src/core_components/editable_text/editable_text.dart';
 import 'package:frontend/src/core_components/editable_text/text_model.dart';
 import 'package:frontend/src/core_components/single_avatar/single_avatar.dart';
+import 'package:frontend/src/core_components/tag_list/tag_list.dart';
+import 'package:frontend/src/core_components/tag_list/tag_model.dart';
 import 'package:frontend/src/task_list/card_components/click_card_event.dart';
 import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
 import 'package:frontend/src/task_list/card_components/title_change_card_event.dart';
@@ -19,7 +21,8 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
   directives: const <Object>[
     HoverHooks,
     EditableText,
-    SingleAvatarComponent
+    SingleAvatarComponent,
+    TagListComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -34,6 +37,8 @@ class DefaultTaskCard implements OnChanges {
   bool get isExpandable => model.model.children.isNotEmpty;
 
   bool get isExpanded => model.model.isExpanded;
+
+  Iterable<TagModel> tags = [new TagModel('123'), new TagModel('qwe'),new TagModel('asd'),new TagModel('zxc xcvxcv')];
 
   void onTitleChange(String title) {
     Zone.ROOT.run(() {

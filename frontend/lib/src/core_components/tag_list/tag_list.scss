@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  padding: 3px 0;
+  font-size: 11px;
+  line-height: 9px;
+  color: #3e3d3d;
+
+  .tag {
+    box-sizing: border-box;
+    margin-right: 3px;
+    border: solid #bfacac 1px;
+    padding: 0 3px;
+    border-radius: 50px;
+  }
+}
