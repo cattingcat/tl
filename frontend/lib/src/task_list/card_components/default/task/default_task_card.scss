@@ -1,11 +1,26 @@
 :host {
+  $card-height: 40px;
+
+  display: block;
+  /// Should be synced with [CardType.Default]
+  max-height: $card-height;
+  min-width: 350px;
+  overflow: hidden;
+
   .card {
-    /// Should be synced with [CardType.Default]
-    height: 40px;
+    display: flex;
+    flex-flow: row nowrap;
+    height: $card-height;
     transition: background-color 300ms;
 
     border-bottom: #E2E2E2 1px solid;
     box-sizing: border-box;
+  }
+
+  .assignee {
+    height: $card-height;
+    width: $card-height;
+    display: inline-block;
   }
 
   .hover {
@@ -14,11 +29,21 @@
 
   // TODO: same logic in editable title
   .expander {
+    display: block;
     border: none;
     outline: none;
     background: none;
-    display: inline-block;
     height: 100%;
     padding-right: 5px;
+
+    &.hidden {
+      visibility: hidden;
+    }
+
+    &.collapded {
+      svg {
+        transform: rotate(-90deg);
+      }
+    }
   }
 }
