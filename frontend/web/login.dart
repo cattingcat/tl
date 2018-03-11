@@ -42,8 +42,8 @@ Future<Null> main() async {
     requestHeaders: {
       'Content-Type':'application/json'
     });
-  final tokens = resp.responseText;
-  html.window.localStorage[AccessToken] = tokens;
+  final token = json.decode(resp.responseText)['token'];
+  html.window.localStorage[AccessToken] = token;
 
   // Redirect to main page after access_token response
   redirectToMain();
