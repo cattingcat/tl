@@ -7,7 +7,46 @@ html, body {
 
 body {
     display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
     margin: 0;
     padding: 0;
+
     font-family: Roboto, Helvetica, Arial, sans-serif;
+
+    background: linear-gradient(135deg, #9876b7 0%, #383c52 100%);
+}
+
+.login-buttons {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    min-width: 300px;
+    min-height: 300px;
+    width: 30%;
+    height: 30%;
+
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 1px 1px 10px black;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    padding: 15px;
+}
+
+.github-login {
+    padding: 5px 5px;
+    background: #e2e2e2;
+    border-radius: 20px;
+}
+
+.github-login .github-logo {
+    vertical-align: middle;
 }

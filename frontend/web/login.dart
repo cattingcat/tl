@@ -33,13 +33,10 @@ Future<Null> main() async {
 
   // In is OAuth callback, request access token
   final requestJson = json.encode({
-    'client_id': '15c07d78726cd3a00eeb',
-    'client_secret': 'c66ce9f90a46d837254248929e65f6a631011284',
-    'code': sessionCode,
-    'accept': 'json'
+    'code': sessionCode
   });
   final resp = await html.HttpRequest.request(
-    'https://github.com/login/oauth/access_token',
+    '/api/Login/LoginGitHub',
     method: 'POST',
     sendData: requestJson,
     requestHeaders: {
