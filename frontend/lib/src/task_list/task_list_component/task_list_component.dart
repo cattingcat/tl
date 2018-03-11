@@ -91,20 +91,22 @@ class TaskListComponent implements OnChanges, OnDestroy {
           ..listen(treeView.onUpdate, _onUpdate);
       });
 
-      final vpModels = new ViewportModels(treeView.tree);
-
       _scrollWrapper.setup(treeView, card);
 
+      final vpModels = new ViewportModels(treeView.tree);
       _scrollHelper = new ScrollHelper(vpModels, card, _scrollWrapper.height);
 
-      _hostEl.scrollTop = 0;
-      _resetViewModel();
+      _resetList();
     }
 
     if(changes.containsKey('cardType') && !changes.containsKey('dataSource')) {
       final cardType = changes['cardType'].currentValue as CardType;
       _scrollWrapper.setup(dataSource, cardType);
-      _resetViewModel();
+
+      final vpModels = new ViewportModels(dataSource.tree);
+      _scrollHelper = new ScrollHelper(vpModels, cardType, _scrollWrapper.height);
+
+      _resetList();
     }
   }
 
@@ -121,25 +123,18 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
     final scrollTop = _hostEl.scrollTop;
     final targetViewportStart = (scrollTop - _spaceSize).clamp(0, _scrollWrapper.height);
-
     final scrollDiff = targetViewportStart - _scrollHelper.viewportStart;
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
-
 
     if(diffAbs.abs() >= _spaceSize
         || scrollTop == 0
         || scrollTop == _scrollWrapper.height - _hostEl.clientHeight) {
 
-      print('Need re-render with diff: $scrollDiff');
-
       _scrollHelper.scrollTo(targetViewportStart, _estimatedViewportHeight);
-
       _viewportElement.offset = _scrollHelper.viewportStart;
-
       sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
 
-      _cdr.markForCheck();
-      _cdr.detectChanges();
+      _detectChanges();
     }
   }
 
@@ -175,10 +170,8 @@ class TaskListComponent implements OnChanges, OnDestroy {
     }
 
     /// We don't need to update viewportOffset because update after viewport start
-    _scrollWrapper.height = _scrollHelper.scrollHeight;
-
     _scrollHelper.refresh(_estimatedViewportHeight);
-
+    _scrollWrapper.height = _scrollHelper.scrollHeight;
     sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
 
    _detectChanges();
@@ -186,7 +179,8 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
 
   /// Reset viewport and scroll position to initial state and re-render elements
-  void _resetViewModel() {
+  void _resetList() {
+    _hostEl.scrollTop = 0;
     _scrollHelper.reset(_estimatedViewportHeight);
 
     sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
