@@ -1,5 +1,6 @@
 /* TODO: Download fonts and store with static content */
 @import url(https://cdn.rawgit.com/mailtoharshit/San-Francisco-Font-/master/sanfrancisco.css);
+@import './common';
 
 html, body {
     height:100%;
@@ -16,10 +17,10 @@ body {
 
     font-family: Roboto, Helvetica, Arial, sans-serif;
 
-    background: linear-gradient(135deg, #9876b7 0%, #383c52 100%);
+    background: $bg-gradient;
 }
 
-.login-buttons {
+.login-form {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
@@ -33,20 +34,32 @@ body {
     background: #FFFFFF;
     border-radius: 20px;
     box-shadow: 1px 1px 10px black;
+
+    transition: transform .3s;
+
+    &.hidden {
+        transform: scale(0);
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
+        padding: 15px;
+    }
+
+    .github-login {
+        padding: 5px 5px;
+        border: 1px solid #3b3e55;
+        border-radius: 20px;
+
+        .github-logo {
+            vertical-align: middle;
+        }
+    }
 }
 
-.logo {
-    width: 100px;
-    height: 100px;
-    padding: 15px;
+.loading.hidden {
+    display: none;
 }
 
-.github-login {
-    padding: 5px 5px;
-    background: #e2e2e2;
-    border-radius: 20px;
-}
 
-.github-login .github-logo {
-    vertical-align: middle;
-}

@@ -5,21 +5,18 @@ import 'package:angular/angular.dart';
 import 'package:frontend/app_component.dart';
 import 'package:frontend/src/dal/session.dart';
 
-// ignore: uri_has_not_been_generated
-import 'main.template.dart' as ng;
 
-
-Future<Null> main() async {
+Future<Null> indexMain(Function initReflector) async {
   final session = Session.instance;
   if(!session.hasToken()) {
-    // TODO: OAuth and redirect to login page
-    print('Unauthorized user');
+    html.window.location.href = '/login.html';
+    return;
   }
 
 
-  bootstrapStatic(AppComponent, [/*providers*/], ng.initReflector);
+  bootstrapStatic(AppComponent, [/*providers*/], initReflector);
 
-  final loadingEl = html.document.querySelector('.loading');
+  final loadingEl = html.document.querySelector('.loading-screen');
   loadingEl.style.opacity = '0';
   // animate
   await new Future.delayed(const Duration(milliseconds: 450));

@@ -1,5 +1,6 @@
 /* TODO: Download fonts and store with static content */
 @import url(https://cdn.rawgit.com/mailtoharshit/San-Francisco-Font-/master/sanfrancisco.css);
+@import './common';
 
 html, body {
   height:100%;
@@ -10,3 +11,21 @@ body {
   padding: 0;
   font-family: Roboto, Helvetica, Arial, sans-serif;
 }
+
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  background: $bg-gradient;
+  transition: opacity 450ms;
+}
+

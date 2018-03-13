@@ -4,55 +4,22 @@
     <title>N4C</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script defer src="main.dart" type="application/dart"></script>
+    <script defer src="index.dart" type="application/dart"></script>
     <script defer src="packages/browser/dart.js"></script>
     <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/png" href="favicon.png">
   </head>
 
   <body>
-    <div class="loading">
-      <style>
-        .loading {
-          display: flex;
-          justify-content: center;
-          align-items: center;
+    <div class="loading-screen">
 
-          position: fixed;
-          z-index: 1000;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          left: 0;
+      <div class="loading">
+        <div class="square square-1"></div>
+        <div class="square square-2"></div>
+        <div class="square square-3"></div>
+        <div class="square square-4"></div>
+      </div>
 
-          color: #6f70fc;
-          text-transform: uppercase;
-          font-size: 2.5em;
-          text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-          background-color: #494e6b;
-          transition: opacity 450ms;
-        }
-
-        @keyframes dots {
-          50% {
-            transform: translateY(-.4rem);
-          }
-          100% {
-            transform: translateY(0);
-          }
-        }
-
-        .d {
-          animation: dots 1.5s ease-out infinite;
-        }
-        .d-2 {
-          animation-delay: .5s;
-        }
-        .d-3 {
-          animation-delay: 1s;
-        }
-      </style>
-      Loading<span class="d">.</span><span class="d d-2">.</span><span class="d d-3">.</span>
     </div>
 
     <my-app></my-app>
