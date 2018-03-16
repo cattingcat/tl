@@ -90,8 +90,8 @@ class TaskListComponent implements OnChanges, OnDestroy {
       Zone.ROOT.run(() {
         _tmpSubscr
           ..cancelClear()
-          ..listen(treeView.onAdd, _onAdd)
-          ..listen(treeView.onRemove, _onRemove)
+//          ..listen(treeView.onAdd, _onAdd)
+//          ..listen(treeView.onRemove, _onRemove)
           ..listen(treeView.onUpdate, _onUpdate);
       });
 
@@ -142,17 +142,19 @@ class TaskListComponent implements OnChanges, OnDestroy {
     }
   }
 
-
-  void _onAdd(AddTreeEvent event) {
-    NgZone.assertNotInAngularZone();
-  }
-
-  void _onRemove(RemoveTreeEvent event) {
-    NgZone.assertNotInAngularZone();
-  }
-
   void _onUpdate(UpdateTreeEvent event) {
     NgZone.assertNotInAngularZone();
+
+    _scrollWrapper.setup(dataSource, cardType);
+    final vpModels = new ViewportModels(dataSource.tree);
+    _scrollHelper = new ScrollHelper(vpModels, cardType, _scrollWrapper.height);
+
+    _scrollHelper.resetTo(_estimatedViewportHeight, _hostEl.scrollTop);
+    _viewportElement.offset = _scrollHelper.viewportStart;
+
+    sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
+
+    _detectChanges();
   }
 
   void _onToggle(ToggleTaskListCardEvent event) {

@@ -47,9 +47,9 @@ class _ForwardTreeIterator implements Iterator<TaskListModel> {
           _current = _current.next;
           return true;
         } else {
-          final parent = _current.parent;
-          if(parent != null && parent.next != null) {
-            _current = parent.next;
+          final nextParent = _getNextParentNeighbor(_current);
+          if(nextParent != null) {
+            _current = nextParent;
             return true;
           } else {
             return false;
@@ -57,6 +57,15 @@ class _ForwardTreeIterator implements Iterator<TaskListModel> {
         }
       }
     }
+  }
+
+  TaskListModel _getNextParentNeighbor(TaskListModel model) {
+    TaskListModel parent = model;
+    do {
+      parent = parent.parent;
+    } while(parent != null && parent.next == null);
+
+    return parent?.next;
   }
 }
 

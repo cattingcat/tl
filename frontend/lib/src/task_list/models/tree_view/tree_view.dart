@@ -7,9 +7,5 @@ import 'package:frontend/src/task_list/models/tree_view/events.dart';
 abstract class TreeView {
   LinkedTree<TaskListModel> get tree;
 
-  Stream<AddTreeEvent> get onAdd;
-
-  Stream<RemoveTreeEvent> get onRemove;
-
-  Stream<UpdateTreeEvent> get onUpdate;
+  Stream<Null> get onUpdate;
 }

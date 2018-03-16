@@ -18,7 +18,8 @@
         (cardMouseMove)="onCardMouseOver($event)"></task-list>
 
     <floating-creation-form
-            [position]="creationFormPos"></floating-creation-form>
+        (formSubmit)="handleCreationSubmit($event)"
+        [position]="creationFormPos"></floating-creation-form>
 </div>
 
 <button

@@ -29,6 +29,28 @@ class ScrollHelper {
     });
   }
 
+  /// Reset scroll to [scrollTop], refresh models
+  void resetTo(int viewportHeight, int scrollTop) {
+    _viewportStart = 0;
+    _viewportModels.reset();
+
+    int height = viewportHeight + scrollTop;
+    _viewportModels.takeFrontWhile((model) {
+      height -= _cardSizeMapper.getHeight(model);
+      return height > 0;
+    });
+
+    height = scrollTop;
+    _viewportModels.removeBackWhile((model) {
+      height -= _cardSizeMapper.getHeight(model);
+      if(height > 0) {
+        _viewportStart += height;
+        return true;
+      }
+      return false;
+    });
+  }
+
   /// Refresh models in viewport
   void refresh(int viewportHeight) {
     int height = viewportHeight;

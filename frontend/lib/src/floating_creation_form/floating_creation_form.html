@@ -12,8 +12,14 @@
     *ngIf="isCreationState"
     class="form">
 
-    <form (submit)="formSubmit($event)">
+    <form
+        (keyup)="handleFormKeyUp($event)"
+        (submit)="handleFormSubmit($event, inputEl.value)">
+
         <label for="creation-title-input">Type title of new task</label>
-        <input type="text" id="creation-title-input">
+        <input #inputEl
+            id="creation-title-input"
+            type="text"
+            autocomplete="off">
     </form>
 </div>

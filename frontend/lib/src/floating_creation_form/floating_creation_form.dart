@@ -13,6 +13,7 @@ import 'package:frontend/src/floating_creation_form/form_position.dart';
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class FloatingCreationFormComponent {
+  final _submitCtrl = new StreamController<String>(sync: true);
   final html.Element _hostEl;
   FormPosition _position;
 
@@ -30,12 +31,12 @@ class FloatingCreationFormComponent {
       final top = value.offsetTop;
       final right = value.offsetRight;
 
-//      _hostEl.style.top = '${anchorOffset.y}px';
-//      _hostEl.style.left = '${anchorOffset.x}px';
       _hostEl.style.transform = 'translate(${right}px, ${top}px)';
     }
     _position = value;
   }
+
+  @Output() Stream<String> get formSubmit => _submitCtrl.stream;
 
   void createBtnClick() {
     isCreationState = true;
@@ -44,10 +45,16 @@ class FloatingCreationFormComponent {
     });
   }
 
-  void formSubmit(html.Event event) {
+  void handleFormSubmit(html.Event event, String value) {
     event.preventDefault();
     isCreationState = false;
 
-    print('submit');
+    _submitCtrl.add(value);
+  }
+
+  void handleFormKeyUp(html.KeyboardEvent event) {
+    if(event.keyCode == 27) {
+      isCreationState = false;
+    }
   }
 }
