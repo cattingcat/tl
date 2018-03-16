@@ -1,0 +1,26 @@
+:host {
+  $creation-form-bg: #007a0c;
+
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: transform .2s;
+
+  .create-button {
+    width: 20px;
+    height: 20px;
+    background: $creation-form-bg;
+    border-radius: 10px;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .form {
+    padding: 5px;
+    background: $creation-form-bg;
+  }
+}

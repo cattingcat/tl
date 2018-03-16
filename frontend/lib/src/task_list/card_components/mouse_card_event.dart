@@ -4,8 +4,10 @@ import 'package:frontend/src/task_list/card_components/task_list_card_event.dart
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 
 
-class ClickCardEvent extends TaskCardEvent {
+class MouseCardEvent extends TaskCardEvent {
   final html.MouseEvent nativeEvent;
+  final html.Element nativeElement;
 
-  ClickCardEvent(TaskListModel model, this.nativeEvent): super(model);
+  MouseCardEvent(TaskListModel model, this.nativeEvent, this.nativeElement): super(model);
 }
+

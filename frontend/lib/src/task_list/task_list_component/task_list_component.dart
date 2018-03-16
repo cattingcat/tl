@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:frontend/src/core_components/common/subscriptions.dart';
-import 'package:frontend/src/task_list/card_components/click_card_event.dart';
+import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
 import 'package:frontend/src/task_list/card_type.dart';
@@ -12,6 +12,7 @@ import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/tree_view/events.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
 import 'package:frontend/src/task_list/sublist_component/sublist_component.dart';
+import 'package:frontend/src/task_list/task_list_component/events/list_mouse_card_event.dart';
 import 'package:frontend/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_helper.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_wrapper_element.dart';
@@ -52,11 +53,14 @@ class TaskListComponent implements OnChanges, OnDestroy {
   @Input() CardSizeMapper<TaskListModel> cardType = CardType.Default;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _cardObserver.cardToggle;
-  @Output() Stream<ClickCardEvent> get clickCard => _cardObserver.clickCard;
+  @Output() Stream<MouseCardEvent> get clickCard => _cardObserver.clickCard;
   @Output() Stream<DndEvent> get dragOver => _cardObserver.dragOver;
   @Output() Stream<DndEvent> get dragEnter => _cardObserver.dragEnter;
   @Output() Stream<DndEvent> get dragLeave => _cardObserver.dragLeave;
   @Output() Stream<DndEvent> get drop => _cardObserver.drop;
+  @Output() Stream<ListMouseCardEvent> get cardMouseEnter => _cardObserver.mouseEnter.map(_mapListMouseEvent);
+  @Output() Stream<ListMouseCardEvent> get cardMouseLeave => _cardObserver.mouseLeave.map(_mapListMouseEvent);
+  @Output() Stream<ListMouseCardEvent> get cardMouseMove => _cardObserver.mouseMove.map(_mapListMouseEvent);
 
   @ViewChild('viewport') Element viewportEl;
   @ViewChild('wrapper') Element wrapperEl;
@@ -192,4 +196,12 @@ class TaskListComponent implements OnChanges, OnDestroy {
   }
 
   int get _estimatedViewportHeight => _hostEl.clientHeight + 2 * _spaceSize;
+
+
+  ListMouseCardEvent _mapListMouseEvent(MouseCardEvent event) {
+    final virtualVpOffserFromReal = (_hostEl.scrollTop - _scrollHelper.viewportStart);
+    final originalOffset = event.nativeElement.offset; // Offset from viewport el
+    final offset = new Point<int>(originalOffset.left, originalOffset.top - virtualVpOffserFromReal);
+    return new ListMouseCardEvent.fromCardEvent(event, offset);
+  }
 }

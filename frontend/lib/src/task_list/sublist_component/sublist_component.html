@@ -1,33 +1,32 @@
-<div>
-    <div
-        *ngIf="showHeader"
-        [draggable]="headerModel"
-        [drop-target]="dndObserver"
-        [class.highlight-before]="highlightBefore"
-        [class.highlight-after]="highlightAfter"
-        [class.highlight-center]="highlightCenter"
-        class="card-wrapper">
+<div
+    *ngIf="showHeader"
+    [draggable]="headerModel"
+    [drop-target]="dndObserver"
+    [class.highlight-before]="highlightBefore"
+    [class.highlight-after]="highlightAfter"
+    [class.highlight-center]="highlightCenter"
+    class="card-wrapper">
 
-        <default-task-card
-                *ngIf="isDefaultCard"
-                [model]="headerModel"
-                [observer]="observer"></default-task-card>
+    <default-task-card
+            *ngIf="isDefaultCard"
+            [model]="headerModel"
+            [observer]="observer"></default-task-card>
 
-        <narrow-task-card
-                *ngIf="isNarrowCard"
-                [model]="headerModel"
-                [observer]="observer"></narrow-task-card>
-    </div>
-    <div
-        *ngIf="showSublist"
-        [class.highlight-sublist]="highlightSublist"
-        class="children">
+    <narrow-task-card
+            *ngIf="isNarrowCard"
+            [model]="headerModel"
+            [observer]="observer"></narrow-task-card>
+</div>
 
-        <sublist
-            *ngFor="let m of model.sublist"
-            [model]="m"
-            [cardType]="cardType"
-            [observer]="observer"
-            [highlight]="highlight"></sublist>
-    </div>
+<div
+    *ngIf="showSublist"
+    [class.highlight-sublist]="highlightSublist"
+    class="children">
+
+    <sublist
+        *ngFor="let m of model.sublist"
+        [model]="m"
+        [cardType]="cardType"
+        [observer]="observer"
+        [highlight]="highlight"></sublist>
 </div>

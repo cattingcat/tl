@@ -1,6 +1,8 @@
 @import '../../core_components/core';
 
 :host {
+  display: block;
+
   .card-wrapper {
     transition: all 400ms;
     transition-property: background-color, box-shadow;

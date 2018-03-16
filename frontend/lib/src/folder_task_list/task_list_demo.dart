@@ -2,27 +2,26 @@ import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
 import 'package:frontend/src/core/linked_tree/linked_tree.dart';
-import 'package:frontend/src/task_list/card_components/click_card_event.dart';
-import 'package:frontend/src/task_list/card_components/default/task/default_task_card.dart';
+import 'package:frontend/src/floating_creation_form/floating_creation_form.dart';
+import 'package:frontend/src/floating_creation_form/form_position.dart';
+import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';
 import 'package:frontend/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
+import 'package:frontend/src/task_list/task_list_component/events/list_mouse_card_event.dart';
 import 'package:frontend/src/task_list/task_list_component/task_list_component.dart';
 import 'package:frontend/src/task_list/card_type.dart';
-import 'package:frontend/src/task_list_demo/test_component/test_component.dart';
 
 @Component(
     selector: 'task-list-demo',
     templateUrl: 'task_list_demo.html',
     styleUrls: const <String>['task_list_demo.css'],
     directives: const <Object>[
-      DefaultTaskCard,
       TaskListComponent,
-
-      TestComponent
+      FloatingCreationFormComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -32,6 +31,9 @@ class TaskListDemo {
   TreeView treeView;
   CardType cardType;
   HighlightOptions highlightOptions;
+
+  FormPosition creationFormPos;
+
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModel>();
@@ -52,14 +54,7 @@ class TaskListDemo {
     cardType = CardType.Default;
   }
 
-  void changeDataSource() {
-//    final list = new List<TaskListViewModel>();
-//    for(var i = 0; i < 100; ++i) {
-//      list.add(new TaskListViewModel('!!!: $i'));
-//    }
-//
-//    dataSource = new InMemoryViewModelDataSource(list);
-  }
+  void changeDataSource() { }
 
   void changeCardType() {
     if(cardType == CardType.Default) {
@@ -99,7 +94,23 @@ class TaskListDemo {
     }
   }
 
-  void onClick(ClickCardEvent event) {
+  void onClick(MouseCardEvent event) {
     print('clicked: ${event.model}');
+  }
+
+  void onCardMouseOver(ListMouseCardEvent event) {
+    final mouseOffset = event.nativeEvent.offset;
+    final cardH = cardType.getHeight(event.model);
+    if(mouseOffset.y > cardH / 2) {
+      final top = event.listOffset.y + cardH - 10;
+      creationFormPos = new FormPosition(event.nativeElement, top, -30);
+    } else {
+      final top = event.listOffset.y - 10;
+      creationFormPos = new FormPosition(event.nativeElement, top, -30);
+    }
+  }
+
+  void listMouseLeave(html.MouseEvent event) {
+    creationFormPos = null;
   }
 }

@@ -1,8 +1,8 @@
 :host {
-    min-width: 350px;
-    height: 100%;
     display: block;
     overflow: auto;
+    min-width: 350px;
+    height: 100%;
     height: 500px; // TODO: change height from outer scope
 
     .scroll-wrapper {

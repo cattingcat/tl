@@ -1,0 +1,32 @@
+<div class="header">
+    <h3>Folder N</h3>
+</div>
+
+<div
+    (mouseleave)="listMouseLeave($event)"
+    class="list-container">
+
+    <task-list
+        [dataSource]="treeView"
+        [highlight]="highlightOptions"
+        [cardType]="cardType"
+        (dragOver)="onDragOver($event)"
+        (dragEnter)="onDragEnter($event)"
+        (dragLeave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        (clickCard)="onClick($event)"
+        (cardMouseMove)="onCardMouseOver($event)"></task-list>
+
+    <floating-creation-form
+            [position]="creationFormPos"></floating-creation-form>
+</div>
+
+<button
+    (click)="changeDataSource()">
+    Change data source
+</button>
+
+<button
+    (click)="changeCardType()">
+    Change card type
+</button>

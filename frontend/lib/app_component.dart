@@ -3,7 +3,7 @@ import 'package:frontend/src/app_header/app_header.dart';
 import 'package:frontend/src/app_header/profile_model.dart';
 import 'package:frontend/src/aside_menu/aside_menu.dart';
 import 'package:frontend/src/dal/session.dart';
-import 'package:frontend/src/task_list_demo/task_list_demo.dart';
+import 'package:frontend/src/folder_task_list/task_list_demo.dart';
 import 'package:frontend/src/vsplit_container/vsplit_container.dart';
 
 @Component(
