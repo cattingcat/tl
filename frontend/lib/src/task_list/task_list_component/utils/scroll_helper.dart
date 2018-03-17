@@ -42,9 +42,10 @@ class ScrollHelper {
 
     height = scrollTop;
     _viewportModels.removeBackWhile((model) {
-      height -= _cardSizeMapper.getHeight(model);
+      final modelH = _cardSizeMapper.getHeight(model);
+      height -= modelH;
       if(height > 0) {
-        _viewportStart += height;
+        _viewportStart += modelH;
         return true;
       }
       return false;

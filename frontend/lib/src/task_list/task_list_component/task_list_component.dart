@@ -44,6 +44,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
   final Element _hostEl;
   final ChangeDetectorRef _cdr;
 
+  Timer _changeDetectTimer;
   ViewportElement _viewportElement;
   ScrollWrapperElement _scrollWrapper;
   ScrollHelper _scrollHelper;
@@ -149,7 +150,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
     final vpModels = new ViewportModels(dataSource.tree);
     _scrollHelper = new ScrollHelper(vpModels, cardType, _scrollWrapper.height);
 
-    _scrollHelper.resetTo(_estimatedViewportHeight, _hostEl.scrollTop);
+    _scrollHelper.resetTo(_estimatedViewportHeight, _hostEl.scrollTop - _spaceSize);
     _viewportElement.offset = _scrollHelper.viewportStart;
 
     sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
@@ -193,6 +194,12 @@ class TaskListComponent implements OnChanges, OnDestroy {
   }
 
   void _detectChanges() {
+//    _changeDetectTimer?.cancel();
+//    _changeDetectTimer = new Timer(const Duration(milliseconds: 20), () {
+//      _cdr.markForCheck();
+//      _cdr.detectChanges();
+//    });
+
     _cdr.markForCheck();
     _cdr.detectChanges();
   }

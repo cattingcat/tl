@@ -4,6 +4,7 @@ import 'package:frontend/src/app_header/profile_model.dart';
 import 'package:frontend/src/aside_menu/aside_menu.dart';
 import 'package:frontend/src/dal/session.dart';
 import 'package:frontend/src/folder_task_list/task_list_demo.dart';
+import 'package:frontend/src/text_editor/text_editor.dart';
 import 'package:frontend/src/vsplit_container/vsplit_container.dart';
 
 @Component(
@@ -16,7 +17,8 @@ import 'package:frontend/src/vsplit_container/vsplit_container.dart';
     TaskListDemo,
     AppHeaderComponent,
     VsplitContainer,
-    AsideMenuComponent
+    AsideMenuComponent,
+    TextEditorComponent
   ]
 )
 class AppComponent {
@@ -28,14 +30,10 @@ class AppComponent {
   AppComponent() {
     final session = Session.instance;
 
-    if(session.hasToken()) {
-      final userInfoMap = session.getUserInfo();
-      final name = userInfoMap['login'];
-      final ava = userInfoMap['avatar_url'];
-      profile = new ProfileModel(name, ava);
-    } else {
-      profile = new ProfileModel('Peka Yobavich', 'https://2ch.hk/s/src/2256158/15191668427640.jpg');
-    }
+    final userInfoMap = session.getUserInfo();
+    final name = userInfoMap['login'];
+    final ava = userInfoMap['avatar_url'];
+    profile = new ProfileModel(name, ava);
   }
 
 
