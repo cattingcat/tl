@@ -1,4 +1,6 @@
 <div #editableDiv
+    (mouseup)="onMouseUp()"
+    class="editable-block"
     contenteditable="true">
 
     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -12,22 +14,43 @@
 
 </div>
 
-<button (click)="bClick()">b</button>
-<button (click)="iClick()">i</button>
+<selection-edit-panel
+    *ngIf="showSelectionTools"
+    (boldClick)="onBoldClick()"
+    (italicClick)="onItalicClick()"
+    (underlineClick)="onUnderlineClick()"
+    (strikeClick)="onStrikeClick()"
+    (subClick)="onSubClick()"
+    (supClick)="onSupClick()"
+    (backgroundPick)="onBackgroundPick($event)"
+    (foregroundPick)="onForegroundPick($event)"
+    (clearClick)="onClearClick()"
+    [style.top]="selectionToolsTop"
+    [style.left]="selectionToolsLeft"
+    class="floating-panel"></selection-edit-panel>
 
-<button (click)="underlineClick()">underline</button>
-<button (click)="strikeClick()">strike</button>
-<button (click)="subClick()">sub</button>
-<button (click)="supClick()">sup</button>
+<div class="block-editors">
+    <button
+        (click)="linkClick()">link</button>
 
-<button (click)="bgColorClick()">bg-col</button>
-<button (click)="foreColorClick()">fore-col</button>
-<button (click)="linkClick()">link</button>
-<button (click)="smallClick()">small</button>
-<button (click)="wrapClick()">h1-wrap</button>
-<button (click)="intendClick()">intend</button>
-<button (click)="outdentClick()">outdent</button>
-<button (click)="olClick()">ol</button>
-<button (click)="ulClick()">ul</button>
-<button (click)="clearClick()">clear</button>
+    <button
+        (click)="smallClick()">small</button>
+
+    <button
+        (click)="wrapClick()">h1-wrap</button>
+
+    <button
+        (click)="intendClick()">intend</button>
+
+    <button
+        (click)="outdentClick()">outdent</button>
+
+    <button
+        (click)="olClick()">ol</button>
+
+    <button
+        (click)="ulClick()">ul</button>
+</div>
+
+
 

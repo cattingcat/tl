@@ -1,3 +1,26 @@
+@import '../core_components/core';
+
 :host {
   display: block;
+  position: relative;
+
+  .editable-block {
+    outline: none;
+    padding: 40px 20px 20px 20px;
+  }
+
+  .floating-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .block-editors {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+
+    border: $border;
+  }
 }

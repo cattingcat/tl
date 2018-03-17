@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 
-import 'package:angular/core.dart';
+import 'package:angular/angular.dart';
+import 'package:frontend/src/text_editor/selection_edit_panel/selection_edit_panel.dart';
 import 'package:frontend/src/text_editor/text_editor_wrapper.dart';
 
 
@@ -8,47 +9,82 @@ import 'package:frontend/src/text_editor/text_editor_wrapper.dart';
     selector: 'text-editor',
     styleUrls: const <String>['text_editor.css'],
     templateUrl: 'text_editor.html',
-    directives: const <Object>[]
+    directives: const <Object>[
+      NgIf,
+      SelectionEditPanelComponent
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TextEditorComponent implements AfterViewInit {
-
   TextEditorWrapper _editorWrapper;
 
   @ViewChild('editableDiv') html.DivElement editableDiv;
 
+  bool showSelectionTools = false;
+  String selectionToolsTop = '0';
+  String selectionToolsLeft = '0';
 
-  void bClick() {
+  void onMouseUp() {
+    showSelectionTools = false;
+
+    final selection = html.window.getSelection();
+
+    if(!selection.isCollapsed && editableDiv.contains(selection.anchorNode)) {
+      final range = selection.getRangeAt(0);
+      final clientRect = range.getBoundingClientRect();
+
+      final hostRect = editableDiv.getBoundingClientRect();
+
+      final selectionRect = new html.Rectangle(
+          clientRect.left - hostRect.left,
+          clientRect.top - hostRect.top,
+          clientRect.width,
+          clientRect.height);
+
+      selectionToolsTop = '${selectionRect.top + selectionRect.height}px';
+      selectionToolsLeft = '${selectionRect.left}px';
+      showSelectionTools = true;
+    }
+  }
+
+
+  void onBoldClick() {
     _editorWrapper.bold();
   }
 
-  void iClick() {
+  void onItalicClick() {
     _editorWrapper.italic();
   }
 
-  void bgColorClick() {
-    _editorWrapper.bgColor('red');
-  }
-
-  void underlineClick() {
+  void onUnderlineClick() {
     _editorWrapper.underline();
   }
 
-  void strikeClick() {
+  void onStrikeClick() {
     _editorWrapper.strike();
   }
 
-  void subClick() {
+  void onSubClick() {
     _editorWrapper.sub();
   }
 
-  void supClick() {
+  void onSupClick() {
     _editorWrapper.sup();
   }
 
-
-  void foreColorClick() {
-    _editorWrapper.foreColor('red');
+  void onBackgroundPick(String color) {
+    _editorWrapper.bgColor(color);
   }
+
+  void onForegroundPick(String color) {
+    _editorWrapper.foreColor(color);
+  }
+
+  void onClearClick() {
+    _editorWrapper.clearFormatting();
+  }
+
+
 
   void linkClick() {
     _editorWrapper.link('google.com');
@@ -78,9 +114,7 @@ class TextEditorComponent implements AfterViewInit {
     _editorWrapper.ul();
   }
 
-  void clearClick() {
-    _editorWrapper.clearFormatting();
-  }
+
 
 
 

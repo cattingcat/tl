@@ -1,0 +1,35 @@
+@import '../../core_components/core';
+
+$active-btn: #cabdd6;
+
+:host {
+  display: block;
+  background: #b4bae0;;
+
+  button {
+    padding: 3px 4px;
+    font-size: large;
+
+    &.active {
+      background: $active-btn;
+    }
+  }
+
+  .color-picker {
+    transition: max-height .2s;
+    overflow: hidden;
+
+    &.shown {
+      max-height: 100px;
+    }
+    &.hidden {
+      max-height: 0;
+    }
+
+    .color-item {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+    }
+  }
+}
