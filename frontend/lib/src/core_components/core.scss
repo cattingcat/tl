@@ -17,3 +17,20 @@ $border: #E2E2E2 1px solid;
     vertical-align: bottom;
   }
 }
+
+@mixin scroll() {
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: #f6f6f6;
+  }
+  &:hover::-webkit-scrollbar {
+    background-color: #eaeaea;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #7f7f7f;
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #323232;
+  }
+}

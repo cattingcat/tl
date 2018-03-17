@@ -6,6 +6,8 @@
   overflow-y: auto;
   max-height: 500px; // TODO: Should be set outside text editor
 
+  @include scroll();
+
   .editable-block {
     outline: none;
     padding: 40px 20px 20px 20px;
