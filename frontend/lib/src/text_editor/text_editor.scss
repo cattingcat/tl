@@ -3,6 +3,8 @@
 :host {
   display: block;
   position: relative;
+  overflow-y: auto;
+  max-height: 500px; // TODO: Should be set outside text editor
 
   .editable-block {
     outline: none;
@@ -17,23 +19,31 @@
     border: $border;
   }
 
-  .block-editors {
-    position: absolute;
-    top: 5px;
-    left: 5px;
 
+  .sticky-item {
+    display: inline-block;
+    position: sticky;
+    top: 5px;
+
+    background: white;
     border: $border;
+
+    box-shadow: 0 0 2px black;
+  }
+
+  .block-editors {
+    float: left;
+    left: 5px;
   }
 
   .edit-mode-switch {
-    position: absolute;
-    top: 5px;
+    float: right;
     right: 5px;
+
     width: 24px;
     height: 24px;
     padding: 3px;
 
-    border: $border;
     border-radius: 50px;
 
     text-align: center;
