@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
+import 'package:frontend/src/text_editor/block_edit_panel/block_edit_panel.dart';
 import 'package:frontend/src/text_editor/selection_edit_panel/selection_edit_panel.dart';
 import 'package:frontend/src/text_editor/text_editor_wrapper.dart';
 
@@ -11,6 +12,7 @@ import 'package:frontend/src/text_editor/text_editor_wrapper.dart';
     templateUrl: 'text_editor.html',
     directives: const <Object>[
       NgIf,
+      BlockEditPanelComponent,
       SelectionEditPanelComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -48,74 +50,36 @@ class TextEditorComponent implements AfterViewInit {
   }
 
 
-  void onBoldClick() {
-    _editorWrapper.bold();
+  void onBoldClick() => _editorWrapper.bold();
+  void onItalicClick() => _editorWrapper.italic();
+  void onUnderlineClick() => _editorWrapper.underline();
+  void onStrikeClick() => _editorWrapper.strike();
+  void onSubClick() => _editorWrapper.sub();
+  void onSupClick() => _editorWrapper.sup();
+  void onFontSizePick(int size) => _editorWrapper.fontSize(size);
+  void onBackgroundPick(String color) => _editorWrapper.bgColor(color);
+  void onForegroundPick(String color) => _editorWrapper.foreColor(color);
+  void onClearClick() => _editorWrapper.clearFormatting();
+
+  void onHeadingClick(int level) {
+    if(level == 0) {
+      _editorWrapper.block('DIV');
+    } else {
+      final tag = 'H$level';
+      _editorWrapper.block(tag);
+    }
   }
 
-  void onItalicClick() {
-    _editorWrapper.italic();
+  void onIntendClick(bool isAdd) {
+    if(isAdd) {
+      _editorWrapper.intend();
+    } else {
+      _editorWrapper.outdent();
+    }
   }
 
-  void onUnderlineClick() {
-    _editorWrapper.underline();
-  }
-
-  void onStrikeClick() {
-    _editorWrapper.strike();
-  }
-
-  void onSubClick() {
-    _editorWrapper.sub();
-  }
-
-  void onSupClick() {
-    _editorWrapper.sup();
-  }
-
-  void onBackgroundPick(String color) {
-    _editorWrapper.bgColor(color);
-  }
-
-  void onForegroundPick(String color) {
-    _editorWrapper.foreColor(color);
-  }
-
-  void onClearClick() {
-    _editorWrapper.clearFormatting();
-  }
-
-
-
-  void linkClick() {
-    _editorWrapper.link('google.com');
-  }
-
-  void smallClick() {
-    _editorWrapper.small();
-  }
-
-  void wrapClick() {
-    _editorWrapper.block();
-  }
-
-  void intendClick() {
-    _editorWrapper.intend();
-  }
-
-  void outdentClick() {
-    _editorWrapper.outdent();
-  }
-
-  void olClick() {
-    _editorWrapper.ol();
-  }
-
-  void ulClick() {
-    _editorWrapper.ul();
-  }
-
-
-
+  void onOlClick() => _editorWrapper.ol();
+  void onUlClick() => _editorWrapper.ul();
 
 
 

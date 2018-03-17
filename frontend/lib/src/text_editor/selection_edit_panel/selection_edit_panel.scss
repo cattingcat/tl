@@ -1,23 +1,24 @@
 @import '../../core_components/core';
 
-$active-btn: #cabdd6;
+$picker-panel-bg: #f0f0f0;
 
 :host {
   display: block;
-  background: #b4bae0;;
+  background: white;
 
   button {
     padding: 3px 4px;
     font-size: large;
 
     &.active {
-      background: $active-btn;
+      background: $picker-panel-bg;
     }
   }
 
-  .color-picker {
+  .picker {
     transition: max-height .2s;
     overflow: hidden;
+    background: $picker-panel-bg;
 
     &.shown {
       max-height: 100px;
@@ -25,11 +26,19 @@ $active-btn: #cabdd6;
     &.hidden {
       max-height: 0;
     }
+  }
 
-    .color-item {
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-    }
+  .color-item {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+  }
+
+  .font-item {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
   }
 }

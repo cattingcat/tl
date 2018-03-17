@@ -43,13 +43,13 @@ class TextEditorWrapper {
     html.document.execCommand('createLink', false, href);
   }
 
-  void small() {
-    html.document.execCommand('fontSize', false, '1');
+  void fontSize(int fontSize) {
+    html.document.execCommand('fontSize', false, '$fontSize');
   }
 
-  void block() {
+  void block(String tag) {
     // replace DIV tag with specified tag for whole block
-    html.document.execCommand('formatBlock', false, 'H1');
+    html.document.execCommand('formatBlock', false, tag);
   }
 
   void intend() {

@@ -9,18 +9,37 @@
     padding: 40px 20px 20px 20px;
   }
 
-  .floating-panel {
+  .selection-editors {
     position: absolute;
     top: 0;
     left: 0;
+
+    border: $border;
   }
 
   .block-editors {
     position: absolute;
     top: 5px;
     left: 5px;
-    padding: 5px;
 
     border: $border;
+  }
+
+  .edit-mode-switch {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+
+    border: $border;
+    border-radius: 50px;
+
+    text-align: center;
+
+    svg {
+      vertical-align: middle;
+    }
   }
 }
