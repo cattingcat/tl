@@ -20,7 +20,7 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
   templateUrl: 'default_task_card.html',
   directives: const <Object>[
     HoverHooks,
-    EditableText,
+    EditableTextComponent,
     SingleAvatarComponent,
     TagListComponent
   ],

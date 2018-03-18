@@ -10,6 +10,7 @@
     outline: none;
     background-color: transparent;
     width: calc(100% - 25px);
+    font-size: inherit;
   }
 
   .text-input[readonly] {

@@ -14,7 +14,7 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
   templateUrl: 'narrow_task_card.html',
   directives: const <Object>[
     HoverHooks,
-    EditableText
+    EditableTextComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )

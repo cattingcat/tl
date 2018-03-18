@@ -20,6 +20,8 @@ import 'package:frontend/src/text_editor/text_editor_wrapper.dart';
 class TextEditorComponent implements AfterViewInit {
   TextEditorWrapper _editorWrapper;
 
+  @Input() bool isEditable = false;
+
   @ViewChild('editableDiv') html.DivElement editableDiv;
 
   bool showSelectionTools = false;
@@ -28,6 +30,7 @@ class TextEditorComponent implements AfterViewInit {
 
   void onMouseUp() {
     showSelectionTools = false;
+    if(!isEditable) return;
 
     final selection = html.window.getSelection();
 
@@ -48,7 +51,6 @@ class TextEditorComponent implements AfterViewInit {
       showSelectionTools = true;
     }
   }
-
 
   void onBoldClick() => _editorWrapper.bold();
   void onItalicClick() => _editorWrapper.italic();
@@ -80,9 +82,6 @@ class TextEditorComponent implements AfterViewInit {
 
   void onOlClick() => _editorWrapper.ol();
   void onUlClick() => _editorWrapper.ul();
-
-
-
 
   @override
   void ngAfterViewInit() {

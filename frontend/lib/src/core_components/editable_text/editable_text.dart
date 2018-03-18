@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:html' as html;
+
 import 'package:angular/angular.dart';
 import 'package:frontend/src/core_components/editable_text/text_model.dart';
+
+export 'package:frontend/src/core_components/editable_text/text_model.dart';
+
 
 @Component(
     selector: 'editable-text',
@@ -10,12 +14,11 @@ import 'package:frontend/src/core_components/editable_text/text_model.dart';
     directives: const <Object>[NgIf],
     changeDetection: ChangeDetectionStrategy.OnPush
 )
-class EditableText {
+class EditableTextComponent {
   final _ctrl = new StreamController<String>.broadcast(sync: true);
   bool _isEditable = false;
 
   @Input('model') TitleModel model;
-  @Input('fontWeight') int fontWeight;
   @Output('change') Stream<String> get change => _ctrl.stream;
 
   @ViewChild('textInput') html.InputElement textInput;
