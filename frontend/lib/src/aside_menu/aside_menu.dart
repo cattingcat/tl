@@ -44,7 +44,7 @@ class AsideMenuComponent implements AfterViewInit, OnDestroy {
   @override
   void ngAfterViewInit() {
     _resizer = new ResizerWrapper(resizerEl);
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       _subscr.listen(_resizer.onResizing, _onResize);
     });
   }

@@ -67,7 +67,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
   @ViewChild('wrapper') Element wrapperEl;
 
   TaskListComponent(this._hostEl, this._cdr) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       _subscr.listen<ToggleTaskListCardEvent>(_cardObserver.cardToggle, _onToggle);
       _hostEl.addEventListener('scroll', _handleScrollEvent);
     });
@@ -88,7 +88,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
       final treeView = changes['dataSource'].currentValue as TreeView;
       final card = (changes.containsKey('cardType') ? changes['cardType'].currentValue : cardType) as CardType;
 
-      Zone.ROOT.run(() {
+      Zone.root.run(() {
         _tmpSubscr
           ..cancelClear()
 //          ..listen(treeView.onAdd, _onAdd)

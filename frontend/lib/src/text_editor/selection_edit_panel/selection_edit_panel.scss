@@ -5,6 +5,7 @@ $picker-panel-bg: #f0f0f0;
 :host {
   display: block;
   background: white;
+  user-select: none;
 
   button {
     padding: 3px 4px;

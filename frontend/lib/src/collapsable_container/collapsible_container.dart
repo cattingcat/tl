@@ -48,7 +48,7 @@ class CollapsibleContainerComponent implements OnInit {
   Future<Null> _updateExpand(bool value) async {
     if(value) {
       contentEl.classes.remove('hidden');
-      await new Future.delayed(Duration.ZERO);
+      await new Future.delayed(Duration.zero);
       contentEl.classes.remove('collapse');
     } else {
       contentEl.classes.add('collapse');

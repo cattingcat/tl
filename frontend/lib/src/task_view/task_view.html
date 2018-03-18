@@ -9,6 +9,7 @@
 <div
     (click)="onToggleEditMode()"
     [class.active]="isDescriptionEditable"
+    title="Click to edit description"
     class="edit-mode-switch">
 
     <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="1em" viewBox="0 0 24 24" width="1em">
@@ -19,4 +20,6 @@
 
 
 <text-editor
+    (contentChanged)="onDescriptionChanged($event)"
+    [initialHtml]="taskDescription"
     [isEditable]="isDescriptionEditable"></text-editor>

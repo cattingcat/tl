@@ -26,14 +26,14 @@ class NarrowTaskCard implements AfterViewInit, OnChanges {
 
 
   void onTitleChange(String title) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final event = new TitleChangeCardEvent(model.model, title);
       observer.titleChange(event);
     });
   }
 
   void onExpanderClick() {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final event = new ToggleCardEvent(model.model, !model.model.isExpanded);
       observer.toggle(event);
     });

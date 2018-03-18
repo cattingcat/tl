@@ -15,6 +15,11 @@
     &.editable {
       padding: 40px 7px 0 7px;
     }
+
+    &:empty::before {
+      display: block;
+      content: attr(placeholder);
+    }
   }
 
   .selection-editors {
@@ -32,8 +37,6 @@
 
     background: white;
     border: $border;
-
-    box-shadow: 0 0 2px black;
   }
 
   .block-editors {

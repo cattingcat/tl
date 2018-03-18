@@ -45,7 +45,7 @@ class DefaultTaskCard implements OnChanges {
   Iterable<TagModel> tags = [new TagModel('123'), new TagModel('qwe'),new TagModel('asd'),new TagModel('zxc xcvxcv')];
 
   void onTitleChange(String title) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final event = new TitleChangeCardEvent(model.model, title);
       observer.titleChange(event);
     });
@@ -54,7 +54,7 @@ class DefaultTaskCard implements OnChanges {
   void onExpanderClick(html.MouseEvent event) {
     event.stopPropagation();
 
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final event = new ToggleCardEvent(model.model, !model.model.isExpanded);
       observer.toggle(event);
     });
@@ -62,7 +62,7 @@ class DefaultTaskCard implements OnChanges {
 
   @HostListener('click', const ['\$event'])
   void onHostClick (html.MouseEvent event) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final e = new MouseCardEvent(model.model, event, _hostEl);
       observer.click(e);
     });
@@ -70,7 +70,7 @@ class DefaultTaskCard implements OnChanges {
 
   @HostListener('mouseenter', const ['\$event'])
   void onHostMouseEnter (html.MouseEvent event) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final e = new MouseCardEvent(model.model, event, _hostEl);
       observer.onMouseEnter(e);
     });
@@ -78,7 +78,7 @@ class DefaultTaskCard implements OnChanges {
 
   @HostListener('mouseleave', const ['\$event'])
   void onHostMouseLeave (html.MouseEvent event) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final e = new MouseCardEvent(model.model, event, _hostEl);
       observer.onMouseLeave(e);
     });
@@ -86,7 +86,7 @@ class DefaultTaskCard implements OnChanges {
 
   @HostListener('mousemove', const ['\$event'])
   void onHostMouseMove (html.MouseEvent event) {
-    Zone.ROOT.run(() {
+    Zone.root.run(() {
       final e = new MouseCardEvent(model.model, event, _hostEl);
       observer.onMouseMove(e);
     });

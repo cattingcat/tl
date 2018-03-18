@@ -46,7 +46,7 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
 
       _resizer = new ResizerWrapper(separatorEl);
 
-      Zone.ROOT.run(() {
+      Zone.root.run(() {
         _subscr
           ..listen(_resizer.onResizing, _mouseMove)
           ..listen(_resizer.onFinish, _handleMouseUp);
