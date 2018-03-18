@@ -4,7 +4,6 @@ import 'package:angular/angular.dart';
 import 'package:frontend/src/core/linked_tree/linked_tree.dart';
 import 'package:frontend/src/core_components/dnd/dnd.dart';
 import 'package:frontend/src/floating_creation_form/floating_creation_form.dart';
-import 'package:frontend/src/floating_creation_form/form_position.dart';
 import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';

@@ -44,7 +44,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
   final Element _hostEl;
   final ChangeDetectorRef _cdr;
 
-  Timer _changeDetectTimer;
+  //Timer _changeDetectTimer;
   ViewportElement _viewportElement;
   ScrollWrapperElement _scrollWrapper;
   ScrollHelper _scrollHelper;

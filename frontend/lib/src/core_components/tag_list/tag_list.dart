@@ -3,6 +3,8 @@ import 'dart:html' as html;
 import 'package:angular/angular.dart';
 import 'package:frontend/src/core_components/tag_list/tag_model.dart';
 
+export 'package:frontend/src/core_components/tag_list/tag_model.dart';
+
 @Component(
     selector: 'tag-list',
     styleUrls: const <String>['tag_list.css'],

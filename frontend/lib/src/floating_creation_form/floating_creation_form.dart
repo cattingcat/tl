@@ -4,6 +4,8 @@ import 'dart:html' as html;
 import 'package:angular/angular.dart';
 import 'package:frontend/src/floating_creation_form/form_position.dart';
 
+export 'package:frontend/src/floating_creation_form/form_position.dart';
+
 
 @Component(
     selector: 'floating-creation-form',

@@ -1,11 +1,6 @@
-import 'dart:html' as html;
-
 import 'package:angular/angular.dart';
 import 'package:frontend/src/core_components/editable_text/editable_text.dart';
-import 'package:frontend/src/text_editor/block_edit_panel/block_edit_panel.dart';
-import 'package:frontend/src/text_editor/selection_edit_panel/selection_edit_panel.dart';
 import 'package:frontend/src/text_editor/text_editor.dart';
-import 'package:frontend/src/text_editor/text_editor_wrapper.dart';
 
 
 @Component(
