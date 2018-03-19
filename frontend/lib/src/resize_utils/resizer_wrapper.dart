@@ -39,6 +39,9 @@ class ResizerWrapper {
   }
 
   void _mouseMove(html.MouseEvent event) {
-    if(_resizing) _moveCtrl.add(event);
+    if(!_resizing) return;
+
+    event.preventDefault(); // Avoid selection while resize
+    _moveCtrl.add(event);
   }
 }
