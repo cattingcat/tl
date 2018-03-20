@@ -7,6 +7,11 @@ import 'package:frontend/src/app_header/item_model.dart';
 import 'package:frontend/src/app_header/profile_model.dart';
 import 'package:frontend/src/core_components/single_avatar/single_avatar.dart';
 
+export 'package:frontend/src/app_header/header_events.dart';
+export 'package:frontend/src/app_header/item_model.dart';
+export 'package:frontend/src/app_header/profile_model.dart';
+
+
 @Component(
   selector: 'app-header',
   styleUrls: const <String>['app_header.css'],
@@ -23,21 +28,15 @@ class AppHeaderComponent {
   final _profileClickCtrl = new StreamController<HeaderItemClickEvent>(sync: true);
   final _hamClickCtrl = new StreamController<Null>(sync: true);
 
-  final Iterable<ItemModel> items = [
-    new ItemModel('Item 1', '', CounterLevel.None),
-    new ItemModel('Item 2', '2', CounterLevel.None),
-    new ItemModel('Item 3', '3', CounterLevel.Yellow),
-    new ItemModel('Item 4', '4', CounterLevel.Red)
-  ];
-
   @Input() ProfileModel profile;
+  @Input() Iterable<ItemModel> items;
+  @Input() ItemModel activeItem;
 
   @Output() Stream<RadioItemClickEvent> get radioClick => _radioItemClickCtrl.stream;
   @Output() Stream<HeaderItemClickEvent> get profileClick => _profileClickCtrl.stream;
   @Output() Stream<Null> get hamburgerClick => _hamClickCtrl.stream;
 
 
-  ItemModel get activeItem => items.last;
   bool isActive(ItemModel item) => activeItem == item;
 
 

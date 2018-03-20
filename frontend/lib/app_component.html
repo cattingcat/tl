@@ -1,26 +1,9 @@
-<app-header
-    [profile]="profile"
-    (hamburgerClick)="onMenuToggle()"></app-header>
+<app-menus
+        [profile]="profile"
+        [headerItems]="headerItems"
+        [activeItem]="activeItem"
+        (headerItemClick)="onChooseMvp($event)">
 
-<main class="main">
-
-    <div
-        [class.hidden]="menuHidden"
-        [class.pined]="menuPin"
-        class="menu-container">
-
-        <aside-menu
-            (onPin)="onMenuPin()"></aside-menu>
-    </div>
-
-    <div class="main-container">
-        <vsplit-container>
-            <left>
-                <task-list-demo></task-list-demo>
-            </left>
-            <right>
-                <task-view></task-view>
-            </right>
-        </vsplit-container>
-    </div>
-</main>
+    <mvp-list *ngIf="activeMvp == Mvps.List"></mvp-list>
+    <mvp-dashboard *ngIf="activeMvp == Mvps.Dashboards"></mvp-dashboard>
+</app-menus>

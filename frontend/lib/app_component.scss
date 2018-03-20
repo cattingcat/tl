@@ -7,39 +7,4 @@
   height: 100%;
   background-color: $bg-color;
   min-width: 800px;
-
-  .main {
-    display: flex;
-    flex-flow: row nowrap;
-    position: relative;
-    height: calc(100% - 50px); // header = 50px
-
-    .menu-container {
-      display: block;
-      position: absolute;
-      height: 100%;
-      z-index: 100;
-      transition: transform 200ms;
-
-      &.hidden {
-        transform: translateX(-100%);
-      }
-
-      &.pined {
-        position: static;
-        height: initial;
-      }
-
-      &.hidden.pined {
-        position: absolute;
-        height: 100%;
-      }
-    }
-
-    .main-container {
-      display: block;
-      height: 100%;
-      flex-grow: 1;
-    }
-  }
 }

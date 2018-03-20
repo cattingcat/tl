@@ -1,0 +1,22 @@
+<app-header
+    [profile]="profile"
+    [items]="headerItems"
+    [activeItem]="activeItem"
+    (hamburgerClick)="onMenuToggle()"
+    (radioClick)="onRadioClick($event)"></app-header>
+
+<main class="main">
+
+    <div
+        [class.hidden]="menuHidden"
+        [class.pined]="menuPin"
+        class="menu-container">
+
+        <aside-menu
+            (onPin)="onMenuPin()"></aside-menu>
+    </div>
+
+    <div class="main-container">
+        <ng-content></ng-content>
+    </div>
+</main>

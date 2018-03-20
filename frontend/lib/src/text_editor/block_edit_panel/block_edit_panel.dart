@@ -8,6 +8,7 @@ import 'package:angular/angular.dart';
     styleUrls: const <String>['block_edit_panel.css'],
     templateUrl: 'block_edit_panel.html',
     directives: const <Object>[NgIf, NgFor],
+    exports: <Type>[Pickers],
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class BlockEditPanelComponent {
@@ -15,7 +16,7 @@ class BlockEditPanelComponent {
   final _intendChangeCtrl = new StreamController<bool>(sync: true);
   final _olCtrl = new StreamController<Null>(sync: true);
   final _ulCtrl = new StreamController<Null>(sync: true);
-  _Pickers _activePicker = _Pickers.None;
+  Pickers activePicker = Pickers.None;
 
 
   @Output() Stream<int> get headingClick => _headingCtrl.stream;
@@ -23,15 +24,9 @@ class BlockEditPanelComponent {
   @Output() Stream<Null> get olClick => _olCtrl.stream;
   @Output() Stream<Null> get ulClick => _ulCtrl.stream;
 
-  bool get showHeadingPicker => _activePicker == _Pickers.Headings;
-  bool get showLinkPicker => _activePicker == _Pickers.Links;
-  bool get showImagePicker => _activePicker == _Pickers.Images;
-
-  void onHeadingsClick() => _togglePicker(_Pickers.Headings);
-  void onInsertLinkClick() => _togglePicker(_Pickers.Links);
-  void onInsertImageClick() => _togglePicker(_Pickers.Images);
-
-
+  void onHeadingsClick() => _togglePicker(Pickers.Headings);
+  void onInsertLinkClick() => _togglePicker(Pickers.Links);
+  void onInsertImageClick() => _togglePicker(Pickers.Images);
 
   void onIntendClick() => _intendChangeCtrl.add(true);
   void onOutdentClick() => _intendChangeCtrl.add(false);
@@ -44,19 +39,19 @@ class BlockEditPanelComponent {
 
   @HostListener('mouseleave')
   void onMouseLeave() {
-    _activePicker = _Pickers.None;
+    activePicker = Pickers.None;
   }
 
 
-  void _togglePicker(_Pickers picker) {
-    if(_activePicker == picker) {
-      _activePicker = _Pickers.None;
+  void _togglePicker(Pickers picker) {
+    if(activePicker == picker) {
+      activePicker = Pickers.None;
     } else {
-      _activePicker = picker;
+      activePicker = picker;
     }
   }
 }
 
-enum _Pickers {
+enum Pickers {
   Headings, Links, Images, None
 }
