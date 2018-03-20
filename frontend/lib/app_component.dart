@@ -17,7 +17,7 @@ import 'package:frontend/src/mvp_list/mvp_list.dart';
     MvpListComponent,
     MvpDashboardComponent
   ],
-  exports: <Type>[Mvps],
+  exports: const <Type>[Mvps],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class AppComponent {
@@ -50,6 +50,8 @@ class AppComponent {
   void onChooseMvp(ItemModel headerItem) {
     if(headerItem == _listItem) activeMvp = Mvps.List;
     if(headerItem == _dashboardItem) activeMvp = Mvps.Dashboards;
+
+    activeItem = headerItem;
   }
 }
 

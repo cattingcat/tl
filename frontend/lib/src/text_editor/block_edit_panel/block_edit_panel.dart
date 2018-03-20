@@ -8,7 +8,7 @@ import 'package:angular/angular.dart';
     styleUrls: const <String>['block_edit_panel.css'],
     templateUrl: 'block_edit_panel.html',
     directives: const <Object>[NgIf, NgFor],
-    exports: <Type>[Pickers],
+    exports: const <Type>[BepPickers],
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class BlockEditPanelComponent {
@@ -16,7 +16,7 @@ class BlockEditPanelComponent {
   final _intendChangeCtrl = new StreamController<bool>(sync: true);
   final _olCtrl = new StreamController<Null>(sync: true);
   final _ulCtrl = new StreamController<Null>(sync: true);
-  Pickers activePicker = Pickers.None;
+  BepPickers activePicker = BepPickers.None;
 
 
   @Output() Stream<int> get headingClick => _headingCtrl.stream;
@@ -24,9 +24,9 @@ class BlockEditPanelComponent {
   @Output() Stream<Null> get olClick => _olCtrl.stream;
   @Output() Stream<Null> get ulClick => _ulCtrl.stream;
 
-  void onHeadingsClick() => _togglePicker(Pickers.Headings);
-  void onInsertLinkClick() => _togglePicker(Pickers.Links);
-  void onInsertImageClick() => _togglePicker(Pickers.Images);
+  void onHeadingsClick() => _togglePicker(BepPickers.Headings);
+  void onInsertLinkClick() => _togglePicker(BepPickers.Links);
+  void onInsertImageClick() => _togglePicker(BepPickers.Images);
 
   void onIntendClick() => _intendChangeCtrl.add(true);
   void onOutdentClick() => _intendChangeCtrl.add(false);
@@ -39,19 +39,19 @@ class BlockEditPanelComponent {
 
   @HostListener('mouseleave')
   void onMouseLeave() {
-    activePicker = Pickers.None;
+    activePicker = BepPickers.None;
   }
 
 
-  void _togglePicker(Pickers picker) {
+  void _togglePicker(BepPickers picker) {
     if(activePicker == picker) {
-      activePicker = Pickers.None;
+      activePicker = BepPickers.None;
     } else {
       activePicker = picker;
     }
   }
 }
 
-enum Pickers {
+enum BepPickers {
   Headings, Links, Images, None
 }
