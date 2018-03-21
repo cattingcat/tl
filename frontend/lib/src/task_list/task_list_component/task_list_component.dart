@@ -34,7 +34,7 @@ import 'package:frontend/src/task_list/view_models/sublist_view_model.dart';
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListComponent implements OnChanges, OnDestroy {
-  static const int _spaceSize = 200; // Space before/after viewport
+  static const int _spaceSize = 400; // Space before/after viewport
   final _subscr = new Subscriptions(); // Subscriptions for all list lifecycle
   final _tmpSubscr = new Subscriptions(); // Data-source subscriptions
 

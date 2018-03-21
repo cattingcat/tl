@@ -5,6 +5,7 @@ import 'package:angular/core.dart';
 import 'package:frontend/src/core_components/dnd/draggable.dart';
 import 'package:frontend/src/core_components/dnd/drop_target.dart';
 import 'package:frontend/src/core_components/dnd/drop_target_observer.dart';
+import 'package:frontend/src/task_list/card_components/default/group/default_group_card.dart';
 import 'package:frontend/src/task_list/card_components/default/task/default_task_card.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/card_components/narrow/task/narrow_task_card.dart';
@@ -24,6 +25,7 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
       NgIf,
       DefaultTaskCard,
       NarrowTaskCard,
+      DefaultGroupCard,
       SublistComponent,
       Draggable,
       DropTarget
@@ -42,9 +44,11 @@ class SublistComponent implements DropTargetObserver {
   bool get showSublist => model.showSublist && model.sublist != null && model.sublist.isNotEmpty;
 
 
-  bool get isDefaultCard => cardType == CardType.Default;
+  bool get isGroupCard => model.headerModel.isGroup;
 
-  bool get isNarrowCard => cardType == CardType.Narrow;
+  bool get isDefaultTaskCard => model.headerModel.isTask && cardType == CardType.Default;
+
+  bool get isNarrowTaskCard => model.headerModel.isTask && cardType == CardType.Narrow;
 
 
   bool get highlightBefore => _hlThis && highlight.position == HighlightPosition.Before;

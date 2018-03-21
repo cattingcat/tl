@@ -1,0 +1,22 @@
+
+$card-border: #E2E2E2 1px solid;
+
+// TODO: same logic in editable title
+.expander {
+  display: block;
+  border: none;
+  outline: none;
+  background: none;
+  height: 100%;
+  padding-right: 5px;
+
+  &.hidden {
+    visibility: hidden;
+  }
+
+  &.collapded {
+    svg {
+      transform: rotate(-90deg);
+    }
+  }
+}

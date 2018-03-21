@@ -1,0 +1,12 @@
+@import '../card_common';
+
+$card-height: 20px;
+
+:host {
+  display: flex;
+  flex-flow: row nowrap;
+  height: $card-height;
+  box-sizing: border-box;
+
+  border-bottom: #E2E2E2 1px solid;
+}

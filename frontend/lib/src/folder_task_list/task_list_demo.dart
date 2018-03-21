@@ -7,6 +7,7 @@ import 'package:frontend/src/floating_creation_form/floating_creation_form.dart'
 import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';
+import 'package:frontend/src/task_list/models/group_model.dart';
 import 'package:frontend/src/task_list/models/model_tree_manager/model_tree_manager.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
@@ -40,14 +41,14 @@ class TaskListDemo {
 
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModel>();
-    for(int i = 0; i < 70; ++i) {
-      final task = new TaskModel('$i');
+    for(int i = 0; i < 117; ++i) {
+      final task = new GroupModel();
       task.isExpanded = true;
 
-//      for(int j = 0; j < 5; ++j) {
-//        final subTask = new TaskModel('$i ; $j');
-//        task.addChild(subTask);
-//      }
+      for(int j = 0; j < 5; ++j) {
+        final subTask = new TaskModel('$i ; $j');
+        task.addChild(subTask);
+      }
 
       tree.addFirst(task);
     }

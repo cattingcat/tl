@@ -8,14 +8,19 @@
     class="card-wrapper">
 
     <default-task-card
-            *ngIf="isDefaultCard"
+            *ngIf="isDefaultTaskCard"
             [model]="headerModel"
             [observer]="observer"></default-task-card>
 
     <narrow-task-card
-            *ngIf="isNarrowCard"
+            *ngIf="isNarrowTaskCard"
             [model]="headerModel"
             [observer]="observer"></narrow-task-card>
+
+    <default-group-card
+            *ngIf="isGroupCard"
+            [model]="headerModel"
+            [observer]="observer"></default-group-card>
 </div>
 
 <div

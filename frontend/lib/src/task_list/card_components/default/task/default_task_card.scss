@@ -1,3 +1,5 @@
+@import '../card_common';
+
 :host {
   $card-height: 40px;
 
@@ -11,10 +13,11 @@
     display: flex;
     flex-flow: row nowrap;
     height: $card-height;
+    box-sizing: border-box;
+
     transition: background-color 300ms;
 
-    border-bottom: #E2E2E2 1px solid;
-    box-sizing: border-box;
+    border-bottom: $card-border;
   }
 
   .assignee {
@@ -25,26 +28,6 @@
 
   .hover {
     background-color: aliceblue;
-  }
-
-  // TODO: same logic in editable title
-  .expander {
-    display: block;
-    border: none;
-    outline: none;
-    background: none;
-    height: 100%;
-    padding-right: 5px;
-
-    &.hidden {
-      visibility: hidden;
-    }
-
-    &.collapded {
-      svg {
-        transform: rotate(-90deg);
-      }
-    }
   }
 
   .title {

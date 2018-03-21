@@ -12,8 +12,8 @@ class CardType implements CardSizeMapper<TaskListModel> {
 
 
   final int taskCardHeight;
-  final int folderCardHeight = 0;
-  final int groupCardHeight = 0;
+  final int folderCardHeight = 20;
+  final int groupCardHeight = 20;
 
   const CardType._(this.taskCardHeight);
 

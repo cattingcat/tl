@@ -20,7 +20,7 @@ $border: #E2E2E2 1px solid;
 
 @mixin scroll() {
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
     background-color: #f6f6f6;
   }
   &:hover::-webkit-scrollbar {
@@ -29,8 +29,5 @@ $border: #E2E2E2 1px solid;
 
   &::-webkit-scrollbar-thumb {
     background-color: #7f7f7f;
-  }
-  &:hover::-webkit-scrollbar-thumb {
-    background-color: #323232;
   }
 }
