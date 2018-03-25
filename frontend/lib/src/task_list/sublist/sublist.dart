@@ -38,7 +38,6 @@ export 'package:frontend/src/task_list/sublist/sublist_item.dart';
 class SublistComponent {
   final ViewModelMapper _mapper = new ViewModelMapper();
   final List<SublistItem> sublistItems = new List<SublistItem>();
-  final Map<TaskListModel, SublistItem> _cache = new Map<TaskListModel, SublistItem>();
 
   SublistItem _item;
   TaskListViewModel _headerViewModel;
@@ -95,7 +94,7 @@ class SublistComponent {
   bool get _hlThis => highlight != null && highlight.model == model;
 
   void _prepareHeaderModel(SublistItem value) {
-    if(value.root is! RootModel && (_headerViewModel == null || item.root != value.root)) {
+    if(value.root is! RootModel) {
       _headerViewModel = _mapper.mapModel(value.root);
     }
   }
@@ -139,7 +138,6 @@ class SublistComponent {
       }
 
     } else {
-      sublistItems.forEach((i) => _cache[i.root] = i);
       sublistItems.clear();
 
       final startItem = new SublistItem(start, new RenderInterval.fromAnchor(startFromInterval));
@@ -154,8 +152,6 @@ class SublistComponent {
 
       final endItem = new SublistItem(end, new RenderInterval.toAnchor(endToInterval));
       sublistItems.add(endItem);
-
-      _cache.clear();
     }
   }
 
@@ -168,8 +164,6 @@ class SublistComponent {
   }
 
   SublistItem _getOpenSublistItemFor(TaskListModel model) {
-    final m = _cache[model];
-    if(m != null && m.renderInterval.from == null && m.renderInterval.to == null) return m;
     return new SublistItem.open(model);
   }
 }
