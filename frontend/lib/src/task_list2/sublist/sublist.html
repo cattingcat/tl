@@ -1,8 +1,17 @@
 <div
     *ngIf="showHeader"
+
+    [draggable]="model"
+
     [class.highlight-before]="highlightBefore"
     [class.highlight-after]="highlightAfter"
     [class.highlight-center]="highlightCenter"
+
+    (dragenter)="observer.onDragEnter(model, $event)"
+    (dragleave)="observer.onDragLeave(model, $event)"
+    (dragover)="observer.onDragOver(model, $event)"
+    (drop)="observer.onDrop(model, $event)"
+
     class="card-wrapper">
 
 
@@ -31,5 +40,6 @@
         *ngFor="let item of sublistItems; trackBy: trackByFunc"
         [item]="item"
         [cardType]="cardType"
-        [observer]="observer"></sublist>
+        [observer]="observer"
+        [highlight]="highlight"></sublist>
 </div>

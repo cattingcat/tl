@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html' as html;
 
 import 'package:angular/core.dart';
 import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
@@ -7,6 +8,7 @@ import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
 import 'package:frontend/src/task_list/card_components/task_list_card_event.dart';
 import 'package:frontend/src/task_list/card_components/title_change_card_event.dart';
 import 'package:frontend/src/task_list/card_components/toggle_card_event.dart';
+import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 
 class TaskCardObserverImpl implements TaskCardObserver {
@@ -55,23 +57,28 @@ class TaskCardObserverImpl implements TaskCardObserver {
 
 
   @override
-  void onDragOver(DndEvent event) {
-    _dragOverCtrl.add(event);
+  void onDragOver(TaskListModel model, html.MouseEvent event) {
+    event.preventDefault(); // Required to be drop-target
+    final e = new DndEvent(model, event);
+    _dragOverCtrl.add(e);
   }
 
   @override
-  void onDragEnter(DndEvent event) {
-    _dragEnterCtrl.add(event);
+  void onDragEnter(TaskListModel model, html.MouseEvent event) {
+    final e = new DndEvent(model, event);
+    _dragEnterCtrl.add(e);
   }
 
   @override
-  void onDragLeave(DndEvent event) {
-    _dragLeaveCtrl.add(event);
+  void onDragLeave(TaskListModel model, html.MouseEvent event) {
+    final e = new DndEvent(model, event);
+    _dragLeaveCtrl.add(e);
   }
 
   @override
-  void onDrop(DndEvent event) {
-    _dropCtrl.add(event);
+  void onDrop(TaskListModel model, html.MouseEvent event) {
+    final e = new DndEvent(model, event);
+    _dropCtrl.add(e);
   }
 
 

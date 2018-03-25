@@ -33,7 +33,7 @@ import 'package:frontend/src/task_list2/sublist/sublist.dart' as sl2;
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListComponent implements OnChanges, OnDestroy {
-  static const int _spaceSize = 200; // Space before/after viewport
+  static const int _spaceSize = 225; // Space before/after viewport
   final _subscr = new Subscriptions(); // Subscriptions for all list lifecycle
   final _tmpSubscr = new Subscriptions(); // Data-source subscriptions
 
@@ -126,14 +126,13 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
     final scrollTop = _hostEl.scrollTop;
     final targetViewportStart = (scrollTop - _spaceSize).clamp(0, _scrollWrapper.height);
-    final scrollDiff = targetViewportStart - _scrollHelper.viewportStart;
+    final scrollDiff = targetViewportStart - _viewportElement.offset;
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
 
-    final duration = (diffAbs < _spaceSize * 3) ? 0 : 24;
+    final duration = (diffAbs < _spaceSize * 2) ? 0 : 0;
 
-    _changeDetectTimer?.cancel();
-    _changeDetectTimer = new Timer(new Duration(milliseconds: duration), () {
-      if(diffAbs.abs() >= _spaceSize
+    if(diffAbs < _spaceSize * 2) {
+      if(diffAbs.abs() >= _spaceSize - 50
           || scrollTop == 0
           || scrollTop == _scrollWrapper.height - _hostEl.clientHeight) {
 
@@ -141,7 +140,18 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
         _updateViewport();
       }
-    });
+    } else {
+      _changeDetectTimer?.cancel();
+      _changeDetectTimer = new Timer(new Duration(milliseconds: duration), () {
+        if (diffAbs.abs() >= _spaceSize - 50
+            || scrollTop == 0
+            || scrollTop == _scrollWrapper.height - _hostEl.clientHeight) {
+          _scrollHelper.scrollTo(targetViewportStart, _estimatedViewportHeight);
+
+          _updateViewport();
+        }
+      });
+    }
   }
 
   void _onUpdate(UpdateTreeEvent event) {

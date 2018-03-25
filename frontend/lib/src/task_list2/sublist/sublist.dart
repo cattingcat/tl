@@ -1,4 +1,5 @@
 import 'package:angular/angular.dart';
+import 'package:frontend/src/core_components/dnd/draggable.dart';
 import 'package:frontend/src/task_list/card_components/default/group/default_group_card.dart';
 import 'package:frontend/src/task_list/card_components/default/task/default_task_card.dart';
 import 'package:frontend/src/task_list/card_components/narrow/task/narrow_task_card.dart';
@@ -24,6 +25,8 @@ export 'package:frontend/src/task_list2/sublist/sublist_item.dart';
       NgIf,
       NgFor,
 
+      Draggable,
+
       SublistComponent,
 
       DefaultTaskCard,
@@ -39,7 +42,6 @@ class SublistComponent {
 
   SublistItem _item;
   TaskListViewModel _headerViewModel;
-
 
   @Input() TaskCardObserver observer;
   @Input() CardType cardType;
@@ -57,25 +59,18 @@ class SublistComponent {
   }
 
 
-
   bool get isGroupCard => model.type == ModelType.Group;
-
   bool get isDefaultTaskCard => model.type == ModelType.Task && cardType == CardType.Default;
-
   bool get isNarrowTaskCard => model.type == ModelType.Task && cardType == CardType.Narrow;
 
-
   bool get highlightBefore => _hlThis && highlight.position == HighlightPosition.Before;
-
   bool get highlightAfter => _hlThis && highlight.position == HighlightPosition.After;
-
   bool get highlightCenter => _hlThis && highlight.position == HighlightPosition.Center;
-
   bool get highlightSublist => _hlThis && highlight.position == HighlightPosition.Sublist;
 
-
-
   TaskListModel get model => _item.root;
+
+  String get title => model.toString();
 
   TaskListViewModel get headerModel => _headerViewModel;
 
@@ -87,18 +82,15 @@ class SublistComponent {
   bool get showSubList {
     final renderInterval = _item.renderInterval;
 
-    return root.children.isNotEmpty && root.isExpanded &&
+    return model.children.isNotEmpty && model.isExpanded &&
         (renderInterval.to == null ||
-        !(renderInterval.to.length == 2 && renderInterval.to[1] == root));
+        !(renderInterval.to.length == 2 && renderInterval.to[1] == model));
   }
 
   int trackByFunc(int index, SublistItem item) {
     return item.root.hashCode;
   }
 
-  TaskListModel get root => _item.root;
-
-  String get title => root.toString();
 
   bool get _hlThis => highlight != null && highlight.model == model;
 
@@ -181,7 +173,3 @@ class SublistComponent {
     return new SublistItem.open(model);
   }
 }
-
-
-
-

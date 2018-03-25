@@ -68,25 +68,25 @@ class SublistComponent implements DropTargetObserver {
   @override
   void onDragOver(html.MouseEvent event) {
     final e = new DndEvent(model.headerModel.model, event);
-    observer.onDragOver(e);
+//    observer.onDragOver(e);
   }
 
   @override
   void onDragLeave(html.MouseEvent event) {
     final e = new DndEvent(model.headerModel.model, event);
-    observer.onDragLeave(e);
+//    observer.onDragLeave(e);
   }
 
   @override
   void onDragEnter(html.MouseEvent event) {
     final e = new DndEvent(model.headerModel.model, event);
-    observer.onDragEnter(e);
+//    observer.onDragEnter(e);
   }
 
   @override
   void onDrop(html.MouseEvent event) {
     final e = new DndEvent(model.headerModel.model, event);
-    observer.onDrop(e);
+//    observer.onDrop(e);
   }
 
 
