@@ -58,10 +58,10 @@ class VsplitContainer implements AfterViewInit, OnDestroy {
   int _movement = -1;
 
   void _handleMouseUp(html.MouseEvent event) {
+    if(_movement == -1) return;
+
     final width = _hostEl.clientWidth;
     final leftPercent = (((_movement + _SeparatorWDiv2) / width) * 100).floor();
-
-    print(leftPercent);
 
     _setLeftPercent(leftPercent);
     _movement = -1;
