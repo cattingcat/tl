@@ -8,28 +8,6 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 
 /// Maps model collection to ViewModel collection
 class ViewModelMapper  {
-  SublistViewModel map2(Iterable<TaskListModel> models) {
-    assert(models != null && models.isNotEmpty, 'Models required');
-
-    final skeleton = buildSkeleton(models.first.parent);
-
-    final modelsMap = skeleton.modelsMap;
-
-    for(var model in models) {
-      final parentVm = modelsMap[model.parent];
-
-      final viewModel = mapModel(model);
-      final sublistVm = new MutableSublistViewModel(viewModel, true);
-
-      modelsMap[model] = sublistVm;
-
-      parentVm.sublist.add(sublistVm);
-    }
-
-    return skeleton.viewModel;
-  }
-
-
   TaskListViewModel mapModel(TaskListModel model) {
     switch(model.type) {
       case ModelType.Task:
@@ -46,60 +24,4 @@ class ViewModelMapper  {
         return null;
     }
   }
-
-  /// Returns sublist view-models for [model]
-  /// Don't use outside
-  BuildResult buildSkeleton(TaskListModel model) {
-    if(model == null) {
-      final modelsMap = new Map<TaskListModel, MutableSublistViewModel>();
-      final rootVm = new MutableSublistViewModel(null, false);
-
-      modelsMap[null] = rootVm;
-
-      return new BuildResult(rootVm, modelsMap);
-    }
-
-
-    TaskListModel root = model;
-    TaskListViewModel rootViewModel = mapModel(model);
-    MutableSublistViewModel rootSublist = new MutableSublistViewModel(rootViewModel, false);
-
-    final modelsMap = new Map<TaskListModel, MutableSublistViewModel>();
-    modelsMap[root] = rootSublist;
-
-    root = root.parent;
-    while(root != null) {
-      rootViewModel = mapModel(root);
-      final svm = new MutableSublistViewModel(rootViewModel, false);
-      svm.sublist.add(rootSublist);
-
-      modelsMap[root] = svm;
-
-      rootSublist = svm;
-      root = root.parent;
-    }
-
-    final rootSvm = new MutableSublistViewModel(null, false)
-      ..sublist.add(rootSublist);
-
-    modelsMap[null] = rootSvm;
-
-    return new BuildResult(rootSvm, modelsMap);
-  }
-}
-
-class MutableSublistViewModel implements SublistViewModel{
-  @override TaskListViewModel headerModel;
-  @override List<SublistViewModel> sublist = new List<SublistViewModel>();
-  @override bool showHeader;
-  @override bool get showSublist => sublist.isNotEmpty;
-
-  MutableSublistViewModel(this.headerModel, this.showHeader);
-}
-
-class BuildResult {
-  final MutableSublistViewModel viewModel;
-  final Map<TaskListModel, MutableSublistViewModel> modelsMap;
-
-  BuildResult(this.viewModel, this.modelsMap);
 }

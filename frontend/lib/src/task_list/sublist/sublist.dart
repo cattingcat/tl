@@ -9,13 +9,13 @@ import 'package:frontend/src/task_list/highlight_options.dart';
 import 'package:frontend/src/task_list/models/model_type.dart';
 import 'package:frontend/src/task_list/models/root_model.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/sublist/render_interval.dart';
+import 'package:frontend/src/task_list/sublist/sublist_item.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/view_model_mapper.dart';
 import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
-import 'package:frontend/src/task_list2/sublist/render_interval.dart';
-import 'package:frontend/src/task_list2/sublist/sublist_item.dart';
 
-export 'package:frontend/src/task_list2/sublist/render_interval.dart';
-export 'package:frontend/src/task_list2/sublist/sublist_item.dart';
+export 'package:frontend/src/task_list/sublist/render_interval.dart';
+export 'package:frontend/src/task_list/sublist/sublist_item.dart';
 
 @Component(
     selector: 'sublist',

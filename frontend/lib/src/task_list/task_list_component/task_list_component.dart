@@ -19,7 +19,7 @@ import 'package:frontend/src/task_list/task_list_component/utils/task_card_obser
 import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
-import 'package:frontend/src/task_list2/sublist/sublist.dart' as sl2;
+import 'package:frontend/src/task_list/sublist/sublist.dart';
 
 @Component(
   selector: 'task-list',
@@ -28,7 +28,7 @@ import 'package:frontend/src/task_list2/sublist/sublist.dart' as sl2;
   directives: const <Object>[
     NgIf,
 
-    sl2.SublistComponent
+    SublistComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
@@ -74,7 +74,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
   TaskCardObserver get observer => _cardObserver;
 
-  sl2.SublistItem subListModel;
+  SublistItem subListModel;
 
 
   @override
@@ -223,7 +223,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
     return new ListMouseCardEvent.fromCardEvent(event, offset);
   }
 
-  sl2.SublistItem _prepareSublistModel() {
+  SublistItem _prepareSublistModel() {
     final fromModel = _scrollHelper.models.first;
     final toModel = _scrollHelper.models.last;
     final root = dataSource.tree.root;
@@ -245,7 +245,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
     reversedToPath.add(root);
 
 
-    return new sl2.SublistItem(root,
-        new sl2.RenderInterval(reversedFromPath.reversed.toList(), reversedToPath.reversed.toList()));
+    return new SublistItem(root,
+        new RenderInterval(reversedFromPath.reversed.toList(), reversedToPath.reversed.toList()));
   }
 }
