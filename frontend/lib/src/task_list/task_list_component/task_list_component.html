@@ -4,9 +4,16 @@
     <div #viewport
          class="viewport">
 
+        <!--<sublist-->
+            <!--*ngIf="sublistViewModel != null"-->
+            <!--[model]="sublistViewModel"-->
+            <!--[cardType]="cardType"-->
+            <!--[observer]="observer"-->
+            <!--[highlight]="highlight"></sublist>-->
+
         <sublist
-            *ngIf="sublistViewModel != null"
-            [model]="sublistViewModel"
+            *ngIf="subListModel != null"
+            [item]="subListModel"
             [cardType]="cardType"
             [observer]="observer"
             [highlight]="highlight"></sublist>

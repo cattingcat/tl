@@ -11,17 +11,15 @@ import 'package:frontend/src/task_list/highlight_options.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/tree_view/events.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
-import 'package:frontend/src/task_list/sublist_component/sublist_component.dart';
 import 'package:frontend/src/task_list/task_list_component/events/list_mouse_card_event.dart';
 import 'package:frontend/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_helper.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_wrapper_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/task_card_observer_impl.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
-import 'package:frontend/src/task_list/task_list_component/utils/view_model_mapper.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
-import 'package:frontend/src/task_list/view_models/sublist_view_model.dart';
+import 'package:frontend/src/task_list2/sublist/sublist.dart' as sl2;
 
 @Component(
   selector: 'task-list',
@@ -29,22 +27,22 @@ import 'package:frontend/src/task_list/view_models/sublist_view_model.dart';
   templateUrl: 'task_list_component.html',
   directives: const <Object>[
     NgIf,
-    SublistComponent
+
+    sl2.SublistComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TaskListComponent implements OnChanges, OnDestroy {
-  static const int _spaceSize = 400; // Space before/after viewport
+  static const int _spaceSize = 200; // Space before/after viewport
   final _subscr = new Subscriptions(); // Subscriptions for all list lifecycle
   final _tmpSubscr = new Subscriptions(); // Data-source subscriptions
 
-  final ViewModelMapper _viewModelMapper = new ViewModelMapper();
   final TaskCardObserverImpl _cardObserver = new TaskCardObserverImpl();
 
   final Element _hostEl;
   final ChangeDetectorRef _cdr;
 
-  //Timer _changeDetectTimer;
+  Timer _changeDetectTimer;
   ViewportElement _viewportElement;
   ScrollWrapperElement _scrollWrapper;
   ScrollHelper _scrollHelper;
@@ -76,7 +74,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
   TaskCardObserver get observer => _cardObserver;
 
-  SublistViewModel sublistViewModel;
+  sl2.SublistItem subListModel;
 
 
   @override
@@ -131,16 +129,19 @@ class TaskListComponent implements OnChanges, OnDestroy {
     final scrollDiff = targetViewportStart - _scrollHelper.viewportStart;
     final diffAbs = scrollDiff.abs(); // from 0 to 2 * _spaceSize
 
-    if(diffAbs.abs() >= _spaceSize
-        || scrollTop == 0
-        || scrollTop == _scrollWrapper.height - _hostEl.clientHeight) {
+    final duration = (diffAbs < _spaceSize * 3) ? 0 : 24;
 
-      _scrollHelper.scrollTo(targetViewportStart, _estimatedViewportHeight);
-      _viewportElement.offset = _scrollHelper.viewportStart;
-      sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
+    _changeDetectTimer?.cancel();
+    _changeDetectTimer = new Timer(new Duration(milliseconds: duration), () {
+      if(diffAbs.abs() >= _spaceSize
+          || scrollTop == 0
+          || scrollTop == _scrollWrapper.height - _hostEl.clientHeight) {
 
-      _detectChanges();
-    }
+        _scrollHelper.scrollTo(targetViewportStart, _estimatedViewportHeight);
+
+        _updateViewport();
+      }
+    });
   }
 
   void _onUpdate(UpdateTreeEvent event) {
@@ -151,11 +152,8 @@ class TaskListComponent implements OnChanges, OnDestroy {
     _scrollHelper = new ScrollHelper(vpModels, cardType, _scrollWrapper.height);
 
     _scrollHelper.resetTo(_estimatedViewportHeight, _hostEl.scrollTop - _spaceSize);
-    _viewportElement.offset = _scrollHelper.viewportStart;
 
-    sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
-
-    _detectChanges();
+    _updateViewport();
   }
 
   void _onToggle(ToggleTaskListCardEvent event) {
@@ -179,9 +177,9 @@ class TaskListComponent implements OnChanges, OnDestroy {
     /// We don't need to update viewportOffset because update after viewport start
     _scrollHelper.refresh(_estimatedViewportHeight);
     _scrollWrapper.height = _scrollHelper.scrollHeight;
-    sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
+    subListModel = _prepareSublistModel();
 
-   _detectChanges();
+    _updateViewport();
   }
 
 
@@ -190,16 +188,17 @@ class TaskListComponent implements OnChanges, OnDestroy {
     _hostEl.scrollTop = 0;
     _scrollHelper.reset(_estimatedViewportHeight);
 
-    sublistViewModel = _viewModelMapper.map2(_scrollHelper.models);
+    subListModel = _prepareSublistModel();
+  }
+
+  void _updateViewport() {
+    subListModel = _prepareSublistModel();
+    _viewportElement.offset = _scrollHelper.viewportStart;
+
+    _detectChanges();
   }
 
   void _detectChanges() {
-//    _changeDetectTimer?.cancel();
-//    _changeDetectTimer = new Timer(const Duration(milliseconds: 20), () {
-//      _cdr.markForCheck();
-//      _cdr.detectChanges();
-//    });
-
     _cdr.markForCheck();
     _cdr.detectChanges();
   }
@@ -212,5 +211,31 @@ class TaskListComponent implements OnChanges, OnDestroy {
     final originalOffset = event.nativeElement.offset; // Offset from viewport el
     final offset = new Point<int>(originalOffset.left, originalOffset.top - virtualVpOffserFromReal);
     return new ListMouseCardEvent.fromCardEvent(event, offset);
+  }
+
+  sl2.SublistItem _prepareSublistModel() {
+    final fromModel = _scrollHelper.models.first;
+    final toModel = _scrollHelper.models.last;
+    final root = dataSource.tree.root;
+
+    final reversedFromPath = new List<TaskListModel>();
+    TaskListModel iter = fromModel;
+    while(iter != null) {
+      reversedFromPath.add(iter);
+      iter = iter.parent;
+    }
+    reversedFromPath.add(root);
+
+    final reversedToPath = new List<TaskListModel>();
+    iter = toModel;
+    while(iter != null) {
+      reversedToPath.add(iter);
+      iter = iter.parent;
+    }
+    reversedToPath.add(root);
+
+
+    return new sl2.SublistItem(root,
+        new sl2.RenderInterval(reversedFromPath.reversed.toList(), reversedToPath.reversed.toList()));
   }
 }

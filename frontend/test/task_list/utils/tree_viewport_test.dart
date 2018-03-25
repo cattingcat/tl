@@ -1,4 +1,5 @@
 import 'package:frontend/src/core/linked_tree/linked_tree.dart';
+import 'package:frontend/src/task_list/models/root_model.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
@@ -8,7 +9,7 @@ import 'package:test/test.dart';
 void main() {
   group('TreeViewportModels #takeFrontWhile()', () {
     test('Should take front elements', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -39,7 +40,7 @@ void main() {
     });
 
     test('Should take front elements twice', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -74,7 +75,7 @@ void main() {
     });
 
     test('Should take front elements twice but skip collapsed subitems', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = false;
@@ -113,7 +114,7 @@ void main() {
 
   group('TreeViewportModels #removeBackWhile()', () {
     test('Should remove last elements', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -148,7 +149,7 @@ void main() {
     });
 
     test('Should remove last elements twice', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -188,7 +189,7 @@ void main() {
 
   group('TreeViewportModels #takeBackWhile()', () {
     test('Should take elements back', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -231,7 +232,7 @@ void main() {
 
   group('TreeViewportModels #removeFrontWhile()', () {
     test('Should remove elements from start of model list', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;

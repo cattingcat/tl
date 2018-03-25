@@ -1,47 +1,49 @@
 import 'dart:collection';
 
 class LinkedTree<E extends LinkedTreeEntry<E>> extends Iterable<E> {
-  final _LinkedTreeChildren<E> _children = new _LinkedTreeChildren<E>();
+  final E _root;
 
-  LinkedTree() {
-    _children._parent = null; // root elements has no parent
-    _children._tree = this;
+  LinkedTree(this._root) {
+    _root._children._parent = null; // root elements has no parent
+    _root._children._tree = this;
   }
 
-  Iterable<E> get children => _children;
+  E get root => _root;
+
+  Iterable<E> get children => _root._children;
 
 
-  void addFirst(E entry){
-    _children.addFirst(entry);
+  void addFirst(E entry) {
+    _root._children.addFirst(entry);
   }
 
   void add(E entry) {
-    _children.add(entry);
+    _root._children.add(entry);
   }
 
   void addAll(Iterable<E> entries) {
-    _children.addAll(entries);
+    _root._children.addAll(entries);
   }
 
-  bool remove(E entry) => _children.remove(entry);
+  bool remove(E entry) => _root._children.remove(entry);
 
-  void clear() => _children.clear();
+  void clear() => _root._children.clear();
 
-
-  @override
-  Iterator<E> get iterator => _children.iterator;
 
   @override
-  E get first => _children.first;
+  Iterator<E> get iterator => _root._children.iterator;
 
   @override
-  E get last => _children.last;
+  E get first => _root._children.first;
 
   @override
-  E get single => _children.single;
+  E get last => _root._children.last;
 
   @override
-  bool get isEmpty => _children.isEmpty;
+  E get single => _root._children.single;
+
+  @override
+  bool get isEmpty => _root._children.isEmpty;
 }
 
 class LinkedTreeEntry<E extends LinkedTreeEntry<E>> extends LinkedListEntry<E> {

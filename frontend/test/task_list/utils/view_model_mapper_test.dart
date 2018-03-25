@@ -1,4 +1,5 @@
 import 'package:frontend/src/core/linked_tree/linked_tree.dart';
+import 'package:frontend/src/task_list/models/root_model.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/view_model_mapper.dart';
@@ -10,7 +11,7 @@ void main() {
     test('#buildSkeleton()', () {
       final mapper = new ViewModelMapper();
 
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1');
       final m2 = new TaskModel('m2');
       final m3 = new TaskModel('m3');
@@ -45,7 +46,7 @@ void main() {
     test('#buildSkeleton() shoud return correct mapping', () {
       final mapper = new ViewModelMapper();
 
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1');
       final m2 = new TaskModel('m2');
       final m3 = new TaskModel('m3');
@@ -66,7 +67,7 @@ void main() {
     test('Should map sublist of modelt to hierarchical view model', () {
       final mapper = new ViewModelMapper();
 
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1');
       final m2 = new TaskModel('m2');
       final m3 = new TaskModel('m3');

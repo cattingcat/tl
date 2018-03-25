@@ -9,6 +9,7 @@ import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';
 import 'package:frontend/src/task_list/models/group_model.dart';
 import 'package:frontend/src/task_list/models/model_tree_manager/model_tree_manager.dart';
+import 'package:frontend/src/task_list/models/root_model.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
@@ -40,7 +41,7 @@ class TaskListDemo {
 
 
   TaskListDemo() {
-    final tree = new LinkedTree<TaskListModel>();
+    final tree = new LinkedTree<TaskListModel>(new RootModel());
     for(int i = 0; i < 117; ++i) {
       final task = new GroupModel();
       task.isExpanded = true;

@@ -18,7 +18,7 @@ class ViewModelMapper  {
     for(var model in models) {
       final parentVm = modelsMap[model.parent];
 
-      final viewModel = _mapModel(model);
+      final viewModel = mapModel(model);
       final sublistVm = new MutableSublistViewModel(viewModel, true);
 
       modelsMap[model] = sublistVm;
@@ -30,7 +30,7 @@ class ViewModelMapper  {
   }
 
 
-  TaskListViewModel _mapModel(TaskListModel model) {
+  TaskListViewModel mapModel(TaskListModel model) {
     switch(model.type) {
       case ModelType.Task:
         return new TaskCardModel(model);
@@ -61,7 +61,7 @@ class ViewModelMapper  {
 
 
     TaskListModel root = model;
-    TaskListViewModel rootViewModel = _mapModel(model);
+    TaskListViewModel rootViewModel = mapModel(model);
     MutableSublistViewModel rootSublist = new MutableSublistViewModel(rootViewModel, false);
 
     final modelsMap = new Map<TaskListModel, MutableSublistViewModel>();
@@ -69,7 +69,7 @@ class ViewModelMapper  {
 
     root = root.parent;
     while(root != null) {
-      rootViewModel = _mapModel(root);
+      rootViewModel = mapModel(root);
       final svm = new MutableSublistViewModel(rootViewModel, false);
       svm.sublist.add(rootSublist);
 

@@ -1,0 +1,28 @@
+@import '../../core_components/core';
+
+:host {
+  display: block;
+
+  .card-wrapper {
+    transition: all 400ms;
+    transition-property: background-color, box-shadow;
+  }
+
+  .children {
+    padding-left: 5px;
+  }
+
+
+  .highlight-before {
+    box-shadow: 0 2px 0 $highlight-color inset;
+  }
+  .highlight-after {
+    box-shadow: 0 -3px 0 $highlight-color inset;
+  }
+  .highlight-center {
+    background-color: $highlight-color;
+  }
+  .highlight-sublist {
+    border: red 1px solid;
+  }
+}

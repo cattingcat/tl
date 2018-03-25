@@ -1,0 +1,35 @@
+<div
+    *ngIf="showHeader"
+    [class.highlight-before]="highlightBefore"
+    [class.highlight-after]="highlightAfter"
+    [class.highlight-center]="highlightCenter"
+    class="card-wrapper">
+
+
+    <default-task-card
+            *ngIf="isDefaultTaskCard"
+            [model]="headerModel"
+            [observer]="observer"></default-task-card>
+
+    <narrow-task-card
+            *ngIf="isNarrowTaskCard"
+            [model]="headerModel"
+            [observer]="observer"></narrow-task-card>
+
+    <default-group-card
+            *ngIf="isGroupCard"
+            [model]="headerModel"
+            [observer]="observer"></default-group-card>
+
+</div>
+
+<div
+    *ngIf="showSubList"
+    class="children">
+
+    <sublist
+        *ngFor="let item of sublistItems; trackBy: trackByFunc"
+        [item]="item"
+        [cardType]="cardType"
+        [observer]="observer"></sublist>
+</div>

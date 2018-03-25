@@ -1,4 +1,5 @@
 import 'package:frontend/src/core/linked_tree/linked_tree.dart';
+import 'package:frontend/src/task_list/models/root_model.dart';
 import 'package:frontend/src/task_list/models/task_list_model_base.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
@@ -8,7 +9,7 @@ import 'package:test/test.dart';
 void main() {
   group('Forward TreeIterable', () {
     test('Should iterate from root if no start item specified', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -36,7 +37,7 @@ void main() {
     });
 
     test('Should iterate from specified item', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -65,7 +66,7 @@ void main() {
 
 
     test('Should iterate from specified item, but skip children of not expanded nodes', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = false;
@@ -93,7 +94,7 @@ void main() {
     });
 
     test('Should iterate whole tree with two root children', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -130,7 +131,7 @@ void main() {
 
   group('Forward TreeIterable', () {
     test('Should iterate from some node to root', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = true;
@@ -158,7 +159,7 @@ void main() {
     });
 
     test('Should ignore collapsed items', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = false;
@@ -190,7 +191,7 @@ void main() {
 
   group('_VisibleSubNodelTreeIterable', () {
     test('Should iterate over visible subtree', () {
-      final tree = new LinkedTree<TaskListModel>();
+      final tree = new LinkedTree<TaskListModel>(new RootModel());
       final m1 = new TaskModel('m1')..isExpanded = true;
       final m2 = new TaskModel('m2')..isExpanded = true;
       final m3 = new TaskModel('m3')..isExpanded = false;

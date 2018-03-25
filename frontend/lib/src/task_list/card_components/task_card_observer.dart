@@ -4,6 +4,8 @@ import 'package:frontend/src/task_list/card_components/title_change_card_event.d
 import 'package:frontend/src/task_list/card_components/toggle_card_event.dart';
 
 abstract class TaskCardObserver {
+  const factory TaskCardObserver.stub() = _TaskCardObserverStub;
+
   void toggle(ToggleCardEvent event);
 
   void titleChange(TitleChangeCardEvent event);
@@ -25,4 +27,14 @@ abstract class TaskCardObserver {
   void onMouseLeave(MouseCardEvent event);
 
   void onMouseMove(MouseCardEvent event);
+}
+
+
+class _TaskCardObserverStub implements TaskCardObserver {
+  const _TaskCardObserverStub();
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+   return null;
+  }
 }

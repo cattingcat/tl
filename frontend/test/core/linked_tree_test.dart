@@ -16,7 +16,7 @@ void main() {
   group('Linked tree test', () {
 
     test('#Add root elements; should set #tree and #parent should be null', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final entry = new TreeEntry(0);
       tree.add(entry);
 
@@ -26,7 +26,7 @@ void main() {
     });
 
     test('#Unlink root elements; should set tree to null and parent should be null', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final entry = new TreeEntry(0);
       tree.add(entry);
 
@@ -37,7 +37,7 @@ void main() {
     });
 
     test('Add child element to root entry', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final rootEntry = new TreeEntry(0);
       tree.add(rootEntry);
 
@@ -51,7 +51,7 @@ void main() {
     });
 
     test('unlink child element from root entry', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final rootEntry = new TreeEntry(0);
       tree.add(rootEntry);
 
@@ -67,7 +67,7 @@ void main() {
     });
 
     test('Add root element via another root elemens methof insert before/after', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final entry = new TreeEntry(0);
       tree.add(entry);
 
@@ -94,7 +94,7 @@ void main() {
     });
 
     test('Add child element via another child elemens methof insert before/after', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final rootEntry = new TreeEntry(0);
       tree.add(rootEntry);
 
@@ -125,7 +125,7 @@ void main() {
     });
 
     test('unlink middle children element', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final rootEntry = new TreeEntry(0);
       tree.add(rootEntry);
 
@@ -158,7 +158,7 @@ void main() {
     });
 
     test('unlink root entry with children children element', () {
-      final tree = new LinkedTree<TreeEntry>();
+      final tree = new LinkedTree<TreeEntry>(new TreeEntry(0));
       final rootEntry = new TreeEntry(0);
       tree.add(rootEntry);
 
