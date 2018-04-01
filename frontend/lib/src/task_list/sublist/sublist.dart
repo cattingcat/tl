@@ -8,7 +8,7 @@ import 'package:frontend/src/task_list/card_type.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';
 import 'package:frontend/src/task_list/models/model_type.dart';
 import 'package:frontend/src/task_list/models/root_model.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 import 'package:frontend/src/task_list/sublist/render_interval.dart';
 import 'package:frontend/src/task_list/sublist/sublist_item.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/view_model_mapper.dart';

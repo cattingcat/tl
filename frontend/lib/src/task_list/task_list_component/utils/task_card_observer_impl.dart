@@ -8,7 +8,7 @@ import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
 import 'package:frontend/src/task_list/card_components/task_list_card_event.dart';
 import 'package:frontend/src/task_list/card_components/title_change_card_event.dart';
 import 'package:frontend/src/task_list/card_components/toggle_card_event.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 import 'package:frontend/src/task_list/task_list_component/events/toggle_task_list_card_event.dart';
 
 class TaskCardObserverImpl implements TaskCardObserver {

@@ -1,5 +1,5 @@
-import 'package:frontend/src/core/linked_tree/linked_tree.dart';
 import 'package:frontend/src/task_list/models/model_type.dart';
+import 'package:w4p_core/collections.dart';
 
 abstract class TaskListModel extends LinkedTreeEntry<TaskListModel> {
   final ModelType type;

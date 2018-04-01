@@ -1,5 +1,5 @@
 import 'package:frontend/src/task_list/core/card_size_mapper.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
 
 class ScrollHelper {

@@ -1,4 +1,4 @@
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 import 'package:frontend/src/task_list/sublist/render_interval.dart';
 
 class SublistItem {

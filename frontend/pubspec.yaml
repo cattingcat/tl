@@ -10,6 +10,8 @@ dependencies:
   angular: 5.0.0-alpha+8
   browser: ^0.10.0
   sass_builder: ^1.1.4
+  w4p_core:
+    path: ../w4p_core
 
 dev_dependencies:
   #angular_test: ^1.0.0

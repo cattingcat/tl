@@ -3,7 +3,7 @@ import 'dart:html' as html;
 import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
 import 'package:frontend/src/task_list/card_components/title_change_card_event.dart';
 import 'package:frontend/src/task_list/card_components/toggle_card_event.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 
 abstract class TaskCardObserver {
   const factory TaskCardObserver.stub() = _TaskCardObserverStub;

@@ -1,9 +1,7 @@
 @TestOn('vm')
-@Tags(const ['core'])
 
-import 'package:frontend/src/core/linked_tree/linked_tree.dart';
 import 'package:test/test.dart';
-
+import 'package:w4p_core/collections.dart';
 
 class TreeEntry extends LinkedTreeEntry<TreeEntry> {
   final int value;

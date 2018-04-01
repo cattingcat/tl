@@ -1,5 +1,5 @@
 import 'package:frontend/src/task_list/models/model_type.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 
 /// Represents model-list statistics
 class SublistStats {

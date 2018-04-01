@@ -1,8 +1,8 @@
 import 'dart:collection';
 
-import 'package:frontend/src/core/linked_tree/linked_tree.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
-import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
+import 'package:frontend/src/task_list/task_list_component/utils/task_tree_iterables.dart';
+import 'package:w4p_core/collections.dart';
 
 class ViewportModels {
   final LinkedTree<TaskListModel> _tree;
@@ -16,7 +16,7 @@ class ViewportModels {
   Iterable<TaskListModel> get models => _models;
 
   void takeFrontWhile(bool test(TaskListModel model)) {
-    final treeIterable = new TreeIterable.forward(_tree, _end);
+    final treeIterable = TaskTreeIterables.forward(_tree, _end);
     final iterable = _end == null ? treeIterable : treeIterable.skip(1);
 
     for(var model in iterable) {
@@ -33,7 +33,7 @@ class ViewportModels {
   void takeBackWhile(bool test(TaskListModel model)) {
     assert(_start != null, 'call Take front before');
 
-    final iterable = new TreeIterable.backward(_tree, _start).skip(1);
+    final iterable = TaskTreeIterables.backward(_tree, _start).skip(1);
     for(var model in iterable) {
       if(test(model)) {
         _models.addFirst(model);
@@ -66,7 +66,7 @@ class ViewportModels {
   }
 
   void retakeWhile(bool test(TaskListModel model)) {
-    final treeIterable = new TreeIterable.forward(_tree, _start);
+    final treeIterable = TaskTreeIterables.forward(_tree, _start);
     _models.clear();
 
     for(var model in treeIterable) {

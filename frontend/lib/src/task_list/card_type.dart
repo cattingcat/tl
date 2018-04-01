@@ -1,6 +1,6 @@
 import 'package:frontend/src/task_list/core/card_size_mapper.dart';
 import 'package:frontend/src/task_list/models/model_type.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 
 
 /// Describes size map for cards

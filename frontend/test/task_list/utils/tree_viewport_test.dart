@@ -1,9 +1,9 @@
-import 'package:frontend/src/core/linked_tree/linked_tree.dart';
 import 'package:frontend/src/task_list/models/root_model.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 import 'package:frontend/src/task_list/models/task_model.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:test/test.dart';
+import 'package:w4p_core/collections.dart';
 
 
 void main() {

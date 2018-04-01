@@ -8,7 +8,7 @@ import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
 import 'package:frontend/src/task_list/card_type.dart';
 import 'package:frontend/src/task_list/core/card_size_mapper.dart';
 import 'package:frontend/src/task_list/highlight_options.dart';
-import 'package:frontend/src/task_list/models/task_list_model_base.dart';
+import 'package:frontend/src/task_list/models/task_list_model.dart';
 import 'package:frontend/src/task_list/models/tree_view/events.dart';
 import 'package:frontend/src/task_list/models/tree_view/tree_view.dart';
 import 'package:frontend/src/task_list/task_list_component/events/list_mouse_card_event.dart';
@@ -16,7 +16,7 @@ import 'package:frontend/src/task_list/task_list_component/events/toggle_task_li
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_helper.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/scroll_wrapper_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/task_card_observer_impl.dart';
-import 'package:frontend/src/task_list/task_list_component/utils/tree_iterable.dart';
+import 'package:frontend/src/task_list/task_list_component/utils/task_tree_iterables.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:frontend/src/task_list/sublist/sublist.dart';
@@ -175,7 +175,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
     model.isExpanded = event.isExpanded;
 
-    final iterable = new TreeIterable.node(model);
+    final iterable = TaskTreeIterables.subTree(model);
     final changedModels = iterable.skip(1); // skip first item because it will not be changed (is is [model])
 
     if(model.isExpanded) {
