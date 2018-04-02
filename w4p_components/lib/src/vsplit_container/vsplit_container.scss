@@ -1,5 +1,3 @@
-@import '../core_components/core';
-
 :host {
   display: block;
   position: relative;
@@ -17,7 +15,7 @@
     display: inline-block;
     height: 100%;
     width: $separator-width;
-    background-color: $base-color;
+    background-color: #494E6B; // Todo: make: transparent;
     cursor: col-resize;
   }
 }

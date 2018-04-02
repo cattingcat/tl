@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:html';
 import 'package:angular/angular.dart';
-import 'package:frontend/src/core_components/common/subscriptions.dart';
 import 'package:frontend/src/task_list/card_components/mouse_card_event.dart';
 import 'package:frontend/src/task_list/card_components/dnd_events.dart';
 import 'package:frontend/src/task_list/card_components/task_card_observer.dart';
@@ -20,6 +19,7 @@ import 'package:frontend/src/task_list/task_list_component/utils/task_tree_itera
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_element.dart';
 import 'package:frontend/src/task_list/task_list_component/utils/viewport_models.dart';
 import 'package:frontend/src/task_list/sublist/sublist.dart';
+import 'package:w4p_core/subscriptions.dart';
 
 @Component(
   selector: 'task-list',

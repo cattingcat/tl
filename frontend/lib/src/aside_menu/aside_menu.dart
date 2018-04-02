@@ -3,8 +3,8 @@ import 'dart:html' as html;
 
 import 'package:angular/angular.dart';
 import 'package:frontend/src/collapsable_container/collapsible_container.dart';
-import 'package:frontend/src/core_components/common/subscriptions.dart';
-import 'package:frontend/src/resize_utils/resizer_wrapper.dart';
+import 'package:w4p_components/resize.dart';
+import 'package:w4p_core/subscriptions.dart';
 
 @Component(
     selector: 'aside-menu',

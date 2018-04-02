@@ -1,0 +1,1 @@
+export 'package:w4p_components/src/resize_utils/resizer_wrapper.dart';
