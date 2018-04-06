@@ -4,6 +4,7 @@ import 'package:frontend/src/app_menus/app_menus.dart';
 import 'package:frontend/src/dal/session.dart';
 import 'package:frontend/src/mvp_dashboard/mvp_dashboard.dart';
 import 'package:frontend/src/mvp_list/mvp_list.dart';
+import 'package:frontend/src/mvp_notes/notes_loader_component.dart';
 
 @Component(
   selector: 'my-app',
@@ -15,7 +16,8 @@ import 'package:frontend/src/mvp_list/mvp_list.dart';
     AppMenusComponent,
 
     MvpListComponent,
-    MvpDashboardComponent
+    MvpDashboardComponent,
+    NotesLoaderComponent
   ],
   exports: const <Type>[Mvps],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,6 +25,7 @@ import 'package:frontend/src/mvp_list/mvp_list.dart';
 class AppComponent {
   final _listItem = new ItemModel('List', '', CounterLevel.None);
   final _dashboardItem = new ItemModel('Dashboard', '2', CounterLevel.None);
+  final _notesItem = new ItemModel('Notes', '3', CounterLevel.Yellow);
 
   Mvps activeMvp = Mvps.List; // TODO: Normal routing
 
@@ -42,7 +45,7 @@ class AppComponent {
     headerItems = [
       _listItem,
       _dashboardItem,
-      new ItemModel('Notes', '3', CounterLevel.Yellow),
+      _notesItem,
       new ItemModel('...', '4', CounterLevel.Red)
     ];
   }
@@ -50,6 +53,7 @@ class AppComponent {
   void onChooseMvp(ItemModel headerItem) {
     if(headerItem == _listItem) activeMvp = Mvps.List;
     if(headerItem == _dashboardItem) activeMvp = Mvps.Dashboards;
+    if(headerItem == _notesItem) activeMvp = Mvps.Notes;
 
     activeItem = headerItem;
   }

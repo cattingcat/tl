@@ -1,0 +1,33 @@
+<div
+    *ngIf="state == NotesAppState.Loaded"
+    class="wrapper">
+
+    <div class="col list">
+        <h4 class="list-header">Notes</h4>
+
+        <note-list
+            (cardClick)="onCardClick($event)"
+            [notes]="notes"
+            [selected]="selected"
+            class="list-list"></note-list>
+    </div>
+
+    <div class="col view">
+        <text-editor
+            *ngIf="viewState == NotesViewState.Loaded"
+            (contentChanged)="noteTextChanged($event)"
+            [isEditable]="true"
+            [initialHtml]="viewText"></text-editor>
+
+        <loading
+            *ngIf="viewState == NotesViewState.Loading"
+            [theme]="'dark'"></loading>
+
+        <div
+            *ngIf="viewState == NotesViewState.Zero">Zero State; TODO</div>
+    </div>
+</div>
+
+<loading
+    *ngIf="state == NotesAppState.Loading"
+    [theme]="'dark'"></loading>

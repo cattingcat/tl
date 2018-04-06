@@ -1,0 +1,24 @@
+@import '../../../core_components/core';
+
+$border: #E2E2E2 1px solid;
+
+:host {
+  display: block;
+  box-sizing: border-box;
+  border-bottom: $border;
+  cursor: pointer;
+  padding: 3px;
+
+  h4 {
+    margin: 0;
+  }
+
+  &:hover {
+    background: rgba(94, 98, 132, 0.27);
+  }
+
+  &.selected {
+    background: $base-color;
+    color: $bg-color;
+  }
+}

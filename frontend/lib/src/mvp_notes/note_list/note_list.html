@@ -1,0 +1,7 @@
+<div class="viewport">
+    <note-card
+        *ngFor="let note of viewportNotes"
+        (cardClick)="onCardClick($event)"
+        [model]="note"
+        [class.selected]="note == selected"></note-card>
+</div>

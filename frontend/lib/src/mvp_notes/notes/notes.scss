@@ -1,0 +1,39 @@
+@import '../../core_components/core';
+
+$border: #E2E2E2 1px solid;
+
+:host {
+  display: block;
+  height: 100%;
+
+  .wrapper {
+    display: flex;
+    height: 100%;
+    align-items: stretch;
+
+    .col {
+      height: 100%;
+      flex-grow: 1;
+    }
+
+    .list {
+      flex-grow: 0;
+      width: 20%;
+      min-width: 300px;
+      border-right: $border;
+
+      $header-height: 30px;
+      .list-header {
+        box-sizing: border-box;
+        height: $header-height;
+        margin: 0;
+        padding: 5px;
+        border-bottom: $border;
+      }
+
+      .list-list {
+        height: calc(100% - #{$header-height});
+      }
+    }
+  }
+}

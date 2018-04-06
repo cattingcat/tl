@@ -1,0 +1,8 @@
+@import '../../core_components/core';
+
+:host {
+  display: block;
+  overflow-y: scroll;
+
+  @include scroll();
+}
