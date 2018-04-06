@@ -66,6 +66,6 @@ class NotesApi {
   }
 
   Future<void> updateNote(int id, String content) {
-    return Future<void>.delayed(const Duration(seconds: 2));
+    return Future.delayed(const Duration(seconds: 2));
   }
 }
