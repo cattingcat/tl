@@ -29,6 +29,7 @@
             [model]="noteView"></note-view>
 
         <note-creation-form
+            (create)="onNoteCreate($event)"
             *ngIf="viewState == NotesViewState.Creating"></note-creation-form>
 
         <loading

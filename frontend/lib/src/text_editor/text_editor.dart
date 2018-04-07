@@ -46,7 +46,7 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
   String selectionToolsLeft = '0';
 
   @HostListener('focus')
-  void onFocus() =>editableDiv.focus();
+  void onFocus() => editableDiv.focus();
 
   void onMouseUp() {
     showSelectionTools = false;

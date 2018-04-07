@@ -4,7 +4,6 @@ import 'package:frontend/src/mvp_notes/api/notes_api.dart';
 import 'package:frontend/src/mvp_notes/note_creation_form/note_creation_form.dart';
 import 'package:frontend/src/mvp_notes/note_list/note_list.dart';
 import 'package:frontend/src/mvp_notes/note_view/note_view.dart';
-import 'package:frontend/src/text_editor/text_editor.dart';
 
 @Component(
   selector: 'notes',
@@ -53,6 +52,14 @@ class NotesComponent implements OnInit {
     _api.updateNote(model.id, model.title, model.body);
   }
 
+  void onNoteCreate(NoteCreationModel model) async {
+    final dto = await _api.create(model.title, model.body);
+    notes = notes.toList()..insert(0, new NoteModel(dto.id, dto.title));
+
+    viewState = NotesViewState.Zero;
+  }
+
+
   @override
   void ngOnInit() {
     state = NotesAppState.Loading;
@@ -61,9 +68,12 @@ class NotesComponent implements OnInit {
 
 
   void _onDataReady(NotesListResp data) {
-    notes = data.notes.map((i) => new NoteModel(i.id, i.title)).toList();
+    final noteList = data.notes.map((i) => new NoteModel(i.id, i.title)).toList();
+    notes = noteList;
 
     state = NotesAppState.Loaded;
+
+    if(noteList.isEmpty) viewState = NotesViewState.Creating;
 
     // TODO: Why should we call detect changes manually???
     _cdr.markForCheck();

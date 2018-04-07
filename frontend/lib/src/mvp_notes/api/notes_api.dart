@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
+import 'dart:math';
 
 import 'package:frontend/src/mvp_notes/api/note_description_resp.dart';
 import 'package:frontend/src/mvp_notes/api/note_dto.dart';
@@ -8,64 +11,60 @@ export 'package:frontend/src/mvp_notes/api/note_dto.dart';
 export 'package:frontend/src/mvp_notes/api/notes_list_resp.dart';
 export 'package:frontend/src/mvp_notes/api/note_description_resp.dart';
 
-const _lorem = '''
-<h3>  Lorem ipsum&nbsp;</h3><blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><div>dolor sit amet, consectetur 
-  adipiscing elit, sed&nbsp;</div></blockquote><div><br></div><div><ol><li>do eiusmod tempor 
-  incididunt ut labore et&nbsp;<br></li><li>dolore magna aliqua. 
-  Ut enim ad minim v<br></li></ol></div><div><ul><li>eniam, quis nostrud 
-  exercitation ullamco<br></li><li>&nbsp;laboris nisi ut aliquip 
-  ex ea commodo cons<br></li></ul></div><div><b>equat</b>. Duis aute <sub>irure</sub> dolor
-   in <sup>reprehenderit</sup></div><div>&nbsp;in <i>voluptate</i> velit esse cillum
-    dolore eu fugiat&nbsp;</div><div>nulla pariatur. <u>Excepteur</u> 
-    sint <strike>occaecat</strike> cupid</div><div>atat non <font size="5">proident</font>, sunt 
-    in culpa qui officia d</div><div>eserunt <font color="#008000">mollit</font> anim 
-    id est <span style="background-color: yellow;">laborum</span>.
-  </div>
-  ''';
+
+const String _localStorageKey = 'nts';
 
 // TODO: [EK] Zdelat' backend
 class NotesApi {
   Future<NotesListResp> getNotes() {
+    final notes = _getLocalNotes();
     return new Future.delayed(const Duration(seconds: 2), () {
-      return new NotesListResp(<NoteDto>[
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr'),
-        new NoteDto(0, 'Firt note', 'descr'),
-        new NoteDto(0, 'Second note', 'descr'),
-        new NoteDto(0, 'Third note', 'descr')
-      ], 5);
+      return new NotesListResp(notes, 5);
     });
   }
 
   Future<NoteDescriptionResp> loadNote(int id) {
+    final notes = _getLocalNotes();
+    final note = notes.where((i) => i.id == id).first;
     return new Future.delayed(const Duration(seconds: 2), () {
-      return new NoteDescriptionResp(_lorem);
+      return new NoteDescriptionResp(note.content);
     });
   }
 
-  Future<void> updateNote(int id, String title, String content) {
+  Future<void> updateNote(int id, String title, String body) {
+    final notes = _getLocalNotes();
+    final noteIndex = notes.indexWhere((i) => i.id == id);
+    final newNote = new NoteDto(id, title, body);
+    notes[noteIndex] = newNote;
+
+    _saveNotes(notes);
+
     return Future.delayed(const Duration(seconds: 2));
+  }
+
+  Future<NoteDto> create(String title, String body) async {
+    final id = Random.secure().nextInt(1000000);
+    final note = new NoteDto(id, title, body);
+
+    final notes = _getLocalNotes();
+    notes.insert(0, note);
+
+    _saveNotes(notes);
+
+    return note;
+  }
+
+  List<NoteDto> _getLocalNotes() {
+    final tmp = window.localStorage[_localStorageKey] ?? '[]';
+    final localNotes = json.decode(tmp) as Iterable<Map<String, Object>>;
+    final notes = localNotes.map((i) => new NoteDto(i['id'] as int, i['title'], i['content'])).toList();
+    return notes;
+  }
+
+  void _saveNotes(List<NoteDto> notes) {
+    final newNotes = notes.map((i) => <String, Object>{'id': i.id, 'title': i.title, 'content': i.content}).toList();
+    final str = json.encode(newNotes);
+
+    window.localStorage[_localStorageKey] = str;
   }
 }

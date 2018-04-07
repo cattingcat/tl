@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:angular/angular.dart';
+import 'package:frontend/src/mvp_notes/note_creation_form/note_creation_model.dart';
 import 'package:frontend/src/text_editor/text_editor.dart';
 
-export 'package:frontend/src/mvp_notes/note_view/note_view_model.dart';
+export 'package:frontend/src/mvp_notes/note_creation_form/note_creation_model.dart';
 
 @Component(
     selector: 'note-creation-form',
@@ -16,10 +19,12 @@ export 'package:frontend/src/mvp_notes/note_view/note_view_model.dart';
 class NoteCreationFormComponent {
   static const String titlePlaceholder = 'Title for new note...';
   static const String bodyPlaceholder = 'Type your note...';
+  final _createCtrl = new StreamController<NoteCreationModel>(sync: true);
 
   String _body = '';
   String _title = '';
 
+  @Output() Stream<NoteCreationModel> get create => _createCtrl.stream;
 
   void onTextChanged(String text) {
     _body = text;
@@ -30,6 +35,7 @@ class NoteCreationFormComponent {
   }
 
   void onCreateClick() {
-    print('Create: $_title; $_body');
+    final model = new NoteCreationModel(_title, _body);
+    _createCtrl.add(model);
   }
 }
