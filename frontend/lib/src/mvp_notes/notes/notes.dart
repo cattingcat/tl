@@ -1,7 +1,9 @@
 import 'package:angular/angular.dart';
 import 'package:frontend/src/core_components/loading/loading.dart';
 import 'package:frontend/src/mvp_notes/api/notes_api.dart';
+import 'package:frontend/src/mvp_notes/note_creation_form/note_creation_form.dart';
 import 'package:frontend/src/mvp_notes/note_list/note_list.dart';
+import 'package:frontend/src/mvp_notes/note_view/note_view.dart';
 import 'package:frontend/src/text_editor/text_editor.dart';
 
 @Component(
@@ -14,7 +16,8 @@ import 'package:frontend/src/text_editor/text_editor.dart';
 
     NoteListComponent,
 
-    TextEditorComponent
+    NoteViewComponent,
+    NoteCreationFormComponent
   ],
   exports: const <Object>[NotesAppState, NotesViewState],
   changeDetection: ChangeDetectionStrategy.Default,
@@ -32,8 +35,13 @@ class NotesComponent implements OnInit {
   NotesViewState viewState = NotesViewState.Zero;
   Iterable<NoteModel> notes;
   NoteModel selected;
-  String viewText;
+  NoteViewModel noteView;
 
+
+  void onCreateClick() {
+    selected = null;
+    viewState = NotesViewState.Creating;
+  }
 
   void onCardClick(NoteModel model) {
     selected = model;
@@ -41,10 +49,9 @@ class NotesComponent implements OnInit {
     _api.loadNote(model.id).then(_onViewDataReady);
   }
 
-  void noteTextChanged(String newContent) {
-    _api.updateNote(selected.id, newContent);
+  void onNoteChange(NoteViewModel model) {
+    _api.updateNote(model.id, model.title, model.body);
   }
-
 
   @override
   void ngOnInit() {
@@ -64,7 +71,7 @@ class NotesComponent implements OnInit {
   }
 
   void _onViewDataReady(NoteDescriptionResp data) {
-    viewText = data.text;
+    noteView = new NoteViewModel(selected.id, selected.title, data.text);
     viewState = NotesViewState.Loaded;
 
     // TODO: Why should we call detect changes manually???
@@ -78,5 +85,5 @@ enum NotesAppState {
 }
 
 enum NotesViewState {
-  Zero, Loading, Loaded
+  Zero, Loading, Loaded, Creating
 }

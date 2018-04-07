@@ -1,0 +1,20 @@
+<div class="title-wrapper">
+
+    <button
+        (click)="onCreateClick()"
+        class="create-btn">Create</button>
+
+    <input
+        (input)="onTitleChanged($event.target.value)"
+        [attr.placeholder]="NoteCreationFormComponent.titlePlaceholder"
+        tabindex="0"
+        type="text"
+        class="title">
+</div>
+
+<text-editor
+    (contentChanged)="onTextChanged($event)"
+    [isEditable]="true"
+    [placeholder]="NoteCreationFormComponent.bodyPlaceholder"
+    tabindex="0"
+    class="text-editor"></text-editor>

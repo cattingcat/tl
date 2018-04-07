@@ -65,7 +65,7 @@ class NotesApi {
     });
   }
 
-  Future<void> updateNote(int id, String content) {
+  Future<void> updateNote(int id, String title, String content) {
     return Future.delayed(const Duration(seconds: 2));
   }
 }

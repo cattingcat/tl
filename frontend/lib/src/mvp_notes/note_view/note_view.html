@@ -1,0 +1,18 @@
+<div class="title-wrapper">
+    <input
+        *ngIf="!readonly"
+        [value]="model.title"
+        tabindex="0"
+        type="text"
+        class="title">
+    <span
+        *ngIf="readonly"
+        class="title">{{model.title}}</span>
+</div>
+
+<text-editor
+    (contentChanged)="noteTextChanged($event)"
+    [isEditable]="!readonly"
+    [initialHtml]="model.body"
+    tabindex="0"
+    class="text-editor"></text-editor>

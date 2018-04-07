@@ -4,7 +4,6 @@
   display: block;
   position: relative;
   overflow-y: auto;
-  max-height: 500px; // TODO: Should be set outside text editor
 
   @include scroll();
 

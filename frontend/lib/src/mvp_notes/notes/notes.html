@@ -3,21 +3,33 @@
     class="wrapper">
 
     <div class="col list">
-        <h4 class="list-header">Notes</h4>
+        <div class="list-header">
+            <span>Notes</span>
+            <button (click)="onCreateClick()">+</button>
+        </div>
 
         <note-list
+            *ngIf="notes.isNotEmpty"
             (cardClick)="onCardClick($event)"
             [notes]="notes"
             [selected]="selected"
             class="list-list"></note-list>
+
+        <div
+            *ngIf="notes.isEmpty"
+            class="list-zero">
+            List zero state
+        </div>
     </div>
 
     <div class="col view">
-        <text-editor
+        <note-view
             *ngIf="viewState == NotesViewState.Loaded"
-            (contentChanged)="noteTextChanged($event)"
-            [isEditable]="true"
-            [initialHtml]="viewText"></text-editor>
+            (change)="onNoteChange($event)"
+            [model]="noteView"></note-view>
+
+        <note-creation-form
+            *ngIf="viewState == NotesViewState.Creating"></note-creation-form>
 
         <loading
             *ngIf="viewState == NotesViewState.Loading"

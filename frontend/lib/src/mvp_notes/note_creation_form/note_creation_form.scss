@@ -1,0 +1,27 @@
+@import '../../core_components/core';
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+
+  .title-wrapper {
+    display: flex;
+    padding: 5px;
+
+    .create-btn {
+      margin-right: 7px;
+    }
+
+    .title {
+      width: 100%;
+      border: none;
+      font-size: x-large;
+      outline: none;
+    }
+  }
+
+  .text-editor {
+    flex-grow: 1;
+  }
+}
