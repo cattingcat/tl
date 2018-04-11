@@ -14,8 +14,9 @@ import 'package:frontend/src/mvp_notes/note_list/note_model.dart';
 class NoteCardComponent {
   final _clickCtrl = new StreamController<NoteModel>(sync: true);
 
-  @Input() NoteModel model;
+  bool showIcons = false;
 
+  @Input() NoteModel model;
 
   @Output() Stream<NoteModel> get cardClick => _clickCtrl.stream;
 
@@ -23,8 +24,8 @@ class NoteCardComponent {
   void onClick() => _clickCtrl.add(model);
 
   @HostListener('mouseenter')
-  void onMouseEnter() {}
+  void onMouseEnter() => showIcons = true;
 
   @HostListener('mouseleave')
-  void onMouseLeave() {}
+  void onMouseLeave() => showIcons = false;
 }

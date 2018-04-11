@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
+import 'dart:html' as html;
 import 'dart:math';
 
 import 'package:frontend/src/mvp_notes/api/note_description_resp.dart';
@@ -16,55 +16,76 @@ const String _localStorageKey = 'nts';
 
 // TODO: [EK] Zdelat' backend
 class NotesApi {
-  Future<NotesListResp> getNotes() {
-    final notes = _getLocalNotes();
-    return new Future.delayed(const Duration(seconds: 2), () {
-      return new NotesListResp(notes, 5);
-    });
+  Future<NotesListResp> getNotes() async {
+
+
+    final resp = await html.HttpRequest.request('/api/notes/list');
+    final rawList = json.decode(resp.responseText) as Iterable<Map<String, Object>>;
+    final list = rawList.map((m) => new NoteDto(m['id'], m['title'], ''));
+
+    return new NotesListResp(list, 0);
   }
 
-  Future<NoteDescriptionResp> loadNote(int id) {
-    final notes = _getLocalNotes();
-    final note = notes.where((i) => i.id == id).first;
-    return new Future.delayed(const Duration(seconds: 2), () {
-      return new NoteDescriptionResp(note.content);
-    });
+  Future<NoteDescriptionResp> loadNote(int id) async {
+    final resp = await html.HttpRequest.request('/api/notes/${id}');
+    final rawData = json.decode(resp.responseText) as Map<String, Object>;
+    return new NoteDescriptionResp(rawData['content']);
   }
 
-  Future<void> updateNote(int id, String title, String body) {
-    final notes = _getLocalNotes();
-    final noteIndex = notes.indexWhere((i) => i.id == id);
-    final newNote = new NoteDto(id, title, body);
-    notes[noteIndex] = newNote;
+  Future<void> updateNote(int id, String title, String body) async {
+    final completer = new Completer<String>();
+    final req = new html.HttpRequest();
 
-    _saveNotes(notes);
+    req.onReadyStateChange.listen((e) {
+      if (req.readyState == html.HttpRequest.DONE) {
+        if(req.status == 200 || req.status == 0) {
+          completer.complete(req.responseText);
+        } else {
+          completer.completeError(req.response);
+        }
+      }
+    });
 
-    return Future.delayed(const Duration(seconds: 2));
+    req.open('POST', '/api/notes/update');
+    req.setRequestHeader('Content-Type', 'application/json');
+
+    final data = <String, Object> {
+      'id': id, 'title': title, 'content': body
+    };
+    final str = json.encode(data);
+    req.send(str);
+
+    await completer.future;
+
+    return null;
   }
 
   Future<NoteDto> create(String title, String body) async {
-    final id = Random.secure().nextInt(1000000);
-    final note = new NoteDto(id, title, body);
+    final completer = new Completer<String>();
+    final req = new html.HttpRequest();
 
-    final notes = _getLocalNotes();
-    notes.insert(0, note);
+    req.onReadyStateChange.listen((e) {
+      if (req.readyState == html.HttpRequest.DONE) {
+        if(req.status == 200 || req.status == 0) {
+          completer.complete(req.responseText);
+        } else {
+          completer.completeError(req.response);
+        }
+      }
+    });
 
-    _saveNotes(notes);
+    req.open('PUT', '/api/notes/create');
+    req.setRequestHeader('Content-Type', 'application/json');
 
-    return note;
-  }
+    final data = <String, Object> {
+      'title': title, 'content': body
+    };
+    final str = json.encode(data);
+    req.send(str);
 
-  List<NoteDto> _getLocalNotes() {
-    final tmp = window.localStorage[_localStorageKey] ?? '[]';
-    final localNotes = json.decode(tmp) as Iterable<Map<String, Object>>;
-    final notes = localNotes.map((i) => new NoteDto(i['id'] as int, i['title'], i['content'])).toList();
-    return notes;
-  }
+    final respStr = await completer.future;
+    final respData = json.decode(respStr);
 
-  void _saveNotes(List<NoteDto> notes) {
-    final newNotes = notes.map((i) => <String, Object>{'id': i.id, 'title': i.title, 'content': i.content}).toList();
-    final str = json.encode(newNotes);
-
-    window.localStorage[_localStorageKey] = str;
+    return new NoteDto(respData['id'], respData['title'], respData['content']);
   }
 }
