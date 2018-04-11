@@ -32,7 +32,7 @@ class NotesComponent implements OnInit {
 
   NotesAppState state = NotesAppState.Loading;
   NotesViewState viewState = NotesViewState.Zero;
-  Iterable<NoteModel> notes;
+  Iterable<NoteModel> notes = const Iterable<NoteModel>.empty();
   NoteModel selected;
   NoteViewModel noteView;
 
