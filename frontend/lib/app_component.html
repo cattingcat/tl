@@ -4,7 +4,6 @@
         [activeItem]="activeItem"
         (headerItemClick)="onChooseMvp($event)">
 
-    <mvp-list *ngIf="activeMvp == Mvps.List"></mvp-list>
-    <mvp-dashboard *ngIf="activeMvp == Mvps.Dashboards"></mvp-dashboard>
-    <mvp-notes-loader *ngIf="activeMvp == Mvps.Notes"></mvp-notes-loader>
+
+    <router-outlet [routes]="routes.all"></router-outlet>
 </app-menus>

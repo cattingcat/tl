@@ -7,14 +7,14 @@ import 'package:frontend/app_component.template.dart' as ng;
 import 'package:frontend/src/dal/session.dart';
 
 
-Future<Null> indexMain() async {
+Future<Null> indexMain(InjectorFactory injectorFactory) async {
   final session = Session.instance;
   if(!session.hasToken()) {
     html.window.location.href = '/login.html';
     return;
   }
 
-  runApp(ng.AppComponentNgFactory);
+  runApp(ng.AppComponentNgFactory, createInjector: injectorFactory);
 
   final loadingEl = html.document.querySelector('.loading-screen');
   loadingEl.style.opacity = '0';

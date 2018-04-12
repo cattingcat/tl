@@ -1,25 +1,24 @@
 import 'package:angular/angular.dart';
+import 'package:angular_router/angular_router.dart';
 import 'package:frontend/src/app_header/app_header.dart';
 import 'package:frontend/src/app_menus/app_menus.dart';
 import 'package:frontend/src/dal/session.dart';
-import 'package:frontend/src/mvp_dashboard/mvp_dashboard.dart';
-import 'package:frontend/src/mvp_list/mvp_list.dart';
-import 'package:frontend/src/mvp_notes/notes_loader_component.dart';
+import 'package:frontend/src/routes/routes.dart';
 
 @Component(
   selector: 'my-app',
   styleUrls: const <String>['app_component.css'],
   templateUrl: 'app_component.html',
   directives: const <Object>[
+    routerDirectives,
+
     NgIf,
 
-    AppMenusComponent,
-
-    MvpListComponent,
-    MvpDashboardComponent,
-    NotesLoaderComponent
+    AppMenusComponent
   ],
-  exports: const <Type>[Mvps],
+  providers: const <Object>[
+    const ClassProvider<Routes>(Routes)
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class AppComponent {
@@ -27,14 +26,15 @@ class AppComponent {
   final _dashboardItem = new ItemModel('Dashboard', '2', CounterLevel.None);
   final _notesItem = new ItemModel('Notes', '3', CounterLevel.Yellow);
 
-  Mvps activeMvp = Mvps.List; // TODO: Normal routing
+  final Router _router;
+  final Routes routes;
 
   ProfileModel profile;
   Iterable<ItemModel> headerItems;
   ItemModel activeItem;
 
 
-  AppComponent() {
+  AppComponent(this._router, this.routes) {
     final session = Session.instance;
 
     final userInfoMap = session.getUserInfo();
@@ -51,14 +51,16 @@ class AppComponent {
   }
 
   void onChooseMvp(ItemModel headerItem) {
-    if(headerItem == _listItem) activeMvp = Mvps.List;
-    if(headerItem == _dashboardItem) activeMvp = Mvps.Dashboards;
-    if(headerItem == _notesItem) activeMvp = Mvps.Notes;
+    String uri = '';
+    if(headerItem == _listItem) {
+      uri = Routes.listPath.toUrl();
+    }else if(headerItem == _dashboardItem) {
+      uri = Routes.dashboardPath.toUrl();
+    } else if(headerItem == _notesItem) {
+      uri = Routes.notesPath.toUrl();
+    }
 
+    _router.navigate(uri);
     activeItem = headerItem;
   }
-}
-
-enum Mvps {
-  List, Dashboards, Notes
 }
