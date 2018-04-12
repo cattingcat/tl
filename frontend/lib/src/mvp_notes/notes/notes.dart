@@ -47,6 +47,8 @@ class NotesComponent implements OnInit {
   }
 
   void onCardClick(NoteModel model) {
+    if(selected == model) return;
+
     selected = model;
     viewState = NotesViewState.Loading;
     _api.loadNote(model.id).then(_onViewDataReady);
