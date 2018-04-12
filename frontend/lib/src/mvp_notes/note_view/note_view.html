@@ -1,7 +1,8 @@
 <div class="title-wrapper">
-    <input
+    <input #titleInput
         *ngIf="!readonly"
         [value]="model.title"
+        (change)="onTitleChange()"
         tabindex="0"
         type="text"
         class="title">
@@ -11,8 +12,8 @@
 </div>
 
 <text-editor
-    (contentChanged)="noteTextChanged($event)"
+    (contentChanged)="onNoteTextChanged($event)"
     [isEditable]="!readonly"
-    [initialHtml]="model.body"
+    [initialHtml]="model.content"
     tabindex="0"
     class="text-editor"></text-editor>

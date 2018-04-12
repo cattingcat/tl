@@ -49,7 +49,15 @@ class NotesComponent implements OnInit {
   }
 
   void onNoteChange(NoteViewModel model) {
-    _api.updateNote(model.id, model.title, model.body);
+    _api.updateNote(model.id, model.title, model.content);
+
+    final newList = notes.toList();
+    final modelIndex = newList.indexWhere((i) => i.id == model.id);
+    final newModel = new NoteModel(model.id, model.title);
+    newList.replaceRange(modelIndex, modelIndex + 1, [newModel]);
+
+    notes = newList;
+    if(selected.id == newModel.id) selected = newModel;
   }
 
   void onNoteCreate(NoteCreationModel model) async {

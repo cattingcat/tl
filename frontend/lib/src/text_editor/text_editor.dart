@@ -39,14 +39,13 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
     return _changeCtrl.stream.transform(transform);
   }
 
-  @ViewChild('editableDiv') html.DivElement editableDiv;
 
   bool showSelectionTools = false;
   String selectionToolsTop = '0';
   String selectionToolsLeft = '0';
 
   @HostListener('focus')
-  void onFocus() => editableDiv.focus();
+  void onFocus() => _editableDiv.focus();
 
   void onMouseUp() {
     showSelectionTools = false;
@@ -54,20 +53,8 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
 
     final selection = html.window.getSelection();
 
-    if(!selection.isCollapsed && editableDiv.contains(selection.anchorNode)) {
-      final range = selection.getRangeAt(0);
-      final clientRect = range.getBoundingClientRect();
-
-      final hostRect = editableDiv.getBoundingClientRect();
-
-      final selectionRect = new html.Rectangle(
-          clientRect.left - hostRect.left,
-          clientRect.top - hostRect.top,
-          clientRect.width,
-          clientRect.height);
-
-      selectionToolsTop = '${selectionRect.top + selectionRect.height}px';
-      selectionToolsLeft = '${selectionRect.left}px';
+    if(!selection.isCollapsed && _editableDiv.contains(selection.anchorNode)) {
+      _updateToolsMenuCoords(selection);
       showSelectionTools = true;
     }
   }
@@ -106,11 +93,11 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
 
   @override
   void ngAfterViewInit() {
-    _editorWrapper = new TextEditorWrapper(editableDiv);
+    _editorWrapper = new TextEditorWrapper(_editableDiv);
     html.document.addEventListener('selectionchange', _onSelectionChange, false);
 
     _hostEl.addEventListener("mouseup", _onContentChange, false);
-    editableDiv
+    _editableDiv
       ..addEventListener("blur", _onContentChange, false)
       ..addEventListener("keyup", _onContentChange, false)
       ..addEventListener("paste", _onContentChange, false)
@@ -124,7 +111,7 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
     html.document.removeEventListener('selectionchange', _onSelectionChange, false);
 
     _hostEl.removeEventListener("mouseup", _onContentChange, false);
-    editableDiv
+    _editableDiv
       ..removeEventListener("blur", _onContentChange, false)
       ..removeEventListener("keyup", _onContentChange, false)
       ..removeEventListener("paste", _onContentChange, false)
@@ -137,10 +124,19 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
   void _onSelectionChange(html.Event _) {
     final selection = html.window.getSelection();
 
-    if(isEditable && showSelectionTools && (selection.isCollapsed || !editableDiv.contains(selection.anchorNode))) {
-      showSelectionTools = false;
-      _cdr.markForCheck();
-      _cdr.detectChanges();
+    if(isEditable) {
+      if (showSelectionTools && (selection.isCollapsed || !_editableDiv.contains(selection.anchorNode))) {
+        showSelectionTools = false;
+        _cdr.markForCheck();
+        _cdr.detectChanges();
+      }
+
+      if (!showSelectionTools && !selection.isCollapsed && _editableDiv.contains(selection.anchorNode)) {
+        _updateToolsMenuCoords(selection);
+        showSelectionTools = true;
+        _cdr.markForCheck();
+        _cdr.detectChanges();
+      }
     }
   }
 
@@ -149,7 +145,26 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
     if(!isEditable) return;
 
     new Future<Null>.delayed(const Duration(milliseconds: 100)).then((_) {
-      _changeCtrl.add(editableDiv.innerHtml);
+      _changeCtrl.add(_editableDiv.innerHtml);
     });
   }
+
+  void _updateToolsMenuCoords(html.Selection selection) {
+    final range = selection.getRangeAt(0);
+    final clientRect = range.getBoundingClientRect();
+
+    final hostRect = _editableDiv.getBoundingClientRect();
+
+    final selectionRect = new html.Rectangle(
+        clientRect.left - hostRect.left,
+        clientRect.top - hostRect.top,
+        clientRect.width,
+        clientRect.height);
+
+    selectionToolsTop = '${selectionRect.top + selectionRect.height}px';
+    selectionToolsLeft = '${selectionRect.left}px';
+  }
+
+  /*can't use @ViewChild('editableDiv') because of recycling*/
+  html.DivElement get _editableDiv => _hostEl.querySelector('.editable-block');
 }

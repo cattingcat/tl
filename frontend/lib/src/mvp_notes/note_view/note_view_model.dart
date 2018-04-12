@@ -1,7 +1,7 @@
 class NoteViewModel {
   final int id;
   final String title;
-  final String body;
+  final String content;
 
-  NoteViewModel(this.id, this.title, this.body);
+  NoteViewModel(this.id, this.title, this.content);
 }

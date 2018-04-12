@@ -29,8 +29,13 @@ class NoteViewComponent {
   @ViewChild('titleInput')
   html.InputElement input;
 
-  void noteTextChanged(String newText) {
-    final newModel = new NoteViewModel(model.id, model.title, newText);
+  void onNoteTextChanged(String newText) {
+    final newModel = new NoteViewModel(model.id, input.value, newText);
+    _changeCtrl.add(newModel);
+  }
+
+  void onTitleChange() {
+    final newModel = new NoteViewModel(model.id, input.value, model.content);
     _changeCtrl.add(newModel);
   }
 }
