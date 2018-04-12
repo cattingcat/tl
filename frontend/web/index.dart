@@ -7,7 +7,7 @@ import 'package:frontend/index_main.dart';
 import './index.template.dart' as self;
 
 @GenerateInjector(
-  routerProvidersHash, // You can use routerProviders in production
+  routerProvidersHash // TODO: Use routerProviders to URLs without #
 )
 final InjectorFactory injector = self.injector$Injector;
 

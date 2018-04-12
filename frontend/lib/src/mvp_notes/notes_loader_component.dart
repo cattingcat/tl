@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:angular/angular.dart';
+import 'package:angular_router/angular_router.dart';
 // ignore: uri_has_not_been_generated
 import 'package:frontend/src/mvp_notes/notes/notes.template.dart' deferred as notes;
 

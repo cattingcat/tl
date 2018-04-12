@@ -1,9 +1,11 @@
 import 'package:angular/angular.dart';
+import 'package:angular_router/angular_router.dart';
 import 'package:frontend/src/core_components/loading/loading.dart';
 import 'package:frontend/src/mvp_notes/api/notes_api.dart';
 import 'package:frontend/src/mvp_notes/note_creation_form/note_creation_form.dart';
 import 'package:frontend/src/mvp_notes/note_list/note_list.dart';
 import 'package:frontend/src/mvp_notes/note_view/note_view.dart';
+import 'package:frontend/src/routes/routes.dart';
 
 @Component(
   selector: 'notes',
@@ -27,8 +29,10 @@ import 'package:frontend/src/mvp_notes/note_view/note_view.dart';
 class NotesComponent implements OnInit {
   final ChangeDetectorRef _cdr;
   final NotesApi _api;
+  final Router _router;
+  final Location _location;
 
-  NotesComponent(this._cdr, this._api);
+  NotesComponent(this._cdr, this._api, this._location, this._router);
 
   NotesAppState state = NotesAppState.Loading;
   NotesViewState viewState = NotesViewState.Zero;
@@ -46,6 +50,10 @@ class NotesComponent implements OnInit {
     selected = model;
     viewState = NotesViewState.Loading;
     _api.loadNote(model.id).then(_onViewDataReady);
+
+
+    final newUri = Routes.notesIdPath.toUrl(parameters: <String, String>{'id': model.id.toString()});
+    _location.go(newUri);
   }
 
   void onNoteChange(NoteViewModel model) {
@@ -78,6 +86,20 @@ class NotesComponent implements OnInit {
   void _onDataReady(NotesListResp data) {
     final noteList = data.notes.map((i) => new NoteModel(i.id, i.title)).toList();
     notes = noteList;
+
+    final noteId = _router.current.parameters['id'];
+    if(noteId != null) {
+      final id = int.parse(noteId, onError: (_) => -1);
+
+      if (id != -1) {
+        final uriNote = notes.firstWhere((i) => i.id == id, orElse: () => null);
+        onCardClick(uriNote);
+      }
+
+      if(selected == null) {
+        print('Unknown id');
+      }
+    }
 
     state = NotesAppState.Loaded;
 
