@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html' as html;
-import 'dart:math';
 
 import 'package:frontend/src/mvp_notes/api/note_description_resp.dart';
 import 'package:frontend/src/mvp_notes/api/note_dto.dart';
@@ -12,9 +11,6 @@ export 'package:frontend/src/mvp_notes/api/notes_list_resp.dart';
 export 'package:frontend/src/mvp_notes/api/note_description_resp.dart';
 
 
-const String _localStorageKey = 'nts';
-
-// TODO: [EK] Zdelat' backend
 class NotesApi {
   Future<NotesListResp> getNotes() async {
 
