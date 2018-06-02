@@ -9,7 +9,6 @@ dependencies:
   rxdart: ^0.16.0+1
   angular: 5.0.0-alpha+13
   angular_router: 2.0.0-alpha+12
-  browser: ^0.10.0
   sass_builder: ^1.1.4
   w4p_core:
     path: ../w4p_core

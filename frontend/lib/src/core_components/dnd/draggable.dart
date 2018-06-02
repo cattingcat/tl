@@ -26,19 +26,20 @@ class Draggable implements OnDestroy {
   }
 
 
-  void _onDragStart(html.MouseEvent event) {
+  void _onDragStart(html.Event event) {
     NgZone.assertNotInAngularZone();
 
     final node = _host.clone(true);
     final ghostContainer = _getGhostContainer();
     ghostContainer.append(node);
 
-    event.dataTransfer.setDragImage(node, 0, 0);
-    event.dataTransfer.setData(Dnd.ObjectId, 'See Dnd.dataTransfer');
+    final mouseEvent = event as html.MouseEvent;
+    mouseEvent.dataTransfer.setDragImage(node, 0, 0);
+    mouseEvent.dataTransfer.setData(Dnd.ObjectId, 'See Dnd.dataTransfer');
     Dnd.dataTransfer = data;
   }
 
-  void _onDragEnd(html.MouseEvent event) {
+  void _onDragEnd(html.Event event) {
     NgZone.assertNotInAngularZone();
 
     final ghostContainer = _getGhostContainer();

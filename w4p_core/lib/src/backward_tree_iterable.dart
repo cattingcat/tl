@@ -15,7 +15,7 @@ class BackwardTreeIterable<T extends LinkedTreeEntry<T>> extends Iterable<T> {
 
 class _BackwardTreeIterator<T extends LinkedTreeEntry<T>> implements Iterator<T> {
   final LinkedTree<T> _tree;
-  final VisitChildrenPredicate _visitChildren;
+  final VisitChildrenPredicate<T> _visitChildren;
   final T _fromNode;
   T _current;
 
