@@ -58,6 +58,20 @@ class NotesComponent implements OnInit {
     _location.go(newUri);
   }
 
+  void onCardDeleteClick(NoteModel model) {
+    notes = notes.where((i) => i != model).toList();
+    if(noteView.id == model.id) {
+      viewState = NotesViewState.Zero;
+      noteView = null;
+    }
+
+    if(selected.id == model.id) {
+      selected = null;
+    }
+
+    _api.delete(model.id);
+  }
+
   void onNoteChange(NoteViewModel model) {
     _api.updateNote(model.id, model.title, model.content);
 

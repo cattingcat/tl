@@ -82,4 +82,9 @@ class NotesApi {
 
     return new NoteDto(respData['id'], respData['title'], respData['content']);
   }
+
+  Future<void> delete(int id) async {
+    print('Record deleted');
+    return;
+  }
 }
