@@ -86,7 +86,7 @@ class SublistComponent {
         !(renderInterval.to.length == 2 && renderInterval.to[1] == model));
   }
 
-  int trackByFunc(int index, SublistItem item) {
+  int trackByFunc(int index, dynamic item) {
     return item.root.hashCode;
   }
 

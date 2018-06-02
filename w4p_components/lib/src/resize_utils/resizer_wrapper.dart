@@ -28,20 +28,20 @@ class ResizerWrapper {
   }
 
 
-  void _handleMouseUp(html.MouseEvent event) {
-    if(_resizing) _mouseupCtrl.add(event);
+  void _handleMouseUp(html.Event event) {
+    if(_resizing) _mouseupCtrl.add(event as html.MouseEvent);
 
     _resizing = false;
   }
 
-  void _handleMouseDown(html.MouseEvent event) {
+  void _handleMouseDown(html.Event event) {
     _resizing = true;
   }
 
-  void _mouseMove(html.MouseEvent event) {
+  void _mouseMove(html.Event event) {
     if(!_resizing) return;
 
     event.preventDefault(); // Avoid selection while resize
-    _moveCtrl.add(event);
+    _moveCtrl.add(event as html.MouseEvent);
   }
 }

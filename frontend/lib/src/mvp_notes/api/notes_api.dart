@@ -13,10 +13,8 @@ export 'package:frontend/src/mvp_notes/api/note_description_resp.dart';
 
 class NotesApi {
   Future<NotesListResp> getNotes() async {
-
-
     final resp = await html.HttpRequest.request('/api/notes/list');
-    final rawList = json.decode(resp.responseText) as Iterable<Map<String, Object>>;
+    final rawList = json.decode(resp.responseText) as Iterable<dynamic>;
     final list = rawList.map((m) => new NoteDto(m['id'], m['title'], ''));
 
     return new NotesListResp(list, 0);

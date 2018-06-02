@@ -91,7 +91,7 @@ class NotesComponent implements OnInit {
 
     final noteId = _router.current.parameters['id'];
     if(noteId != null) {
-      final id = int.parse(noteId, onError: (_) => -1);
+      final id = int.tryParse(noteId) ?? -1;
 
       if (id != -1) {
         final uriNote = notes.firstWhere((i) => i.id == id, orElse: () => null);
