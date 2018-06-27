@@ -6,6 +6,7 @@
     (ulClick)="onUlClick()"
     class="sticky-item block-editors"></block-edit-panel>
 
+<!-- TODO: Try to use SafeInnerHtmlDirective -->
 <div #editableDiv
     (mouseup)="onMouseUp()"
     [innerHtml]="initialHtml | safeHtml"
