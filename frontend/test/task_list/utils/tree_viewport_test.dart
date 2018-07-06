@@ -22,11 +22,13 @@ void main() {
       tree.add(m1);
         m1.addChild(m2);
           m2.addChild(m3);
-            m3.addChild(m4);
-            m3.addChild(m5);
+            m3
+              ..addChild(m4)
+              ..addChild(m5);
           m2.addChild(m6);
-        m1.addChild(m7);
-        m1.addChild(m8);
+        m1
+          ..addChild(m7)
+          ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);
@@ -53,11 +55,11 @@ void main() {
       tree.add(m1);
         m1.addChild(m2);
           m2.addChild(m3);
-            m3.addChild(m4);
-            m3.addChild(m5);
+            m3..addChild(m4)
+              ..addChild(m5);
           m2.addChild(m6);
-        m1.addChild(m7);
-        m1.addChild(m8);
+        m1..addChild(m7)
+          ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);
@@ -88,11 +90,11 @@ void main() {
       tree.add(m1);
         m1.addChild(m2);
           m2.addChild(m3);
-            m3.addChild(m4);
-            m3.addChild(m5);
+            m3..addChild(m4)
+              ..addChild(m5);
           m2.addChild(m6);
-        m1.addChild(m7);
-        m1.addChild(m8);
+        m1..addChild(m7)
+          ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);
@@ -127,11 +129,11 @@ void main() {
       tree.add(m1);
         m1.addChild(m2);
           m2.addChild(m3);
-            m3.addChild(m4);
-            m3.addChild(m5);
+            m3..addChild(m4)
+              ..addChild(m5);
           m2.addChild(m6);
-        m1.addChild(m7);
-        m1.addChild(m8);
+        m1..addChild(m7)
+          ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);
@@ -162,11 +164,11 @@ void main() {
       tree.add(m1);
         m1.addChild(m2);
           m2.addChild(m3);
-            m3.addChild(m4);
-            m3.addChild(m5);
+            m3..addChild(m4)
+              ..addChild(m5);
           m2.addChild(m6);
-        m1.addChild(m7);
-        m1.addChild(m8);
+        m1..addChild(m7)
+          ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);
@@ -202,11 +204,11 @@ void main() {
       tree.add(m1);
         m1.addChild(m2);
           m2.addChild(m3);
-            m3.addChild(m4);
-            m3.addChild(m5);
+            m3..addChild(m4)
+              ..addChild(m5);
           m2.addChild(m6);
-        m1.addChild(m7);
-        m1.addChild(m8);
+        m1..addChild(m7)
+          ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);
@@ -245,11 +247,11 @@ void main() {
       tree.add(m1);
       m1.addChild(m2);
       m2.addChild(m3);
-      m3.addChild(m4);
-      m3.addChild(m5);
+      m3..addChild(m4)
+        ..addChild(m5);
       m2.addChild(m6);
-      m1.addChild(m7);
-      m1.addChild(m8);
+      m1..addChild(m7)
+        ..addChild(m8);
 
 
       final viewport = new ViewportModels(tree);

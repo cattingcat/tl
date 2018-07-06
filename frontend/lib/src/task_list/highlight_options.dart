@@ -8,7 +8,7 @@ class HighlightOptions {
   HighlightOptions(this.model, this.position);
 
   const HighlightOptions.none():
-    model = null, position = HighlightPosition.None;
+    model = null, position = HighlightPosition.none;
 
 
   @override
@@ -21,13 +21,13 @@ class HighlightOptions {
 
 enum HighlightPosition {
   /// Highlight border on top of target-model
-  Before,
+  before,
   /// Highlight bottom border
-  After,
+  after,
   /// Highlight whole model
-  Center,
+  center,
   /// Highlight list of sub-items of model
-  Sublist,
+  sublist,
   /// No highlighting
-  None
+  none
 }

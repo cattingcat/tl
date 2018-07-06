@@ -22,9 +22,9 @@ import 'package:frontend/src/routes/routes.dart';
   changeDetection: ChangeDetectionStrategy.OnPush
 )
 class AppComponent {
-  final _listItem = new ItemModel('List', '', CounterLevel.None);
-  final _dashboardItem = new ItemModel('Dashboard', '2', CounterLevel.None);
-  final _notesItem = new ItemModel('Notes', '3', CounterLevel.Yellow);
+  final _listItem = new ItemModel('List', '', CounterLevel.none);
+  final _dashboardItem = new ItemModel('Dashboard', '2', CounterLevel.none);
+  final _notesItem = new ItemModel('Notes', '3', CounterLevel.yellow);
 
   final Router _router;
   final Routes routes;
@@ -46,7 +46,7 @@ class AppComponent {
       _listItem,
       _dashboardItem,
       _notesItem,
-      new ItemModel('...', '4', CounterLevel.Red)
+      new ItemModel('...', '4', CounterLevel.red)
     ];
   }
 

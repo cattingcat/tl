@@ -30,12 +30,11 @@ class Draggable implements OnDestroy {
     NgZone.assertNotInAngularZone();
 
     final node = _host.clone(true);
-    final ghostContainer = _getGhostContainer();
-    ghostContainer.append(node);
+    _getGhostContainer().append(node);
 
     final mouseEvent = event as html.MouseEvent;
     mouseEvent.dataTransfer.setDragImage(node, 0, 0);
-    mouseEvent.dataTransfer.setData(Dnd.ObjectId, 'See Dnd.dataTransfer');
+    mouseEvent.dataTransfer.setData(Dnd.objectId, 'See Dnd.dataTransfer');
     Dnd.dataTransfer = data;
   }
 
@@ -50,12 +49,12 @@ class Draggable implements OnDestroy {
 
 
   html.Node _getGhostContainer() {
-    final container = html.document.querySelector('#${Dnd.GhostItemContainerId}');
+    final container = html.document.querySelector('#${Dnd.ghostItemContainerId}');
     if(container != null) return container;
 
 
-    final dndContainer = new html.Element.div();
-    dndContainer.id = Dnd.GhostItemContainerId;
+    final dndContainer = new html.Element.div()
+      ..id = Dnd.ghostItemContainerId;
     dndContainer.style
       ..position = 'fixed'
       ..top = '-100px'

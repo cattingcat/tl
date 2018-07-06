@@ -53,14 +53,14 @@ Future<Null> loginMain() async {
         'Content-Type':'application/json'
       });
   final token = json.decode(resp.responseText)['token'];
-  html.window.localStorage[AccessToken] = token;
+  html.window.localStorage[accessToken] = token;
 
   // Redirect to main page after access_token response
   redirectToMain();
 }
 
 Future<Map<String, Object>> getUserInfo() async {
-  final token = html.window.localStorage[AccessToken];
+  final token = html.window.localStorage[accessToken];
   final resp = await html.HttpRequest.request(
       'https://api.github.com/user?$token',
       method: 'GET',
@@ -75,11 +75,11 @@ Future<Null> redirectToMain() async {
   try {
     final userData = await getUserInfo();
     final jsonString = json.encode(userData);
-    html.window.localStorage[UserInfo] = jsonString;
+    html.window.localStorage[userInfo] = jsonString;
     html.window.location.href = '/';
   } catch(e) {
     // Invalid access token
-    html.window.localStorage.remove(AccessToken);
+    html.window.localStorage.remove(accessToken);
     rethrow;
   }
   // We already logged in, redirect to main page

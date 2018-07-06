@@ -4,7 +4,7 @@ import 'package:frontend/src/task_list/models/task_list_model.dart';
 class TaskModel extends TaskListModel {
   final Object task;
 
-  TaskModel(this.task): super(ModelType.Task);
+  TaskModel(this.task): super(ModelType.task);
 
 
   @override

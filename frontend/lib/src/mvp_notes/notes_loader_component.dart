@@ -29,7 +29,8 @@ class NotesLoaderComponent implements OnInit {
     final factory = notes.NotesComponentNgFactory;
     _loader.loadNextToLocation(factory, container);
 
-    _cdr.markForCheck();
-    _cdr.detectChanges();
+    _cdr
+      ..markForCheck()
+      ..detectChanges();
   }
 }

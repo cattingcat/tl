@@ -7,13 +7,13 @@ class ItemModel {
 
 
   bool get showIndicator =>
-      level != CounterLevel.None && counter != null && counter.isNotEmpty;
+      level != CounterLevel.none && counter != null && counter.isNotEmpty;
 
-  bool get isRed => showIndicator && level == CounterLevel.Red;
+  bool get isRed => showIndicator && level == CounterLevel.red;
 
-  bool get isYellow => showIndicator && level == CounterLevel.Yellow;
+  bool get isYellow => showIndicator && level == CounterLevel.yellow;
 }
 
 enum CounterLevel {
-  None, Yellow, Red
+  none, yellow, red
 }
