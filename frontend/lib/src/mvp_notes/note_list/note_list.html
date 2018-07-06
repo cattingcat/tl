@@ -2,6 +2,7 @@
     <note-card
         *ngFor="let note of viewportNotes"
         (cardClick)="onCardClick($event)"
+        (deleteClick)="onCardDeleteClick($event)"
         [model]="note"
         [class.selected]="note == selected"></note-card>
 </div>

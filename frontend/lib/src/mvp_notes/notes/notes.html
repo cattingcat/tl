@@ -11,6 +11,7 @@
         <note-list
             *ngIf="notes.isNotEmpty"
             (cardClick)="onCardClick($event)"
+            (cardDeleteClick)="onCardDeleteClick($event)"
             [notes]="notes"
             [selected]="selected"
             class="list-list"></note-list>

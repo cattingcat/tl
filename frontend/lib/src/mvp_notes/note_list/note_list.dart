@@ -20,14 +20,18 @@ export 'package:frontend/src/mvp_notes/note_list/note_model.dart';
 )
 class NoteListComponent {
   final _cardClickCtrl = new StreamController<NoteModel>(sync: true);
+  final _cardDeleteClickCtrl = new StreamController<NoteModel>(sync: true);
 
   @Input() Iterable<NoteModel> notes;
   @Input() NoteModel selected;
 
   @Output() Stream<NoteModel> get cardClick => _cardClickCtrl.stream;
+  @Output() Stream<NoteModel> get cardDeleteClick => _cardDeleteClickCtrl.stream;
 
   Iterable<NoteModel> get viewportNotes => notes;
 
 
   void onCardClick(NoteModel model) => _cardClickCtrl.add(model);
+
+  void onCardDeleteClick(NoteModel model) => _cardDeleteClickCtrl.add(model);
 }
