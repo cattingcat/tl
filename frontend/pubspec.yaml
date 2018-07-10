@@ -3,7 +3,7 @@ description: Main app
 version: 0.0.1
 
 environment:
-  sdk: '>=2.0.0-dev.59.0 <2.0.0'
+  sdk: '>=2.0.0-dev.67.0 <2.0.0'
 
 dependencies:
   rxdart: ^0.16.0+1
