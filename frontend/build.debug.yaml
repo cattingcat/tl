@@ -7,6 +7,7 @@ targets:
         options:
           compiler: dart2js
           dart2js_args:
+            - --preview-dart-2
             - --fast-startup
-            - --trust-type-annotations
+            - --omit-implicit-checks
             - --trust-primitives
