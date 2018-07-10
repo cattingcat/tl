@@ -1,5 +1,5 @@
 <div
-    *ngIf="state == NotesAppState.Loaded"
+    *ngIf="state == NotesAppState.loaded"
     class="wrapper">
 
     <div class="col list">
@@ -25,23 +25,23 @@
 
     <div class="col view">
         <note-view
-            *ngIf="viewState == NotesViewState.Loaded"
+            *ngIf="viewState == NotesViewState.loaded"
             (change)="onNoteChange($event)"
             [model]="noteView"></note-view>
 
         <note-creation-form
             (create)="onNoteCreate($event)"
-            *ngIf="viewState == NotesViewState.Creating"></note-creation-form>
+            *ngIf="viewState == NotesViewState.creating"></note-creation-form>
 
         <loading
-            *ngIf="viewState == NotesViewState.Loading"
+            *ngIf="viewState == NotesViewState.loading"
             [theme]="'dark'"></loading>
 
         <div
-            *ngIf="viewState == NotesViewState.Zero">Zero State; TODO</div>
+            *ngIf="viewState == NotesViewState.zero">Zero State; TODO</div>
     </div>
 </div>
 
 <loading
-    *ngIf="state == NotesAppState.Loading"
+    *ngIf="state == NotesAppState.loading"
     [theme]="'dark'"></loading>

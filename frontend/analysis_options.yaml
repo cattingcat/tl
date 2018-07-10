@@ -1,17 +1,14 @@
 analyzer:
-  strong-mode: true
-#    implicit-casts: false
-#    implicit-dynamic: false
-#  errors:
-#    unused_local_variable: error
-#    invalid_assignment: error
-#    assignment_to_const: error
-#    assignment_to_final: error
-#    missing_return: error
-#    not_enough_required_arguments: error
-#    undefined_function: error
-#    undefined_method: error
-#    undefined_class: error
+  errors:
+    unused_local_variable: error
+    invalid_assignment: error
+    assignment_to_const: error
+    assignment_to_final: error
+    missing_return: error
+    not_enough_required_arguments: error
+    undefined_function: error
+    undefined_method: error
+    undefined_class: error
 linter:
   rules:
     - always_declare_return_types
@@ -25,16 +22,21 @@ linter:
     - avoid_empty_else
     - avoid_init_to_null
     - avoid_null_checks_in_equality_operators
+    - avoid_renaming_method_parameters
     - avoid_return_types_on_setters
-   #- avoid_returning_this # built_value issues
+    - avoid_returning_this
+    - avoid_setters_without_getters
+    - avoid_single_cascade_in_expression_statements
     - avoid_slow_async_io
-   #- avoid_types_on_closure_parameters # watcher issues
+    - avoid_types_on_closure_parameters
+    - avoid_unused_constructor_parameters
     - await_only_futures
     - camel_case_types
+    - cascade_invocations
     - cancel_subscriptions
-   #- close_sinks # https://github.com/dart-lang/linter/issues/268
+    - close_sinks
     - comment_references
-   #- constant_identifier_names
+    - constant_identifier_names
     - control_flow_in_finally
     - directives_ordering
     - empty_catches

@@ -37,7 +37,7 @@ class SelectionEditPanelComponent {
   final _bgClrCtrl = new StreamController<String>(sync: true);
   final _fgClrCtrl = new StreamController<String>(sync: true);
   final _clearCtrl = new StreamController<Null>(sync: true);
-  _Pickers _currentPicker = _Pickers.None;
+  _Pickers _currentPicker = _Pickers.none;
 
   @Output() Stream<Null> get boldClick => _boldCtrl.stream;
   @Output() Stream<Null> get italicClick => _italicCtrl.stream;
@@ -51,9 +51,9 @@ class SelectionEditPanelComponent {
   @Output() Stream<Null> get clearClick => _clearCtrl.stream;
 
   bool get showColorPicker => isBgPicker || isFgPicker;
-  bool get showFontSizePicker => _currentPicker == _Pickers.FontSize;
-  bool get isBgPicker => _currentPicker == _Pickers.BackColor;
-  bool get isFgPicker => _currentPicker == _Pickers.ForeColor;
+  bool get showFontSizePicker => _currentPicker == _Pickers.fontSize;
+  bool get isBgPicker => _currentPicker == _Pickers.backColor;
+  bool get isFgPicker => _currentPicker == _Pickers.foreColor;
 
   void onBoldClick() => _boldCtrl.add(null);
   void onItalicClick() => _italicCtrl.add(null);
@@ -64,9 +64,9 @@ class SelectionEditPanelComponent {
   void onFontSizePick(int size) => _fontSizeCtrl.add(size);
   void onClearClick() => _clearCtrl.add(null);
 
-  void onBgColorClick() => _togglePicker(_Pickers.BackColor);
-  void onForeColorClick() => _togglePicker(_Pickers.ForeColor);
-  void onSizeClick() => _togglePicker(_Pickers.FontSize);
+  void onBgColorClick() => _togglePicker(_Pickers.backColor);
+  void onForeColorClick() => _togglePicker(_Pickers.foreColor);
+  void onSizeClick() => _togglePicker(_Pickers.fontSize);
 
   void onColorPick(String color) {
     if(isBgPicker) {
@@ -86,4 +86,4 @@ class SelectionEditPanelComponent {
   }
 }
 
-enum _Pickers {ForeColor, BackColor, FontSize, None}
+enum _Pickers { foreColor, backColor, fontSize, none }

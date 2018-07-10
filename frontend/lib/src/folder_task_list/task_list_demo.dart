@@ -44,8 +44,8 @@ class TaskListDemo {
   TaskListDemo() {
     final tree = new LinkedTree<TaskListModel>(new RootModel());
     for(int i = 0; i < 117; ++i) {
-      final task = new GroupModel();
-      task.isExpanded = true;
+      final task = new GroupModel()
+        ..isExpanded = true;
 
       for(int j = 0; j < 5; ++j) {
         final subTask = new TaskModel('$i ; $j');
@@ -57,16 +57,16 @@ class TaskListDemo {
     _treeManager = new ModelTreeManager(tree);
 
     treeView = _treeManager.getTreeView();
-    cardType = CardType.Default;
+    cardType = CardType.defaultCard;
   }
 
   void changeDataSource() { }
 
   void changeCardType() {
-    if(cardType == CardType.Default) {
-      cardType = CardType.Narrow;
+    if(cardType == CardType.defaultCard) {
+      cardType = CardType.narrowCard;
     } else {
-      cardType = CardType.Default;
+      cardType = CardType.defaultCard;
     }
   }
 
@@ -75,11 +75,11 @@ class TaskListDemo {
     final yPos = event.nativeEvent.offset.y;
 
     if(yPos < element.clientHeight * 0.3) {
-      highlightOptions = new HighlightOptions(event.model, HighlightPosition.Before);
+      highlightOptions = new HighlightOptions(event.model, HighlightPosition.before);
     } else if(yPos > element.clientHeight * 0.7) {
-      highlightOptions = new HighlightOptions(event.model, HighlightPosition.After);
+      highlightOptions = new HighlightOptions(event.model, HighlightPosition.after);
     } else {
-      highlightOptions = new HighlightOptions(event.model, HighlightPosition.Center);
+      highlightOptions = new HighlightOptions(event.model, HighlightPosition.center);
     }
   }
   void onDragEnter(DndEvent event) {
@@ -95,8 +95,8 @@ class TaskListDemo {
   void onDrop(DndEvent event) {
     print('drop ${event.model}');
 
-    final dropped = Dnd.dataTransfer as TaskListModel;
-    dropped.unlink();
+    final dropped = (Dnd.dataTransfer as TaskListModel)
+      ..unlink();
 
     event.model.addChild(dropped);
 
@@ -119,11 +119,11 @@ class TaskListDemo {
     if(mouseOffset.y > cardH / 2) {
       final top = event.listOffset.y + cardH - 10;
       creationFormPos = new FormPosition(event.nativeElement, top, -30);
-      _anchorPosition = _AnchorPosition.After;
+      _anchorPosition = _AnchorPosition.after;
     } else {
       final top = event.listOffset.y - 10;
       creationFormPos = new FormPosition(event.nativeElement, top, -30);
-      _anchorPosition = _AnchorPosition.Before;
+      _anchorPosition = _AnchorPosition.before;
     }
   }
 
@@ -135,7 +135,7 @@ class TaskListDemo {
     print('hey $event');
     final model = new TaskModel(event);
 
-    if(_anchorPosition == _AnchorPosition.After) {
+    if(_anchorPosition == _AnchorPosition.after) {
       _anchorModel.insertAfter(model);
     } else {
       _anchorModel.insertBefore(model);
@@ -150,4 +150,4 @@ class TaskListDemo {
   }
 }
 
-enum _AnchorPosition {Before, After}
+enum _AnchorPosition {before, after}

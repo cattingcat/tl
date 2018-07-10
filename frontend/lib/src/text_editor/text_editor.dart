@@ -22,7 +22,7 @@ import 'package:rxdart/transformers.dart';
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class TextEditorComponent implements AfterViewInit, OnDestroy {
-  static const Duration _DebounceEventDuration = const Duration(seconds: 1);
+  static const Duration _debounceEventDuration = const Duration(seconds: 1);
   final _changeCtrl = new StreamController<String>(sync: true);
   final ChangeDetectorRef _cdr;
   final html.Element _hostEl;
@@ -35,7 +35,7 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
   @Input() String initialHtml = '';
 
   @Output() Stream<String> get contentChanged {
-    final transform = new DebounceStreamTransformer<String>(_DebounceEventDuration);
+    final transform = new DebounceStreamTransformer<String>(_debounceEventDuration);
     return _changeCtrl.stream.transform(transform);
   }
 
@@ -127,15 +127,13 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
     if(isEditable) {
       if (showSelectionTools && (selection.isCollapsed || !_editableDiv.contains(selection.anchorNode))) {
         showSelectionTools = false;
-        _cdr.markForCheck();
-        _cdr.detectChanges();
+        _update();
       }
 
       if (!showSelectionTools && !selection.isCollapsed && _editableDiv.contains(selection.anchorNode)) {
         _updateToolsMenuCoords(selection);
         showSelectionTools = true;
-        _cdr.markForCheck();
-        _cdr.detectChanges();
+        _update();
       }
     }
   }
@@ -167,4 +165,10 @@ class TextEditorComponent implements AfterViewInit, OnDestroy {
 
   /*can't use @ViewChild('editableDiv') because of recycling*/
   html.DivElement get _editableDiv => _hostEl.querySelector('.editable-block');
+
+  void _update() {
+    _cdr
+      ..markForCheck()
+      ..detectChanges();
+  }
 }

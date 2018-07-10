@@ -3,7 +3,7 @@
     <div class="separator">
         <button
                 (click)="onHeadingsClick()"
-                [class.active]="activePicker == BepPickers.Headings"
+                [class.active]="activePicker == BepPickers.headings"
                 title="Change heading size"
                 class="icon-button">Headings</button>
 
@@ -62,7 +62,7 @@
     <div class="separator">
         <button
                 (click)="onInsertLinkClick()"
-                [class.active]="activePicker == BepPickers.Links"
+                [class.active]="activePicker == BepPickers.links"
                 title="Insert link"
                 class="icon-button">
 
@@ -74,7 +74,7 @@
 
         <button
                 (click)="onInsertImageClick()"
-                [class.active]="activePicker == BepPickers.Images"
+                [class.active]="activePicker == BepPickers.images"
                 title="Insert image"
                 class="icon-button">
 
@@ -88,7 +88,7 @@
 
 <div class="pickers">
     <div
-        *ngIf="activePicker == BepPickers.Headings"
+        *ngIf="activePicker == BepPickers.headings"
         class="heading-picker">
 
         <h1 class="heading-example" (click)="onHeadingClick(1)">H1</h1>
@@ -99,14 +99,14 @@
     </div>
 
     <div
-        *ngIf="activePicker == BepPickers.Links"
+        *ngIf="activePicker == BepPickers.links"
         class="link-picker">
 
         // TODO: Link picker
     </div>
 
     <div
-        *ngIf="activePicker == BepPickers.Images"
+        *ngIf="activePicker == BepPickers.images"
         class="image-picker">
 
         // TODO: Image picker

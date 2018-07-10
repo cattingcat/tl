@@ -9,13 +9,13 @@ import 'package:frontend/src/task_list/view_models/task_list_view_model.dart';
 class ViewModelMapper  {
   TaskListViewModel mapModel(TaskListModel model) {
     switch(model.type) {
-      case ModelType.Task:
+      case ModelType.task:
         return new TaskCardModel(model);
 
-      case ModelType.Folder:
+      case ModelType.folder:
         return new FolderCardModel(model);
 
-      case ModelType.Group:
+      case ModelType.group:
         return new GroupCardModel(model);
 
       default:

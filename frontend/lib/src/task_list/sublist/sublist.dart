@@ -58,14 +58,14 @@ class SublistComponent {
   }
 
 
-  bool get isGroupCard => model.type == ModelType.Group;
-  bool get isDefaultTaskCard => model.type == ModelType.Task && cardType == CardType.Default;
-  bool get isNarrowTaskCard => model.type == ModelType.Task && cardType == CardType.Narrow;
+  bool get isGroupCard => model.type == ModelType.group;
+  bool get isDefaultTaskCard => model.type == ModelType.task && cardType == CardType.defaultCard;
+  bool get isNarrowTaskCard => model.type == ModelType.task && cardType == CardType.narrowCard;
 
-  bool get highlightBefore => _hlThis && highlight.position == HighlightPosition.Before;
-  bool get highlightAfter => _hlThis && highlight.position == HighlightPosition.After;
-  bool get highlightCenter => _hlThis && highlight.position == HighlightPosition.Center;
-  bool get highlightSublist => _hlThis && highlight.position == HighlightPosition.Sublist;
+  bool get highlightBefore => _hlThis && highlight.position == HighlightPosition.before;
+  bool get highlightAfter => _hlThis && highlight.position == HighlightPosition.after;
+  bool get highlightCenter => _hlThis && highlight.position == HighlightPosition.center;
+  bool get highlightSublist => _hlThis && highlight.position == HighlightPosition.sublist;
 
   TaskListModel get model => _item.root;
 

@@ -49,7 +49,7 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
   @Input() TreeView dataSource;
   @Input() HighlightOptions highlight;
-  @Input() CardSizeMapper<TaskListModel> cardType = CardType.Default;
+  @Input() CardSizeMapper<TaskListModel> cardType = CardType.defaultCard;
 
   @Output() Stream<ToggleTaskListCardEvent> get cardToggle => _cardObserver.cardToggle;
   @Output() Stream<MouseCardEvent> get clickCard => _cardObserver.clickCard;
@@ -159,9 +159,9 @@ class TaskListComponent implements OnChanges, OnDestroy {
 
     _scrollWrapper.setup(dataSource, cardType);
     final vpModels = new ViewportModels(dataSource.tree);
-    _scrollHelper = new ScrollHelper(vpModels, cardType, _scrollWrapper.height);
 
-    _scrollHelper.resetTo(_estimatedViewportHeight, _hostEl.scrollTop - _spaceSize);
+    _scrollHelper = new ScrollHelper(vpModels, cardType, _scrollWrapper.height)
+      ..resetTo(_estimatedViewportHeight, _hostEl.scrollTop - _spaceSize);
 
     _updateViewport();
   }
@@ -209,17 +209,18 @@ class TaskListComponent implements OnChanges, OnDestroy {
   }
 
   void _detectChanges() {
-    _cdr.markForCheck();
-    _cdr.detectChanges();
+    _cdr
+      ..markForCheck()
+      ..detectChanges();
   }
 
   int get _estimatedViewportHeight => _hostEl.clientHeight + 2 * _spaceSize;
 
 
   ListMouseCardEvent _mapListMouseEvent(MouseCardEvent event) {
-    final virtualVpOffserFromReal = (_hostEl.scrollTop - _scrollHelper.viewportStart);
+    final virtualVpOffsetFromReal = (_hostEl.scrollTop - _scrollHelper.viewportStart);
     final originalOffset = event.nativeElement.offset; // Offset from viewport el
-    final offset = new Point<int>(originalOffset.left, originalOffset.top - virtualVpOffserFromReal);
+    final offset = new Point<int>(originalOffset.left, originalOffset.top - virtualVpOffsetFromReal);
     return new ListMouseCardEvent.fromCardEvent(event, offset);
   }
 

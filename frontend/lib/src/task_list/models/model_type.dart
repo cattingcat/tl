@@ -1,5 +1,5 @@
 enum ModelType {
-  Task,
-  Folder,
-  Group
+  task,
+  folder,
+  group
 }

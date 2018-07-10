@@ -34,8 +34,8 @@ class NotesComponent implements OnInit {
 
   NotesComponent(this._cdr, this._api, this._location, this._router);
 
-  NotesAppState state = NotesAppState.Loading;
-  NotesViewState viewState = NotesViewState.Zero;
+  NotesAppState state = NotesAppState.loading;
+  NotesViewState viewState = NotesViewState.zero;
   Iterable<NoteModel> notes = const Iterable<NoteModel>.empty();
   NoteModel selected;
   NoteViewModel noteView;
@@ -43,14 +43,14 @@ class NotesComponent implements OnInit {
 
   void onCreateClick() {
     selected = null;
-    viewState = NotesViewState.Creating;
+    viewState = NotesViewState.creating;
   }
 
   void onCardClick(NoteModel model) {
     if(selected == model) return;
 
     selected = model;
-    viewState = NotesViewState.Loading;
+    viewState = NotesViewState.loading;
     _api.loadNote(model.id).then(_onViewDataReady);
 
 
@@ -61,7 +61,7 @@ class NotesComponent implements OnInit {
   void onCardDeleteClick(NoteModel model) {
     notes = notes.where((i) => i != model).toList();
     if(noteView.id == model.id) {
-      viewState = NotesViewState.Zero;
+      viewState = NotesViewState.zero;
       noteView = null;
     }
 
@@ -88,13 +88,13 @@ class NotesComponent implements OnInit {
     final dto = await _api.create(model.title, model.body);
     notes = notes.toList()..insert(0, new NoteModel(dto.id, dto.title));
 
-    viewState = NotesViewState.Zero;
+    viewState = NotesViewState.zero;
   }
 
 
   @override
   void ngOnInit() {
-    state = NotesAppState.Loading;
+    state = NotesAppState.loading;
     _api.getNotes().then(_onDataReady);
   }
 
@@ -117,29 +117,31 @@ class NotesComponent implements OnInit {
       }
     }
 
-    state = NotesAppState.Loaded;
+    state = NotesAppState.loaded;
 
-    if(noteList.isEmpty) viewState = NotesViewState.Creating;
+    if(noteList.isEmpty) viewState = NotesViewState.creating;
 
     // TODO: Why should we call detect changes manually???
-    _cdr.markForCheck();
-    _cdr.detectChanges();
+    _cdr
+      ..markForCheck()
+      ..detectChanges();
   }
 
   void _onViewDataReady(NoteDescriptionResp data) {
     noteView = new NoteViewModel(selected.id, selected.title, data.text);
-    viewState = NotesViewState.Loaded;
+    viewState = NotesViewState.loaded;
 
     // TODO: Why should we call detect changes manually???
-    _cdr.markForCheck();
-    _cdr.detectChanges();
+    _cdr
+      ..markForCheck()
+      ..detectChanges();
   }
 }
 
 enum NotesAppState {
-  Loading, Loaded
+  loading, loaded
 }
 
 enum NotesViewState {
-  Zero, Loading, Loaded, Creating
+  zero, loading, loaded, creating
 }

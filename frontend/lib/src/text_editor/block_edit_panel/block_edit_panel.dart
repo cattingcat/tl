@@ -16,7 +16,7 @@ class BlockEditPanelComponent {
   final _intendChangeCtrl = new StreamController<bool>(sync: true);
   final _olCtrl = new StreamController<Null>(sync: true);
   final _ulCtrl = new StreamController<Null>(sync: true);
-  BepPickers activePicker = BepPickers.None;
+  BepPickers activePicker = BepPickers.none;
 
 
   @Output() Stream<int> get headingClick => _headingCtrl.stream;
@@ -24,9 +24,9 @@ class BlockEditPanelComponent {
   @Output() Stream<Null> get olClick => _olCtrl.stream;
   @Output() Stream<Null> get ulClick => _ulCtrl.stream;
 
-  void onHeadingsClick() => _togglePicker(BepPickers.Headings);
-  void onInsertLinkClick() => _togglePicker(BepPickers.Links);
-  void onInsertImageClick() => _togglePicker(BepPickers.Images);
+  void onHeadingsClick() => _togglePicker(BepPickers.headings);
+  void onInsertLinkClick() => _togglePicker(BepPickers.links);
+  void onInsertImageClick() => _togglePicker(BepPickers.images);
 
   void onIntendClick() => _intendChangeCtrl.add(true);
   void onOutdentClick() => _intendChangeCtrl.add(false);
@@ -39,13 +39,13 @@ class BlockEditPanelComponent {
 
   @HostListener('mouseleave')
   void onMouseLeave() {
-    activePicker = BepPickers.None;
+    activePicker = BepPickers.none;
   }
 
 
   void _togglePicker(BepPickers picker) {
     if(activePicker == picker) {
-      activePicker = BepPickers.None;
+      activePicker = BepPickers.none;
     } else {
       activePicker = picker;
     }
@@ -53,5 +53,5 @@ class BlockEditPanelComponent {
 }
 
 enum BepPickers {
-  Headings, Links, Images, None
+  headings, links, images, none
 }

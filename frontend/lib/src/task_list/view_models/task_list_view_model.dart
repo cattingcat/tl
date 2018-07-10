@@ -5,9 +5,9 @@ abstract class TaskListViewModel {
   TaskListModel get model;
 
 
-  bool get isTask => model.type == ModelType.Task;
+  bool get isTask => model.type == ModelType.task;
 
-  bool get isGroup => model.type == ModelType.Group;
+  bool get isGroup => model.type == ModelType.group;
 
-  bool get isFolder => model.type == ModelType.Folder;
+  bool get isFolder => model.type == ModelType.folder;
 }

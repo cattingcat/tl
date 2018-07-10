@@ -11,13 +11,13 @@ class SublistStats {
   final List<TaskListModel> list;
 
   /// Count on task-models in [list]
-  int get taskCount => _data[ModelType.Task];
+  int get taskCount => _data[ModelType.task];
 
   /// Count on group-models in [list]
-  int get groupCount => _data[ModelType.Group];
+  int get groupCount => _data[ModelType.group];
 
   /// Count on folder-models in [list]
-  int get folderCount => _data[ModelType.Folder];
+  int get folderCount => _data[ModelType.folder];
 
 
   @override String toString() => 'T: $taskCount; G: $groupCount; F: $folderCount';

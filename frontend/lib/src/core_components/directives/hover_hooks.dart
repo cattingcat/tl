@@ -10,8 +10,8 @@ import 'package:w4p_core/subscriptions.dart';
 @Directive(selector: '[hover-hooks]')
 class HoverHooks implements OnDestroy {
   /// Constants describes different element states
-  static const String Meta = 'meta';
-  static const String Alt = 'alt';
+  static const String meta = 'meta';
+  static const String alt = 'alt';
 
   final Subscriptions _subs = new Subscriptions();
   final Subscriptions _tmpSubs = new Subscriptions();
@@ -41,8 +41,8 @@ class HoverHooks implements OnDestroy {
 
   @Input('hover-hooks') set cssClass(String value) {
     _clazz = value;
-    _altClazz = '$value-$Alt';
-    _metaClazz = '$value-$Meta';
+    _altClazz = '$value-$alt';
+    _metaClazz = '$value-$meta';
   }
 
   String get cssClass => _clazz;
@@ -57,8 +57,9 @@ class HoverHooks implements OnDestroy {
   void _mouseEnter(html.MouseEvent event) {
     NgZone.assertNotInAngularZone();
 
-    _tmpSubs.listen(_el.ownerDocument.onKeyDown, _keyDown);
-    _tmpSubs.listen(_el.ownerDocument.onKeyUp, _keyUp);
+    _tmpSubs
+      ..listen(_el.ownerDocument.onKeyDown, _keyDown)
+      ..listen(_el.ownerDocument.onKeyUp, _keyUp);
 
     _el.classes.add(_clazz);
     if(event.altKey) _el.classes.add(_altClazz);
@@ -68,8 +69,9 @@ class HoverHooks implements OnDestroy {
   void _mouseLeave(html.MouseEvent event) {
     NgZone.assertNotInAngularZone();
 
-    _tmpSubs.cancel();
-    _tmpSubs.clear();
+    _tmpSubs
+      ..cancel()
+      ..clear();
 
     _el.classes.removeAll(<String>[_clazz, _altClazz, _metaClazz]);
   }

@@ -18,8 +18,8 @@ import 'package:w4p_core/subscriptions.dart';
     changeDetection: ChangeDetectionStrategy.OnPush
 )
 class AsideMenuComponent implements AfterViewInit, OnDestroy {
-  static const int _MaxWidth = 350;
-  static const int _MinWidth = 150;
+  static const int _maxWidth = 350;
+  static const int _minWidth = 150;
   final Subscriptions _subscr = new Subscriptions();
   final _pinCtrl = new StreamController<bool>(sync: true);
   final html.Element _hostEl;
@@ -60,10 +60,10 @@ class AsideMenuComponent implements AfterViewInit, OnDestroy {
     final w = _hostEl.clientWidth;
     final newW = w + event.movement.x;
 
-    if(newW > _MaxWidth) {
-      _hostEl.style.width = '${_MaxWidth}px';
-    } else if(newW < _MinWidth) {
-      _hostEl.style.width = '${_MinWidth}px';
+    if(newW > _maxWidth) {
+      _hostEl.style.width = '${_maxWidth}px';
+    } else if(newW < _minWidth) {
+      _hostEl.style.width = '${_minWidth}px';
     } else {
       _hostEl.style.width = '${newW}px';
     }

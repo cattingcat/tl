@@ -40,8 +40,9 @@ class NotesApi {
       }
     });
 
-    req.open('POST', '/api/notes/update');
-    req.setRequestHeader('Content-Type', 'application/json');
+    req
+      ..open('POST', '/api/notes/update')
+      ..setRequestHeader('Content-Type', 'application/json');
 
     final data = <String, Object> {
       'id': id, 'title': title, 'content': body
@@ -68,8 +69,9 @@ class NotesApi {
       }
     });
 
-    req.open('PUT', '/api/notes/create');
-    req.setRequestHeader('Content-Type', 'application/json');
+    req
+      ..open('PUT', '/api/notes/create')
+      ..setRequestHeader('Content-Type', 'application/json');
 
     final data = <String, Object> {
       'title': title, 'content': body
