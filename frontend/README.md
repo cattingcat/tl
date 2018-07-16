@@ -1,17 +1,14 @@
 # LIST
 
-### HOW TO RUN:
+### HOW TO RUN DEV:
 ```
-  pub upgrade --no-precompile
-  pub run build_runner serve
-  pub run build_runner watch --output ~/frontend-build
+  ./build-dev.sh
 ```
 
-### BUILD
+### BUILD MINIFIED JS
 [Examples](https://github.com/dart-lang/angular/tree/master/examples)
 ```
-    pub run build_runner build --config=release --fail-on-severe --output build
-    pub run build_runner build --config=debug --fail-on-severe --output build
+    ./build.sh
 ```
 
 ### DEPLOY TO HEROKU
