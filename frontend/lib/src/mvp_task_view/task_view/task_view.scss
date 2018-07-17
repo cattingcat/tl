@@ -1,8 +1,9 @@
-@import '../core_components/core';
+@import '../../core_components/core';
 
 :host {
   display: block;
   padding: 5px 5px 5px 5px;
+  position: relative;
 
   .title {
     margin: 0 0 10px;
@@ -17,7 +18,7 @@
     position: absolute;
     right: 15px;
 
-    z-index: 100;
+    z-index: 2;
     width: 24px;
     height: 24px;
     padding: 3px;

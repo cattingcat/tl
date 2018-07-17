@@ -1,17 +1,4 @@
-import 'package:angular/angular.dart';
-import 'package:frontend/src/core_components/editable_text/editable_text.dart';
-import 'package:frontend/src/text_editor/text_editor.dart';
-
-@Component(
-    selector: 'task-view',
-    styleUrls: const <String>['task_view.css'],
-    templateUrl: 'task_view.html',
-    directives: const <Object>[EditableTextComponent, TextEditorComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush)
-class TaskViewComponent {
-  TitleModel titleModel;
-  bool isDescriptionEditable = false;
-  String taskDescription = '''
+const String loremHtml = '''
 <h3>  Lorem ipsum&nbsp;</h3><blockquote style="margin: 0 0 0 40px; border: none; padding: 0px;"><div>dolor sit amet, consectetur 
   adipiscing elit, sed&nbsp;</div></blockquote><div><br></div><div><ol><li>do eiusmod tempor 
   incididunt ut labore et&nbsp;<br></li><li>dolore magna aliqua. 
@@ -25,16 +12,3 @@ class TaskViewComponent {
     id est <span style="background-color: yellow;">laborum</span>.
   </div>
   ''';
-
-  TaskViewComponent() {
-    titleModel = new TitleModel('Hello from task view');
-  }
-
-  void onToggleEditMode() {
-    isDescriptionEditable = !isDescriptionEditable;
-  }
-
-  void onDescriptionChanged(String newDescr) {
-    print(newDescr);
-  }
-}

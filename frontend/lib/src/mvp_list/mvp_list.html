@@ -3,6 +3,12 @@
         <task-list-demo></task-list-demo>
     </left>
     <right>
-        <task-view></task-view>
+        <mvp-task-view-loader></mvp-task-view-loader>
     </right>
 </vsplit-container>
+<button (click)="onOverlayShow()"> Show overlay </button>
+<overlay
+    *ngIf="showOverlay"
+    (close)="onOverlayClose()">
+    <mvp-task-view-loader></mvp-task-view-loader>
+</overlay>
